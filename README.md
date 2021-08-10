@@ -8,8 +8,8 @@ To do:
 * ~~Instructions on how to download the dataset~~
 * Instructions on how to install the requirements for visualization
 * Augmentations pulled from original AMASS repo
-* Install nbqa and black, run on existing notebooks
-* Deal with train/test splits by unpacking to different locations
+* ~~Install nbqa and black, run on existing notebooks~~
+* Example train/test splits by unpacking different datasets to different locations
 * Add CC licensed picture of llamas to github preview
 
 ## Install
