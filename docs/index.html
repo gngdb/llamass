@@ -33,10 +33,9 @@ nb_path: "index.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To do:</p>
 <ul>
-<li>A way to store where the dataset has been unpacked so it can be accessed from anywhere later (probably as to append to bashrc, and backup old bashrc first)</li>
-<li>Note here about the dataset license</li>
-<li>Instructions on how to download the dataset</li>
-<li>Instructions on how to install the requirements (write while installing requirements)</li>
+<li><del>Note here about the dataset license</del></li>
+<li><del>Instructions on how to download the dataset</del></li>
+<li>Instructions on how to install the requirements for visualization</li>
 <li>Augmentations pulled from original AMASS repo</li>
 <li>Install nbqa and black, run on existing notebooks</li>
 <li>Deal with train/test splits by unpacking to different locations</li>
@@ -54,29 +53,19 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>REWRITE THIS MOST IS NOT REQUIRED</p>
-<p>Dependencies and their associated license requirements:</p>
+<h3 id="License-Agreement">License Agreement<a class="anchor-link" href="#License-Agreement"> </a></h3><p>Before using the AMASS dataset I'm expected to sign up to the license agreeement <a href="https://amass.is.tue.mpg.de/index.html">here</a>. This package doesn't require any other code from MPI but visualization of pose data does, see below.</p>
+<h3 id="Install-with-pip">Install with pip<a class="anchor-link" href="#Install-with-pip"> </a></h3><p>Requirements are handled by pip during the install but in a new environment I would install <a href="https://pytorch.org/get-started/locally/">pytorch</a>
+first to install it with cuda.</p>
+<p><code>pip install llamass</code></p>
+<h3 id="For-Visualization">For Visualization<a class="anchor-link" href="#For-Visualization"> </a></h3><p><strong>To do</strong>: provide script to install this and all its requirements (for curl into bash on colab would be nice)</p>
 <ul>
-<li>[Human Body Prior][hbp], licensed under the <a href="https://smpl-x.is.tue.mpg.de/">SMPL-X project</a></li>
-</ul>
-<p>Not required:</p>
-<ul>
-<li>The <a href="https://github.com/nghorbani/amass/blob/master/notebooks/01-AMASS_Visualization.ipynb">AMASS repository</a>, licensed under the <a href="https://amass.is.tue.mpg.de/index.html">AMASS project</a></li>
-<li><a href="https://www.pytables.org/index.html">Pytables</a></li>
-</ul>
-<p>These have their own <code>requirements.txt</code>, often without version numbers and including unnecessary packages, making installation brittle and hostile to continuous integration. I have done my best to provide a single install procedure that should work with all of these but I can't guarantee anything. I have pinned repository installations to specific versions of each repository to try to keep it stable.</p>
-<h3 id="License-Agreement">License Agreement<a class="anchor-link" href="#License-Agreement"> </a></h3><p>Before using the AMASS dataset you're expected to sign up to the license agreeement <a href="https://amass.is.tue.mpg.de/index.html">here</a>.</p>
-<h3 id="Requirements-Before-Install">Requirements Before Install<a class="anchor-link" href="#Requirements-Before-Install"> </a></h3><p>For <a href="https://github.com/MPI-IS/mesh">MPI's mesh library</a>, <code>libboost-dev</code> is required:</p>
-
-<pre><code>sudo apt-get install libboost-dev</code></pre>
-<h3 id="Install-with-pip">Install with pip<a class="anchor-link" href="#Install-with-pip"> </a></h3><p>To do: note here about how to install pytorch if you want to have cuda, otherwise the next step will install the regular version.</p>
-<p><code>pip install your_project_name</code></p>
-<h3 id="For-Visualization">For Visualization<a class="anchor-link" href="#For-Visualization"> </a></h3><p>For visualization in notebooks it's also necessary to install:</p>
-<ul>
+<li><a href="https://github.com/nghorbani/human_body_prior">Human Body Prior</a>, licensed under the <a href="https://smpl-x.is.tue.mpg.de/">SMPL-X project</a></li>
 <li><a href="https://github.com/nghorbani/body_visualizer">Body Visualizer</a>, licensed under the <a href="https://smpl-x.is.tue.mpg.de/">SMPL-X project</a></li>
 <li>MAYBE <a href="https://github.com/MPI-IS/mesh">mesh</a>, does not require a sign up page</li>
 </ul>
-<p><strong>To do</strong>: provide script to install this and all its requirements.</p>
+<p>For <a href="https://github.com/MPI-IS/mesh">MPI's mesh library</a>, <code>libboost-dev</code> is required:</p>
+
+<pre><code>sudo apt-get install libboost-dev</code></pre>
 
 </div>
 </div>
@@ -89,20 +78,195 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To do: explain these steps</p>
-<p>Steps:</p>
-<ol>
-<li>Unpack the dataset</li>
-<li>Maybe not: Prepare the dataset</li>
-<li>Use the PyTorch Dataset in a DataLoader</li>
-</ol>
+<h3 id="Downloading-the-data">Downloading the data<a class="anchor-link" href="#Downloading-the-data"> </a></h3><p>The <a href="https://amass.is.tue.mpg.de/index.html">AMASS website</a> provides links to download the various parts of the AMASS dataset. Each is provided as a <code>.tar.bz2</code> and I had to download them from the website by hand. Save all of these in a folder somehwere.</p>
+<h3 id="Unpacking-the-data">Unpacking the data<a class="anchor-link" href="#Unpacking-the-data"> </a></h3><p>After installing <code>llamass</code> a console script is provided to unpack the <code>tar.bz2</code> files downloaded from the <a href="https://amass.is.tue.mpg.de/index.html">AMASS</a> website:</p>
+
+<pre><code>fast_amass_unpack -n 4 &lt;.tar.bz2 directory&gt; &lt;directory to save unpacked data&gt;</code></pre>
+<p>This will unpack the data in parallel in 4 jobs and provides a progress bar.</p>
+<p>Alternatively, this can be access in the library using the <code>llamass.core.unpack_body_models</code> function:</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">llamass.core</span>
+
+<span class="n">llamass</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">unpacked_directory</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp2mpzo7r2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work"> </a></h2><p>Caching</p>
+<h3 id="Using-the-data">Using the data<a class="anchor-link" href="#Using-the-data"> </a></h3><p>Once the data is unpacked it can be loaded by a PyTorch DataLoader directly using the <code>llamass.core.AMASS</code> Dataset class.</p>
+<ul>
+<li><code>overlapping</code>: whether the clips of frames taken from each file should be allowed to overlap</li>
+<li><code>clip_length</code>: how long should clips from each file be?</li>
+<li><code>transform</code>: a transformation function apply to all fields</li>
+</ul>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="n">amass</span> <span class="o">=</span> <span class="n">llamass</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">AMASS</span><span class="p">(</span>
+    <span class="n">unpacked_directory</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">amass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;poses&#39;: tensor([[ 8.8278e-01,  9.1215e-01,  1.4123e+00, -7.6931e-01, -1.7432e-01,
+           1.4412e-01, -8.8708e-01,  1.2578e-01, -1.1743e-01,  6.2168e-01,
+          -3.0015e-02, -5.0349e-02,  1.2079e+00, -5.5397e-02, -2.9298e-01,
+           1.3664e+00, -4.8525e-02,  9.4145e-02, -1.2289e-01, -1.7571e-03,
+           2.2975e-02, -4.0428e-02,  1.7674e-02,  7.5107e-03,  2.2632e-01,
+          -5.2651e-02,  1.2855e-01, -2.5180e-02, -2.4160e-02, -2.0444e-02,
+           0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+           0.0000e+00, -2.9401e-02, -1.1034e-01,  1.4105e-02, -5.7415e-03,
+          -2.5916e-01, -6.3831e-01, -8.2118e-02,  3.6791e-01,  4.3686e-01,
+           3.3646e-01,  4.1084e-02,  5.4173e-02,  3.0905e-01, -2.4670e-01,
+          -7.1902e-01,  1.2193e-01,  4.5621e-01,  3.2485e-01,  2.3960e-01,
+          -1.6219e+00,  4.4240e-01,  2.7042e-01,  1.7819e+00, -5.1572e-01,
+          -1.2912e-02, -1.2738e-01,  3.7089e-01,  1.1892e-01, -7.0561e-02,
+           6.9949e-02,  2.9811e-01, -1.5940e-01,  7.2650e-02, -1.2700e-01,
+          -4.6106e-02, -1.3061e-01, -4.6657e-02, -1.3755e-02, -1.9340e-01,
+          -1.8488e-01,  2.1123e-01, -1.1649e-01, -1.5284e-01,  7.5247e-02,
+          -1.0174e+00,  2.7336e-02, -1.3719e-01, -1.9953e-01, -6.0931e-01,
+           1.7453e-01, -5.2527e-01,  1.9633e-01, -1.5435e-02, -5.0789e-01,
+          -5.9722e-01, -3.0975e-02,  8.8964e-02, -2.4794e-01,  1.6460e-01,
+          -5.9515e-01, -1.7807e-01,  4.5450e-02, -4.0581e-01, -1.6256e-01,
+          -2.1566e-01, -2.6343e-01,  1.4715e+00,  3.3034e-01, -4.4416e-01,
+          -7.1300e-01, -4.1882e-01,  3.7449e-01,  6.2814e-01,  7.9259e-02,
+          -4.0158e-01,  1.3215e-01, -7.3160e-02,  7.5620e-01,  2.5732e-01,
+           1.1187e-01,  6.6922e-01, -2.0742e-01,  1.5713e-01, -6.6628e-02,
+          -2.0170e-01, -2.5842e-02,  8.0069e-01, -1.2071e-01, -1.2434e-01,
+           9.0385e-01,  5.5542e-02,  2.0036e-01,  4.2557e-01, -6.8690e-01,
+          -8.5928e-02,  3.8910e-01,  8.3299e-01, -2.6452e-01,  1.1903e-01,
+          -6.2685e-01, -2.1657e-01, -3.2647e-01, -2.1732e-01,  6.6137e-02,
+           5.8971e-01, -3.1604e-01,  3.0754e-02,  8.7229e-01, -1.8293e-01,
+           1.7172e-01,  4.3822e-01,  1.1091e+00, -6.0599e-01,  1.7735e-01,
+          -6.4371e-01,  1.1003e-01, -3.3680e-01,  3.1729e-01,  5.0325e-01,
+           9.6051e-02]]),
+ &#39;dmpls&#39;: tensor([[ 0.5872, -0.5937,  0.0935, -0.1082,  1.5400, -0.3119, -2.0400,  0.9013]]),
+ &#39;trans&#39;: tensor([[-0.1988,  0.1371,  0.6797]]),
+ &#39;betas&#39;: tensor([[ 2.2140,  2.0062,  1.7169, -1.6117,  0.5180,  1.4124, -0.1580, -0.1450,
+           0.0671,  1.9010,  0.2068,  0.5701, -0.0117, -0.1653,  0.6465,  0.2017]]),
+ &#39;gender&#39;: tensor([-1])}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">amassloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">amassloader</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>poses torch.Size([4, 1, 156])
+dmpls torch.Size([4, 1, 8])
+trans torch.Size([4, 1, 3])
+betas torch.Size([4, 1, 16])
+gender torch.Size([4, 1])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work"> </a></h2><p>Caching the dataset may be easy to implement with <a href="https://joblib.readthedocs.io/en/latest/generated/joblib.Memory.html">joblib's Memory</a> so I'm looking into this.</p>
 
 </div>
 </div>

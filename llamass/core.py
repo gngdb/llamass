@@ -13,8 +13,8 @@ from tqdm.auto import tqdm
 
 class ProgressParallel(joblib.Parallel):
     def __call__(self, *args, **kwargs):
-        with tqdm(total=kwargs['total']) as self._pbar:
-            del kwargs['total']
+        with tqdm(total=kwargs["total"]) as self._pbar:
+            del kwargs["total"]
             return joblib.Parallel.__call__(self, *args, **kwargs)
 
     def print_progress(self):
@@ -22,14 +22,18 @@ class ProgressParallel(joblib.Parallel):
         self._pbar.n = self.n_completed_tasks
         self._pbar.refresh()
 
+
 def unpack_body_models(tardir, outdir, n_jobs=1):
     tar_root, _, tarfiles = [x for x in os.walk(tardir)][0]
-    tarfiles = [x for x in tarfiles if 'tar' in x.split('.')]
+    tarfiles = [x for x in tarfiles if "tar" in x.split(".")]
     tarpaths = [os.path.join(tar_root, tar) for tar in tarfiles]
     for tarpath in tarpaths:
         print(f"{tarpath} extracting to {outdir}")
-    ProgressParallel(n_jobs=n_jobs)((joblib.delayed(unpack_archive)(tarpath, outdir) for tarpath in tarpaths),
-                                     total=len(tarpaths))
+    ProgressParallel(n_jobs=n_jobs)(
+        (joblib.delayed(unpack_archive)(tarpath, outdir) for tarpath in tarpaths),
+        total=len(tarpaths),
+    )
+
 
 def fast_amass_unpack():
     parser = argparse.ArgumentParser(
@@ -46,7 +50,7 @@ def fast_amass_unpack():
         help="Output directory",
     )
     parser.add_argument(
-        "--n",
+        "-n",
         default=1,
         type=int,
         help="Number of jobs to run the tar unpacking with",
@@ -79,10 +83,12 @@ def viable_slice(cdata, keep):
         - viable: slice that can access frames in the arrays:
             cdata['poses'], cdata['marker_data'], cdata['dmpls'], cdata['trans']
     """
-    assert keep > 0. and keep <=1.0, "Proportion of array to keep must be between zero and one"
-    n = cdata['poses'].shape[0]
-    drop = (1.-keep)/2.
-    return slice(int(n*drop), int(n*keep+n*drop))
+    assert (
+        keep > 0.0 and keep <= 1.0
+    ), "Proportion of array to keep must be between zero and one"
+    n = cdata["poses"].shape[0]
+    drop = (1.0 - keep) / 2.0
+    return slice(int(n * drop), int(n * keep + n * drop))
 
 # Cell
 def global_index_map(npz_directory, overlapping, clip_length, keep=0.8):
@@ -95,22 +101,25 @@ def global_index_map(npz_directory, overlapping, clip_length, keep=0.8):
         - map from global index to corresponding file and array indexes
     """
     for r, d, f in os.walk(npz_directory):
-        npz_files = [x for x in f if 'npz' in x.split('.')]
-        npz_paths = [os.path.join(tmpdirname, r, x) for x in npz_files]
+        npz_files = [x for x in f if "npz" in x.split(".")]
+        npz_paths = [os.path.join(npz_directory, r, x) for x in npz_files]
     # array slices for each file
-    viable_slices = {npz_path:viable_slice(np.load(npz_path), keep=keep)
-                     for npz_path in npz_paths}
+    viable_slices = {
+        npz_path: viable_slice(np.load(npz_path), keep=keep) for npz_path in npz_paths
+    }
     # clip index -> array index
     def clip_to_array_index(i, array_slice):
         if not overlapping:
-            i = i*clip_length
+            i = i * clip_length
         return [i + array_slice.start + j for j in range(clip_length)]
+
     # length of a slice
     def lenslice(s):
         if overlapping:
-            return (s.stop - s.start) - (clip_length-1)
+            return (s.stop - s.start) - (clip_length - 1)
         else:
-            return math.floor((s.stop - s.start)/clip_length)
+            return math.floor((s.stop - s.start) / clip_length)
+
     # global index -> file, relative index
     def find_array(i):
         global_index, j = 0, 0
@@ -119,13 +128,14 @@ def global_index_map(npz_directory, overlapping, clip_length, keep=0.8):
             if i < global_index:
                 return npz_path, i - j
             j = global_index
+
     # how many examples are there in this dataset, total
-    n_examples = sum(lenslice(viable_slices[npz_path])
-                     for npz_path in viable_slices)
+    n_examples = sum(lenslice(viable_slices[npz_path]) for npz_path in viable_slices)
     # create map function
     def global_to_array(i):
         npz_path, j = find_array(i)
         return npz_path, clip_to_array_index(j, viable_slices[npz_path])
+
     return global_to_array, n_examples
 
 # Cell
@@ -133,23 +143,28 @@ def load_npz(npz_path, indexes):
     cdata = np.load(npz_path)
 
     # unpack and enforce data type
-    poses = cdata['poses'][indexes].astype(np.float32)
-    dmpls = cdata['dmpls'][indexes].astype(np.float32)
-    trans = cdata['trans'][indexes].astype(np.float32)
-    betas = np.repeat(cdata['betas'][np.newaxis].astype(np.float32), repeats=len(indexes), axis=0)
+    poses = cdata["poses"][indexes].astype(np.float32)
+    dmpls = cdata["dmpls"][indexes].astype(np.float32)
+    trans = cdata["trans"][indexes].astype(np.float32)
+    betas = np.repeat(
+        cdata["betas"][np.newaxis].astype(np.float32), repeats=len(indexes), axis=0
+    )
+
     def gender_to_int(g):
         # casting gender to integer will raise a warning in future
         g = str(g.astype(str))
-        return {'male':-1, 'neutral':0, 'female':1}[g]
-    gender = np.array([gender_to_int(cdata['gender']) for _ in indexes])
+        return {"male": -1, "neutral": 0, "female": 1}[g]
+
+    gender = np.array([gender_to_int(cdata["gender"]) for _ in indexes])
 
     return dict(poses=poses, dmpls=dmpls, trans=trans, betas=betas, gender=gender)
 
 # Cell
 class AMASS(Dataset):
     def __init__(self, unpacked_directory, clip_length, overlapping, transform=None):
-        self.global_to_array, self.n_examples = \
-            global_index_map(unpacked_directory, overlapping=overlapping, clip_length=clip_length)
+        self.global_to_array, self.n_examples = global_index_map(
+            unpacked_directory, overlapping=overlapping, clip_length=clip_length
+        )
         self.transform = transform
 
     def __len__(self):
@@ -157,4 +172,4 @@ class AMASS(Dataset):
 
     def __getitem__(self, i):
         data = load_npz(*self.global_to_array(i))
-        return {k:self.transform(data[k]) for k in data}
+        return {k: self.transform(data[k]) for k in data}

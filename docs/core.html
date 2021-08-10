@@ -288,7 +288,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 
 </div>
@@ -312,7 +312,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L34" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
+<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
 </blockquote>
 
 </div>
@@ -357,15 +357,18 @@ Produced 5
             <span class="n">hash_md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hash_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
-<span class="n">md5sums</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;amass_sample.npz&#39;</span><span class="p">:</span> <span class="s1">&#39;d0b546b3619c8579ade39e3a8ccdc4e2&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;dmpl_sample.npz&#39;</span><span class="p">:</span>  <span class="s1">&#39;576bb76b2a6328dc5c276c4150c466f0&#39;</span><span class="p">}</span>
+
+<span class="n">md5sums</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;amass_sample.npz&quot;</span><span class="p">:</span> <span class="s2">&quot;d0b546b3619c8579ade39e3a8ccdc4e2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dmpl_sample.npz&quot;</span><span class="p">:</span> <span class="s2">&quot;576bb76b2a6328dc5c276c4150c466f0&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
     <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
-        <span class="n">npz_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="s1">&#39;npz&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+        <span class="n">npz_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="s2">&quot;npz&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]</span>
         <span class="n">npz_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">npz_files</span><span class="p">]</span>
-    <span class="n">_md5sums</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">fpath</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span><span class="n">md5</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="k">for</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">}</span>
+    <span class="n">_md5sums</span> <span class="o">=</span> <span class="p">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">fpath</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="n">md5</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="k">for</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">}</span>
 
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">md5sums</span><span class="p">:</span>
     <span class="k">assert</span> <span class="n">md5sums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">_md5sums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
@@ -381,7 +384,7 @@ Produced 5
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp7lorodj_
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp7wtjmhdp
 </pre>
 </div>
 </div>
@@ -429,7 +432,7 @@ Produced 5
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
     <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
-        <span class="n">npz_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="s1">&#39;npz&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+        <span class="n">npz_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="s2">&quot;npz&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]</span>
         <span class="n">npz_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">npz_files</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
@@ -448,11 +451,11 @@ Produced 5
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp7vlyrvuq
-/tmp/tmp7vlyrvuq/sample/subdir/amass_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpsd5dr57v
+/tmp/tmpsd5dr57v/sample/subdir/amass_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (601, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (601, 85, 3)), (&#39;dmpls&#39;, (601, 8)), (&#39;marker_labels&#39;, (85,)), (&#39;trans&#39;, (601, 3))]
-/tmp/tmp7vlyrvuq/sample/subdir/dmpl_sample.npz
+/tmp/tmpsd5dr57v/sample/subdir/dmpl_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (235, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (235, 67, 3)), (&#39;dmpls&#39;, (235, 8)), (&#39;marker_labels&#39;, (67,)), (&#39;trans&#39;, (235, 3))]
 </pre>
@@ -483,7 +486,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L69" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 <p>Inspects a dictionary loaded from <code>.npz</code> numpy dumps
 and creates a slice of the viable indexes.
@@ -528,7 +531,7 @@ args:</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
     <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
-        <span class="n">npz_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="s1">&#39;npz&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)]</span>
+        <span class="n">npz_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="s2">&quot;npz&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]</span>
         <span class="n">npz_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">npz_files</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
@@ -546,10 +549,10 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmppksocojp
-/tmp/tmppksocojp/sample/subdir/amass_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp17pnar6l
+/tmp/tmp17pnar6l/sample/subdir/amass_sample.npz
    slice(60, 540, None)
-/tmp/tmppksocojp/sample/subdir/dmpl_sample.npz
+/tmp/tmp17pnar6l/sample/subdir/dmpl_sample.npz
    slice(23, 211, None)
 </pre>
 </div>
@@ -582,7 +585,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="global_index_map" class="doc_header"><code>global_index_map</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>global_index_map</code>(<strong><code>npz_directory</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>)</p>
+<h4 id="global_index_map" class="doc_header"><code>global_index_map</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>global_index_map</code>(<strong><code>npz_directory</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>)</p>
 </blockquote>
 <p>args:</p>
 
@@ -628,21 +631,24 @@ args:</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_global_index_map</span><span class="p">(</span><span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
         <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-        <span class="n">global_to_array</span><span class="p">,</span> <span class="n">n_examples</span> <span class="o">=</span> <span class="n">global_index_map</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="n">overlapping</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="n">clip_length</span><span class="p">)</span>
+        <span class="n">global_to_array</span><span class="p">,</span> <span class="n">n_examples</span> <span class="o">=</span> <span class="n">global_index_map</span><span class="p">(</span>
+            <span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="n">overlapping</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="n">clip_length</span>
+        <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of examples in dataset: </span><span class="si">{</span><span class="n">n_examples</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">prev_j</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">clip_length</span>
+        <span class="n">prev_j</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">clip_length</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_examples</span><span class="p">):</span>
             <span class="n">npz_path</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">global_to_array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="n">clip_length</span>
-            <span class="k">assert</span> <span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">assert</span> <span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">j</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">overlapping</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">prev_j</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">j</span><span class="p">)</span>
                 <span class="n">prev_j</span> <span class="o">=</span> <span class="n">j</span>
             <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">assert</span> <span class="n">count</span> <span class="o">==</span> <span class="n">n_examples</span>
+
 
 <span class="n">test_global_index_map</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
@@ -657,7 +663,7 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmptypp4_vk
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp1lm2xiom
 Number of examples in dataset: 668
 </pre>
 </div>
@@ -697,9 +703,9 @@ Number of examples in dataset: 668
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp5zz2ebv8
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp0tf97i2_
 Number of examples in dataset: 222
-sample_data/sample.tar.bz2 extracting to /tmp/tmpun35vwng
+sample_data/sample.tar.bz2 extracting to /tmp/tmpbahxxekr
 Number of examples in dataset: 167
 </pre>
 </div>
@@ -739,9 +745,9 @@ Number of examples in dataset: 167
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpz5k5_dpt
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpdnfak_ly
 Number of examples in dataset: 664
-sample_data/sample.tar.bz2 extracting to /tmp/tmp0cwojfr2
+sample_data/sample.tar.bz2 extracting to /tmp/tmpty_xfg6j
 Number of examples in dataset: 662
 </pre>
 </div>
@@ -771,7 +777,7 @@ Number of examples in dataset: 662
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="load_npz" class="doc_header"><code>load_npz</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L132" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>load_npz</code>(<strong><code>npz_path</code></strong>, <strong><code>indexes</code></strong>)</p>
+<h4 id="load_npz" class="doc_header"><code>load_npz</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>load_npz</code>(<strong><code>npz_path</code></strong>, <strong><code>indexes</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -808,13 +814,16 @@ Number of examples in dataset: 662
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_load_npz</span><span class="p">(</span><span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
         <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-        <span class="n">global_to_array</span><span class="p">,</span> <span class="n">n_examples</span> <span class="o">=</span> <span class="n">global_index_map</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="n">overlapping</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="n">clip_length</span><span class="p">)</span>
+        <span class="n">global_to_array</span><span class="p">,</span> <span class="n">n_examples</span> <span class="o">=</span> <span class="n">global_index_map</span><span class="p">(</span>
+            <span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="n">overlapping</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="n">clip_length</span>
+        <span class="p">)</span>
         <span class="n">npz_path</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">=</span> <span class="n">global_to_array</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">load_npz</span><span class="p">(</span><span class="n">npz_path</span><span class="p">,</span> <span class="n">indexes</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">clip_length</span>
         <span class="nb">print</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
-        
+
+
 <span class="n">test_load_npz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">test_load_npz</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">test_load_npz</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -830,11 +839,11 @@ Number of examples in dataset: 662
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpj48mc5xv
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp522nzaaa
 [(1, 156), (1, 8), (1, 3), (1, 16), (1,)]
-sample_data/sample.tar.bz2 extracting to /tmp/tmp_bxj2v43
+sample_data/sample.tar.bz2 extracting to /tmp/tmpd9q5dp3o
 [(3, 156), (3, 8), (3, 3), (3, 16), (3,)]
-sample_data/sample.tar.bz2 extracting to /tmp/tmphi85c16q
+sample_data/sample.tar.bz2 extracting to /tmp/tmpbg16wz5r
 [(3, 156), (3, 8), (3, 3), (3, 16), (3,)]
 </pre>
 </div>
@@ -864,7 +873,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmphi85c16q
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L149" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>Dataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L163" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>Dataset</code></p>
 </blockquote>
 <p>An abstract class representing a :class:<code>Dataset</code>.</p>
 <p>All datasets that represent a map from keys to data samples should subclass
@@ -928,7 +937,7 @@ of :class:<code>~torch.utils.data.DataLoader</code>.</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpwn2q_8a2
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp_4vxaxa5
 poses torch.Size([1, 156])
 dmpls torch.Size([1, 8])
 trans torch.Size([1, 3])
@@ -966,7 +975,7 @@ gender torch.Size([1])
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
+        <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>
 </pre></div>
 
     </div>
@@ -979,7 +988,7 @@ gender torch.Size([1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp3j7vl7v3
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpq_71o724
 poses torch.Size([4, 1, 156])
 dmpls torch.Size([4, 1, 8])
 trans torch.Size([4, 1, 3])
