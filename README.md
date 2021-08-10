@@ -11,6 +11,7 @@ To do:
 * ~~Install nbqa and black, run on existing notebooks~~
 * Example train/test splits by unpacking different datasets to different locations
 * Add CC licensed picture of llamas to github preview
+* add to pypi
 
 ## Install
 
