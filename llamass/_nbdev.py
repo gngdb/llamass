@@ -12,7 +12,7 @@ index = {"ProgressParallel": "00_core.ipynb",
 
 modules = ["core.py"]
 
-doc_url = "https://gngdb.github.io/llamass/"
+doc_url = "https://gra.ygav.in/llamass/"
 
 git_url = "https://github.com/gngdb/llamass/tree/master/"
 
