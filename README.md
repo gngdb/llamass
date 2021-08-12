@@ -74,7 +74,7 @@ The [AMASS website][amass] provides links to download the various parts of the A
 After installing `llamass` a console script is provided to unpack the `tar.bz2` files downloaded from the [AMASS][] website:
 
 ```
-fast_amass_unpack -n 4 <.tar.bz2 directory> <directory to save unpacked data>
+fast_amass_unpack -n 4 <dir with .tar.bz2 files> <dir to save unpacked data>
 ```
 
 This will unpack the data in parallel in 4 jobs and provides a progress bar.
@@ -83,7 +83,7 @@ Alternatively, this can be access in the library using the `llamass.core.unpack_
 
 [amass]: https://amass.is.tue.mpg.de/index.html
 
-```
+```python
 import llamass.core
 
 llamass.core.unpack_body_models("sample_data/", unpacked_directory, 4)
@@ -100,7 +100,7 @@ Once the data is unpacked it can be loaded by a PyTorch DataLoader directly usin
 * `clip_length`: how long should clips from each file be?
 * `transform`: a transformation function apply to all fields
 
-```
+```python
 import torch
 from torch.utils.data import DataLoader
 
@@ -109,7 +109,7 @@ amass = llamass.core.AMASS(
 )
 ```
 
-```
+```python
 amassloader = DataLoader(amass, batch_size=4, shuffle=True)
 
 for data in amassloader:
