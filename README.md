@@ -1,31 +1,14 @@
-# Title
+# llamass
+> A Light Loader for the [AMASS dataset][amass] to make downloading and training on it easier.
 
 
+## Badges
 
 [![PyPI version](https://badge.fury.io/py/llamass.svg)](https://badge.fury.io/py/llamass)
 
 
 ![example workflow](https://github.com/gngdb/llamass/workflows/CI/badge.svg)
 
-
-# llamass
-> A Light Loader for the [AMASS dataset][amass] to make downloading and training on it easier.
-
-I'm writing this to use in a project working with pose data. I wanted to be able to install it in colab notebooks and elsewhere easily. Hopefully it's also useful for other people but be aware this is research code so not necessarily reliable.
-
-[amass]:https://amass.is.tue.mpg.de/
-
-To do:
-
-* ~~Note here about the dataset license~~
-* ~~Instructions on how to download the dataset~~
-* Instructions on how to install the requirements for visualization
-* Augmentations pulled from original AMASS repo
-* ~~Install nbqa and black, run on existing notebooks~~
-* Example train/test splits by unpacking different datasets to different locations
-* ~~Add CC licensed picture of llamas to github preview~~
-* ~~add to pypi~~
-* ~~add badges~~
 
 ## Install
 
@@ -130,3 +113,17 @@ for data in amassloader:
 Caching the dataset may be easy to implement with [joblib's Memory][memory] so I'm looking into this.
 
 [memory]: https://joblib.readthedocs.io/en/latest/generated/joblib.Memory.html
+
+## To do
+
+To do:
+
+* ~~Note here about the dataset license~~
+* ~~Instructions on how to download the dataset~~
+* Instructions on how to install the requirements for visualization
+* Augmentations pulled from original AMASS repo
+* ~~Install nbqa and black, run on existing notebooks~~
+* Example train/test splits by unpacking different datasets to different locations
+* ~~Add CC licensed picture of llamas to github preview~~
+* ~~add to pypi~~
+* ~~add badges~~
