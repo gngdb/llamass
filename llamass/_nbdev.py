@@ -2,7 +2,13 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"ProgressParallel": "00_core.ipynb",
+index = {"md5_update_from_file": "00_core.ipynb",
+         "md5_file": "00_core.ipynb",
+         "md5_update_from_dir": "00_core.ipynb",
+         "md5_dir": "00_core.ipynb",
+         "hashes": "00_core.ipynb",
+         "ProgressParallel": "00_core.ipynb",
+         "lazy_unpack": "00_core.ipynb",
          "unpack_body_models": "00_core.ipynb",
          "fast_amass_unpack": "00_core.ipynb",
          "viable_slice": "00_core.ipynb",

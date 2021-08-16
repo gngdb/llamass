@@ -1,6 +1,6 @@
 ---
 
-title: llamass
+title: Title
 
 
 keywords: fastai
@@ -94,7 +94,7 @@ first to install it with cuda.</p>
 <h3 id="Downloading-the-data">Downloading the data<a class="anchor-link" href="#Downloading-the-data"> </a></h3><p>The <a href="https://amass.is.tue.mpg.de/index.html">AMASS website</a> provides links to download the various parts of the AMASS dataset. Each is provided as a <code>.tar.bz2</code> and I had to download them from the website by hand. Save all of these in a folder somehwere.</p>
 <h3 id="Unpacking-the-data">Unpacking the data<a class="anchor-link" href="#Unpacking-the-data"> </a></h3><p>After installing <code>llamass</code> a console script is provided to unpack the <code>tar.bz2</code> files downloaded from the <a href="https://amass.is.tue.mpg.de/index.html">AMASS</a> website:</p>
 
-<pre><code>fast_amass_unpack -n 4 &lt;.tar.bz2 directory&gt; &lt;directory to save unpacked data&gt;</code></pre>
+<pre><code>fast_amass_unpack -n 4 &lt;dir with .tar.bz2 files&gt; &lt;dir to save unpacked data&gt;</code></pre>
 <p>This will unpack the data in parallel in 4 jobs and provides a progress bar.</p>
 <p>Alternatively, this can be access in the library using the <code>llamass.core.unpack_body_models</code> function:</p>
 

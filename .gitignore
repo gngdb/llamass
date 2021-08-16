@@ -141,3 +141,6 @@ checklink/cookies.txt
 
 # ingnore unpacked data
 sample_data/sample
+
+# ignore examples directly unless explicitly overrided
+examples
