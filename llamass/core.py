@@ -96,7 +96,6 @@ class ProgressParallel(joblib.Parallel):
             return joblib.Parallel.__call__(self, *args, **kwargs)
 
     def print_progress(self):
-        self._pbar.total = self.n_dispatched_tasks
         self._pbar.n = self.n_completed_tasks
         self._pbar.refresh()
 
@@ -198,6 +197,8 @@ def viable_slice(cdata, keep):
     return slice(int(n * drop), int(n * keep + n * drop))
 
 # Cell
+import warnings
+
 
 @functools.lru_cache(maxsize=2)
 def walk_npz_paths(npz_directory):
@@ -207,14 +208,20 @@ def walk_npz_paths(npz_directory):
         npz_paths += [os.path.join(npz_directory, r, x) for x in npz_files]
     return tuple(npz_paths)
 
-@functools.lru_cache(maxsize=10)
 def read_viable_slices(npz_paths, keep_percent):
     keep = keep_percent/100.
-    return {
-        npz_path: viable_slice(np.load(npz_path), keep=keep) for npz_path in npz_paths
-    }
+    viable = {}
+    for npz_path in npz_paths:
+        try:
+            # filter out npz files that don't contain pose data
+            if Path(npz_path).name not in ['shape.npz']:
+                viable[npz_path] = viable_slice(np.load(npz_path), keep=keep)
+        except KeyError as err:
+            warnings.warn(f'Archive {npz_path} does not contain correctly formatted data')
+            # raise Exception(f'Error in archive {npz_path}') from err
+    return viable
 
-def global_index_map(npz_directory, overlapping, clip_length, keep=0.8):
+def global_index_map(npz_directory, overlapping, clip_length, keep=0.8, cache_map=True):
     """
     args:
         - `npz_directory`: Directory containing `.npz` files
@@ -225,7 +232,12 @@ def global_index_map(npz_directory, overlapping, clip_length, keep=0.8):
     """
     npz_paths = walk_npz_paths(npz_directory)
     # array slices for each file
-    viable_slices = read_viable_slices(npz_paths, int(100*keep))
+    if cache_map:
+        cache_map_dir = Path(npz_directory)/Path('viable_slices_memory')
+        memory = joblib.Memory(cache_map_dir, verbose=0)
+        viable_slices = memory.cache(read_viable_slices)(npz_paths, int(100*keep))
+    else:
+        viable_slices = read_viable_slices(npz_paths, int(100*keep))
     # clip index -> array index
     def clip_to_array_index(i, array_slice):
         if not overlapping:
@@ -258,37 +270,55 @@ def global_index_map(npz_directory, overlapping, clip_length, keep=0.8):
     return global_to_array, n_examples
 
 # Cell
-def load_npz(npz_path, indexes):
-    cdata = np.load(npz_path)
+def load_npz(npz_path, indexes, load_poses=True, load_dmpls=True,
+             load_trans=True, load_betas=True, load_gender=True):
+    # cache this because we will often be accessing the same file multiple times
+    cdata = functools.lru_cache(maxsize=128)(np.load)(npz_path)
 
+    data = {}
     # unpack and enforce data type
-    poses = cdata["poses"][indexes].astype(np.float32)
-    dmpls = cdata["dmpls"][indexes].astype(np.float32)
-    trans = cdata["trans"][indexes].astype(np.float32)
-    betas = np.repeat(
-        cdata["betas"][np.newaxis].astype(np.float32), repeats=len(indexes), axis=0
-    )
+    if load_poses:
+        data['poses'] = cdata["poses"][indexes].astype(np.float32)
+    if load_dmpls:
+        data['dmpls'] = cdata["dmpls"][indexes].astype(np.float32)
+    if load_trans:
+        data['trans'] = cdata["trans"][indexes].astype(np.float32)
+    if load_betas:
+        data['betas'] = np.repeat(
+            cdata["betas"][np.newaxis].astype(np.float32), repeats=len(indexes), axis=0
+        )
+    if load_gender:
+        def gender_to_int(g):
+            # casting gender to integer will raise a warning in future
+            g = str(g.astype(str))
+            return {"male": -1, "neutral": 0, "female": 1}[g]
+        data['gender'] = np.array([gender_to_int(cdata["gender"]) for _ in indexes])
 
-    def gender_to_int(g):
-        # casting gender to integer will raise a warning in future
-        g = str(g.astype(str))
-        return {"male": -1, "neutral": 0, "female": 1}[g]
-
-    gender = np.array([gender_to_int(cdata["gender"]) for _ in indexes])
-
-    return dict(poses=poses, dmpls=dmpls, trans=trans, betas=betas, gender=gender)
+    return data
 
 # Cell
 class AMASS(Dataset):
-    def __init__(self, unpacked_directory, clip_length, overlapping, transform=None):
+    def __init__(self, unpacked_directory, clip_length, overlapping,
+                 transform=None, memory=False, memory_bytes_limit=None,
+                 to_load=('poses', 'dmpls', 'trans', 'betas', 'gender')):
         self.global_to_array, self.n_examples = global_index_map(
             unpacked_directory, overlapping=overlapping, clip_length=clip_length
         )
         self.transform = transform
+        self.to_load = {}
+        for k in ('poses', 'dmpls', 'trans', 'betas', 'gender'):
+            l = f'load_{k}'
+            self.to_load[l] = True if k in to_load else False
+        caching_directory = Path(unpacked_directory) / Path('memory')
+        if memory_bytes_limit is not None:
+            warnings.warn(f'AMASS.memory.reduce_size() must be called reduce cache size to be less than {memory_bytes_limit}')
+        self.memory = joblib.Memory(caching_directory, verbose=0, bytes_limit=memory_bytes_limit)
+        self.load_npz = self.memory.cache(load_npz) if memory else load_npz
 
     def __len__(self):
         return self.n_examples
 
     def __getitem__(self, i):
-        data = load_npz(*self.global_to_array(i))
+        npz_path, array_index = self.global_to_array(i)
+        data = self.load_npz(npz_path, array_index, **self.to_load)
         return {k: self.transform(data[k]) for k in data}

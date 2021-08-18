@@ -73,8 +73,8 @@ first to install it with cuda.</p>
 <h3 id="Downloading-the-data">Downloading the data<a class="anchor-link" href="#Downloading-the-data"> </a></h3><p>The <a href="https://amass.is.tue.mpg.de/index.html">AMASS website</a> provides links to download the various parts of the AMASS dataset. Each is provided as a <code>.tar.bz2</code> and I had to download them from the website by hand. Save all of these in a folder somehwere.</p>
 <h3 id="Unpacking-the-data">Unpacking the data<a class="anchor-link" href="#Unpacking-the-data"> </a></h3><p>After installing <code>llamass</code> a console script is provided to unpack the <code>tar.bz2</code> files downloaded from the <a href="https://amass.is.tue.mpg.de/index.html">AMASS</a> website:</p>
 
-<pre><code>fast_amass_unpack -n 4 &lt;dir with .tar.bz2 files&gt; &lt;dir to save unpacked data&gt;</code></pre>
-<p>This will unpack the data in parallel in 4 jobs and provides a progress bar.</p>
+<pre><code>fast_amass_unpack -n 4 --verify &lt;dir with .tar.bz2 files&gt; &lt;dir to save unpacked data&gt;</code></pre>
+<p>This will unpack the data in parallel in 4 jobs and provides a progress bar. The <code>--verify</code> flag will <code>md5sum</code> the directory the files are unpacked to and check it against what I found when I unpacked it. It'll also avoid unpacking tar files that have already been unpacked by looking for saved <code>.hash</code> files in the target directory. It's slower but more reliable and recovers from incomplete unpacking.</p>
 <p>Alternatively, this can be access in the library using the <code>llamass.core.unpack_body_models</code> function:</p>
 
 </div>
@@ -189,15 +189,15 @@ gender torch.Size([4, 1])
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work"> </a></h2><p>Caching the dataset may be easy to implement with <a href="https://joblib.readthedocs.io/en/latest/generated/joblib.Memory.html">joblib's Memory</a> so I'm looking into this.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="To-do">To do<a class="anchor-link" href="#To-do"> </a></h2><p>To do:</p>
 <ul>
+<li>Data loader is too slow and locks up using workers &gt; 1 so implement using joblib's Memory<ul>
+<li>Change to load one frame at a time</li>
+<li>Write function that runs loading function over entire npz</li>
+<li>console script to run that function over all npz in parallel</li>
+<li>Rewrite README to reflect these changes</li>
+</ul>
+</li>
 <li><del>Note here about the dataset license</del></li>
 <li><del>Instructions on how to download the dataset</del></li>
 <li>Instructions on how to install the requirements for visualization</li>
@@ -207,6 +207,8 @@ gender torch.Size([4, 1])
 <li><del>Add CC licensed picture of llamas to github preview</del></li>
 <li><del>add to pypi</del></li>
 <li><del>add badges</del></li>
+<li><del>document verify option</del></li>
+<li>add option to console script to prepare the cache map memory</li>
 </ul>
 
 </div>

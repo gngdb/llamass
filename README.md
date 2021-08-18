@@ -57,10 +57,10 @@ The [AMASS website][amass] provides links to download the various parts of the A
 After installing `llamass` a console script is provided to unpack the `tar.bz2` files downloaded from the [AMASS][] website:
 
 ```
-fast_amass_unpack -n 4 <dir with .tar.bz2 files> <dir to save unpacked data>
+fast_amass_unpack -n 4 --verify <dir with .tar.bz2 files> <dir to save unpacked data>
 ```
 
-This will unpack the data in parallel in 4 jobs and provides a progress bar.
+This will unpack the data in parallel in 4 jobs and provides a progress bar. The `--verify` flag will `md5sum` the directory the files are unpacked to and check it against what I found when I unpacked it. It'll also avoid unpacking tar files that have already been unpacked by looking for saved `.hash` files in the target directory. It's slower but more reliable and recovers from incomplete unpacking.
 
 Alternatively, this can be access in the library using the `llamass.core.unpack_body_models` function:
 
@@ -108,16 +108,15 @@ for data in amassloader:
     gender torch.Size([4, 1])
 
 
-## Future Work
-
-Caching the dataset may be easy to implement with [joblib's Memory][memory] so I'm looking into this.
-
-[memory]: https://joblib.readthedocs.io/en/latest/generated/joblib.Memory.html
-
 ## To do
 
 To do:
 
+* Data loader is too slow and locks up using workers > 1 so implement using joblib's Memory
+    * Change to load one frame at a time
+    * Write function that runs loading function over entire npz
+    * console script to run that function over all npz in parallel
+    * Rewrite README to reflect these changes
 * ~~Note here about the dataset license~~
 * ~~Instructions on how to download the dataset~~
 * Instructions on how to install the requirements for visualization
@@ -127,3 +126,5 @@ To do:
 * ~~Add CC licensed picture of llamas to github preview~~
 * ~~add to pypi~~
 * ~~add badges~~
+* ~~document verify option~~
+* add option to console script to prepare the cache map memory
