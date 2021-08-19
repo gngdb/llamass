@@ -12,6 +12,7 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "unpack_body_models": "00_core.ipynb",
          "fast_amass_unpack": "00_core.ipynb",
          "npz_paths": "00_core.ipynb",
+         "keep_slice": "00_core.ipynb",
          "viable_slice": "00_core.ipynb",
          "npz_contents": "00_core.ipynb",
          "AMASS": "00_core.ipynb"}

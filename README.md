@@ -117,6 +117,7 @@ To do:
     * Write function that runs loading function over entire npz
     * console script to run that function over all npz in parallel
     * Rewrite README to reflect these changes
+* Add step in setup above to wget the file lengths
 * ~~Note here about the dataset license~~
 * ~~Instructions on how to download the dataset~~
 * Instructions on how to install the requirements for visualization

@@ -535,7 +535,7 @@ Produced 5
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp25u4o00z
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpe04oym50
 </pre>
 </div>
 </div>
@@ -583,8 +583,8 @@ Produced 5
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp6vqj1ddr
-sample_data/sample.tar.bz2 extracting to /tmp/tmp6vqj1ddr
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpoyvm3ei1
+sample_data/sample.tar.bz2 extracting to /tmp/tmpoyvm3ei1
 </pre>
 </div>
 </div>
@@ -667,11 +667,11 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp6vqj1ddr
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmphde_6n4w
-/tmp/tmphde_6n4w/sample/subdir/amass_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp9ydyjsgx
+/tmp/tmp9ydyjsgx/sample/subdir/amass_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (601, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (601, 85, 3)), (&#39;dmpls&#39;, (601, 8)), (&#39;marker_labels&#39;, (85,)), (&#39;trans&#39;, (601, 3))]
-/tmp/tmphde_6n4w/sample/subdir/dmpl_sample.npz
+/tmp/tmp9ydyjsgx/sample/subdir/dmpl_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (235, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (235, 67, 3)), (&#39;dmpls&#39;, (235, 8)), (&#39;marker_labels&#39;, (67,)), (&#39;trans&#39;, (235, 3))]
 </pre>
@@ -780,9 +780,85 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp6vqj1ddr
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmps9cplwws
-/tmp/tmps9cplwws/sample/subdir/amass_sample.npz
-/tmp/tmps9cplwws/sample/subdir/dmpl_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpr0hjhlbq
+/tmp/tmpr0hjhlbq/sample/subdir/amass_sample.npz
+/tmp/tmpr0hjhlbq/sample/subdir/dmpl_sample.npz
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Inferring-Dataset-Size">Inferring Dataset Size<a class="anchor-link" href="#Inferring-Dataset-Size"> </a></h2><blockquote><p>A function to calculate dataset size, with the result stored in this package.</p>
+</blockquote>
+<p>The result of this calculation is stored in this package, the dataset loader will try to load this file or recreate it itself, so you can skip that step by copying it into the directory where you have unpacked the data.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">def</span> <span class="nf">npz_len</span><span class="p">(</span><span class="n">npz_path</span><span class="p">):</span>
+    <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">md5_file</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">npz_lens</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">):</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">ProgressParallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)([</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">npz_len</span><span class="p">)(</span><span class="n">npz_path</span><span class="p">)</span>
+                                            <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span>
+                                            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">save_lens</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">npz_file_lens</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">npz_file_lens</span><span class="p">))</span>
+
+<span class="c1"># npz_file_lens = npz_lens(&#39;/nobackup/gngdb/repos/amass/data&#39;, 10)   </span>
+<span class="c1"># save_lens(&#39;npz_file_lens.json.gz&#39;, npz_file_lens)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>du -hs npz_file_lens.json.gz
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>399K	npz_file_lens.json.gz
 </pre>
 </div>
 </div>
@@ -811,7 +887,31 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp6vqj1ddr
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L181" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L181" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L185" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 <p>Inspects a dictionary loaded from <code>.npz</code> numpy dumps
 and creates a slice of the viable indexes.
@@ -846,7 +946,11 @@ args:</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">viable_slice</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">keep</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">keep_slice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">keep</span><span class="p">):</span>
+    <span class="n">drop</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">keep</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">drop</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">keep</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">drop</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">viable_slice</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">keep</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inspects a dictionary loaded from `.npz` numpy dumps</span>
 <span class="sd">    and creates a slice of the viable indexes.</span>
@@ -867,8 +971,7 @@ args:</p>
         <span class="n">keep</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">keep</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
     <span class="p">),</span> <span class="s2">&quot;Proportion of array to keep must be between zero and one&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">drop</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">keep</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-    <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">drop</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">keep</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">drop</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">keep_slice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -903,10 +1006,10 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpv6jj36bl
-/tmp/tmpv6jj36bl/sample/subdir/amass_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpkqs22b8e
+/tmp/tmpkqs22b8e/sample/subdir/amass_sample.npz
    slice(60, 540, None)
-/tmp/tmpv6jj36bl/sample/subdir/dmpl_sample.npz
+/tmp/tmpkqs22b8e/sample/subdir/dmpl_sample.npz
    slice(23, 211, None)
 </pre>
 </div>
@@ -937,7 +1040,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L206" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L209" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1035,13 +1138,13 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp8k2fg813
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp18lc94af
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
-sample_data/sample.tar.bz2 extracting to /tmp/tmp4qq93atu
+sample_data/sample.tar.bz2 extracting to /tmp/tmpgjegehn2
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
-sample_data/sample.tar.bz2 extracting to /tmp/tmp_vif8kyl
+sample_data/sample.tar.bz2 extracting to /tmp/tmpt5ajepqq
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 </pre>
@@ -1072,7 +1175,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp_vif8kyl
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L245" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L248" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -1211,6 +1314,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
             <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="ow">is</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
         <span class="k">break</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">amass</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -1223,12 +1327,13 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpminiu82y
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp6xbov207
 poses torch.Size([1, 156])
 dmpls torch.Size([1, 8])
 trans torch.Size([1, 3])
 betas torch.Size([1, 16])
 gender torch.Size([1])
+668
 </pre>
 </div>
 </div>
@@ -1274,7 +1379,7 @@ gender torch.Size([1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpoma8pz75
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpav6o5agx
 poses torch.Size([4, 1, 156])
 dmpls torch.Size([4, 1, 8])
 trans torch.Size([4, 1, 3])
@@ -1284,58 +1389,6 @@ gender torch.Size([4, 1])
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Caching">Caching<a class="anchor-link" href="#Caching"> </a></h1><p>Initially when I tried to load from AMASS using just a single worker (more than one worker accessing the <code>npz</code> files directly would lock up), the estimate of runtime just to iterate over the dataset was going to 160 hours. That's not practical, so I decided to use <code>joblib.Memory</code> to cache loading of the <code>npz</code> files.</p>
-<p>This also involves caching the dictionary of <code>viable_slices</code> above.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">cache_amass</span><span class="p">():</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cache the data using joblib.Memory&quot;</span>
-    <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;amassdir&quot;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Directory where AMASS has been unpacked&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--verify&quot;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Verify the output by calculating a checksum, &quot;</span>
-        <span class="s2">&quot;ensures that each tar file will only be unpacked once.&quot;</span>
-    <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--num-workers&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of Dataloader workers to run the caching with&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--bytes-limit&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Limit of bytes to store on disk (this means some data will not be cached)&quot;</span>
-    <span class="p">)</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-    <span class="n">unpack_body_models</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">tardir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">outdir</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">verify</span><span class="p">)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
