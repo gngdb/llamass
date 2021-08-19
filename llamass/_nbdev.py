@@ -11,11 +11,9 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "lazy_unpack": "00_core.ipynb",
          "unpack_body_models": "00_core.ipynb",
          "fast_amass_unpack": "00_core.ipynb",
+         "npz_paths": "00_core.ipynb",
          "viable_slice": "00_core.ipynb",
-         "walk_npz_paths": "00_core.ipynb",
-         "read_viable_slices": "00_core.ipynb",
-         "global_index_map": "00_core.ipynb",
-         "load_npz": "00_core.ipynb",
+         "npz_contents": "00_core.ipynb",
          "AMASS": "00_core.ipynb"}
 
 modules = ["core.py"]
