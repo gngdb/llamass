@@ -2,7 +2,7 @@
 
 __all__ = ['md5_update_from_file', 'md5_file', 'md5_update_from_dir', 'md5_dir', 'hashes', 'ProgressParallel',
            'lazy_unpack', 'unpack_body_models', 'fast_amass_unpack', 'npz_paths', 'keep_slice', 'viable_slice',
-           'npz_contents', 'AMASS']
+           'npz_contents', 'AMASS', 'worker_init_fn']
 
 # Cell
 # https://stackoverflow.com/a/54477583/6937913
@@ -253,7 +253,8 @@ class AMASS(IterableDataset):
         self.data_keys = data_keys
         self.amass_location = amass_location
         # these should be shuffled but pull shuffle argument out of dataloader worker arguments
-        self.npz_paths = [npz_path for npz_path in npz_paths(amass_location)]
+        self._npz_paths = tuple([npz_path for npz_path in npz_paths(amass_location)])
+        self.npz_paths = self._npz_paths
         self.clip_length = clip_length
         self.overlapping = overlapping
         self.keep = keep
@@ -296,3 +297,19 @@ class AMASS(IterableDataset):
             for data in npz_contents(npz_path, self.clip_length,
                                      self.overlapping, keep=self.keep):
                 yield {k:self.transform(data[k]) for k in data}
+
+# Cell
+def worker_init_fn(worker_id):
+    worker_info = torch.utils.data.get_worker_info()
+    dataset = worker_info.dataset
+    overall_npz_paths = dataset._npz_paths
+    step = int(len(overall_npz_paths)/float(worker_info.num_workers))
+    n = len(overall_npz_paths)
+    assert n >= worker_info.num_workers, 'Every worker must get at least one file:'\
+                                        f' {worker_info.num_workers} > {n}'
+    start, stop = 0, n
+    for worker_idx, i in enumerate(range(start, stop, step)):
+        if worker_idx == worker_info.id:
+            worker_slice = slice(i, min(i+step, n+1))
+    dataset.npz_paths = overall_npz_paths[worker_slice]
+    print('intializing ', worker_info, dataset.npz_paths)

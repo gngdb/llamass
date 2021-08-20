@@ -15,7 +15,8 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "keep_slice": "00_core.ipynb",
          "viable_slice": "00_core.ipynb",
          "npz_contents": "00_core.ipynb",
-         "AMASS": "00_core.ipynb"}
+         "AMASS": "00_core.ipynb",
+         "worker_init_fn": "00_core.ipynb"}
 
 modules = ["core.py"]
 
