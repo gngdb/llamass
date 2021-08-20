@@ -20,8 +20,10 @@ def md5_update_from_file(filename: Union[str, Path], hash: Hash) -> Hash:
             hash.update(chunk)
     return hash
 
+
 def md5_file(filename: Union[str, Path]) -> str:
     return str(md5_update_from_file(filename, hashlib.md5()).hexdigest())
+
 
 def md5_update_from_dir(directory: Union[str, Path], hash: Hash) -> Hash:
     assert Path(directory).is_dir()
@@ -33,49 +35,77 @@ def md5_update_from_dir(directory: Union[str, Path], hash: Hash) -> Hash:
             hash = md5_update_from_dir(path, hash)
     return hash
 
+
 def md5_dir(directory: Union[str, Path]) -> str:
     return str(md5_update_from_dir(directory, hashlib.md5()).hexdigest())
 
 # Cell
-hashes = \
-{'ACCAD.tar.bz2': {'unpacks_to': 'ACCAD',
-  'hash': '193442a2ab66cb116932b8bce08ecb89'},
- 'BMLhandball.tar.bz2': {'unpacks_to': 'BMLhandball',
-  'hash': '8947df17dd59d052ae618daf24ccace3'},
- 'BMLmovi.tar.bz2': {'unpacks_to': 'BMLmovi',
-  'hash': '6dfb134273f284152aa2d0838d7529d5'},
- 'CMU.tar.bz2': {'unpacks_to': 'CMU',
-  'hash': 'f04bc3f37f3eafebfb12ba0cf706ca72'},
- 'DFaust67.tar.bz2': {'unpacks_to': 'DFaust_67',
-  'hash': '7e5f11ed897da72c5159ef3c747383b8'},
- 'EKUT.tar.bz2': {'unpacks_to': 'EKUT',
-  'hash': '221ee4a27a03afd1808cbb11af067879'},
- 'HumanEva.tar.bz2': {'unpacks_to': 'HumanEva',
-  'hash': 'ca781438b08caafd8a42b91cce905a03'},
- 'KIT.tar.bz2': {'unpacks_to': 'KIT',
-  'hash': '3813500a3909f6ded1a1fffbd27ff35a'},
- 'MPIHDM05.tar.bz2': {'unpacks_to': 'MPI_HDM05',
-  'hash': 'f76da8deb9e583c65c618d57fbad1be4'},
- 'MPILimits.tar.bz2': {'unpacks_to': 'MPI_Limits',
-  'hash': '72398ec89ff8ac8550813686cdb07b00'},
- 'MPImosh.tar.bz2': {'unpacks_to': 'MPI_mosh',
-  'hash': 'a00019cac611816b7ac5b7e2035f3a8a'},
- 'SFU.tar.bz2': {'unpacks_to': 'SFU',
-  'hash': 'cb10b931509566c0a49d72456e0909e2'},
- 'SSMsynced.tar.bz2': {'unpacks_to': 'SSM_synced',
-  'hash': '7cc15af6bf95c34e481d58ed04587b58'},
- 'TCDhandMocap.tar.bz2': {'unpacks_to': 'TCD_handMocap',
-  'hash': 'c500aa07973bf33ac1587a521b7d66d3'},
- 'TotalCapture.tar.bz2': {'unpacks_to': 'TotalCapture',
-  'hash': 'b2c6833d3341816f4550799b460a1b27'},
- 'Transitionsmocap.tar.bz2': {'unpacks_to': 'Transitions_mocap',
-  'hash': '705e8020405357d9d65d17580a6e9b39'},
- 'EyesJapanDataset.tar.bz2': {'unpacks_to': 'Eyes_Japan_Dataset',
-  'hash': 'd19fc19771cfdbe8efe2422719e5f3f1'},
- 'BMLrub.tar.bz2': {'unpacks_to': 'BioMotionLab_NTroje',
-  'hash': '8b82ffa6c79d42a920f5dde1dcd087c3'},
- 'DanceDB.tar.bz2': {'unpacks_to': 'DanceDB',
-  'hash': '9ce35953c4234489036ecb1c26ae38bc'}}
+hashes = {
+    "ACCAD.tar.bz2": {
+        "unpacks_to": "ACCAD",
+        "hash": "193442a2ab66cb116932b8bce08ecb89",
+    },
+    "BMLhandball.tar.bz2": {
+        "unpacks_to": "BMLhandball",
+        "hash": "8947df17dd59d052ae618daf24ccace3",
+    },
+    "BMLmovi.tar.bz2": {
+        "unpacks_to": "BMLmovi",
+        "hash": "6dfb134273f284152aa2d0838d7529d5",
+    },
+    "CMU.tar.bz2": {"unpacks_to": "CMU", "hash": "f04bc3f37f3eafebfb12ba0cf706ca72"},
+    "DFaust67.tar.bz2": {
+        "unpacks_to": "DFaust_67",
+        "hash": "7e5f11ed897da72c5159ef3c747383b8",
+    },
+    "EKUT.tar.bz2": {"unpacks_to": "EKUT", "hash": "221ee4a27a03afd1808cbb11af067879"},
+    "HumanEva.tar.bz2": {
+        "unpacks_to": "HumanEva",
+        "hash": "ca781438b08caafd8a42b91cce905a03",
+    },
+    "KIT.tar.bz2": {"unpacks_to": "KIT", "hash": "3813500a3909f6ded1a1fffbd27ff35a"},
+    "MPIHDM05.tar.bz2": {
+        "unpacks_to": "MPI_HDM05",
+        "hash": "f76da8deb9e583c65c618d57fbad1be4",
+    },
+    "MPILimits.tar.bz2": {
+        "unpacks_to": "MPI_Limits",
+        "hash": "72398ec89ff8ac8550813686cdb07b00",
+    },
+    "MPImosh.tar.bz2": {
+        "unpacks_to": "MPI_mosh",
+        "hash": "a00019cac611816b7ac5b7e2035f3a8a",
+    },
+    "SFU.tar.bz2": {"unpacks_to": "SFU", "hash": "cb10b931509566c0a49d72456e0909e2"},
+    "SSMsynced.tar.bz2": {
+        "unpacks_to": "SSM_synced",
+        "hash": "7cc15af6bf95c34e481d58ed04587b58",
+    },
+    "TCDhandMocap.tar.bz2": {
+        "unpacks_to": "TCD_handMocap",
+        "hash": "c500aa07973bf33ac1587a521b7d66d3",
+    },
+    "TotalCapture.tar.bz2": {
+        "unpacks_to": "TotalCapture",
+        "hash": "b2c6833d3341816f4550799b460a1b27",
+    },
+    "Transitionsmocap.tar.bz2": {
+        "unpacks_to": "Transitions_mocap",
+        "hash": "705e8020405357d9d65d17580a6e9b39",
+    },
+    "EyesJapanDataset.tar.bz2": {
+        "unpacks_to": "Eyes_Japan_Dataset",
+        "hash": "d19fc19771cfdbe8efe2422719e5f3f1",
+    },
+    "BMLrub.tar.bz2": {
+        "unpacks_to": "BioMotionLab_NTroje",
+        "hash": "8b82ffa6c79d42a920f5dde1dcd087c3",
+    },
+    "DanceDB.tar.bz2": {
+        "unpacks_to": "DanceDB",
+        "hash": "9ce35953c4234489036ecb1c26ae38bc",
+    },
+}
 
 # Cell
 import json
@@ -97,28 +127,29 @@ class ProgressParallel(joblib.Parallel):
         self._pbar.n = self.n_completed_tasks
         self._pbar.refresh()
 
+
 def lazy_unpack(tarpath, outdir):
     # check if this has already been unpacked by looking for hash file
     tarpath, outdir = Path(tarpath), Path(outdir)
-    unpacks_to = hashes[tarpath.name]['unpacks_to']
-    hashpath = outdir / Path(unpacks_to+'.hash')
+    unpacks_to = hashes[tarpath.name]["unpacks_to"]
+    hashpath = outdir / Path(unpacks_to + ".hash")
     # if the hash exists and it's correct then assume the directory is correctly unpacked
     if hashpath.exists():
         with open(hashpath) as f:
-            h = f.read() # read hash
-        if h == hashes[tarpath.name]['hash']:
+            h = f.read()  # read hash
+        if h == hashes[tarpath.name]["hash"]:
             return None
     else:
         # if there's no stored hash or it doesn't match, unpack the tar file
         unpack_archive(tarpath, outdir)
         # calculate the hash of the unpacked directory and check it's the same
-        h = md5_dir(outdir/unpacks_to)
-        _h = hashes[tarpath.name]['hash']
-        assert h == _h,\
-            f'Directory {outdir/unpacks_to} hash {h} != {_h}'
+        h = md5_dir(outdir / unpacks_to)
+        _h = hashes[tarpath.name]["hash"]
+        assert h == _h, f"Directory {outdir/unpacks_to} hash {h} != {_h}"
         # save the calculated hash
-        with open(hashpath, 'w') as f:
+        with open(hashpath, "w") as f:
             f.write(h)
+
 
 def unpack_body_models(tardir, outdir, n_jobs=1, verify=False):
     tar_root, _, tarfiles = [x for x in os.walk(tardir)][0]
@@ -151,7 +182,7 @@ def fast_amass_unpack():
         "--verify",
         type="store_true",
         help="Verify the output by calculating a checksum, "
-        "ensures that each tar file will only be unpacked once."
+        "ensures that each tar file will only be unpacked once.",
     )
     parser.add_argument(
         "-n",
@@ -175,13 +206,14 @@ def npz_paths(npz_directory):
     npz_paths = []
     for r, d, f in os.walk(npz_directory):
         for fname in f:
-            if 'npz' == fname.split('.')[-1] and fname != 'shape.npz':
+            if "npz" == fname.split(".")[-1] and fname != "shape.npz":
                 yield os.path.join(npz_directory, r, fname)
 
 # Cell
 def keep_slice(n, keep):
     drop = (1.0 - keep) / 2.0
     return slice(int(n * drop), int(n * keep + n * drop))
+
 
 def viable_slice(cdata, keep):
     """
@@ -207,9 +239,15 @@ def viable_slice(cdata, keep):
     return keep_slice(n, keep)
 
 # Cell
-def npz_contents(npz_path, clip_length, overlapping, keep=0.8,
-                 keys=('poses', 'dmpls', 'trans', 'betas', 'gender'), shuffle=False,
-                 seed=None):
+def npz_contents(
+    npz_path,
+    clip_length,
+    overlapping,
+    keep=0.8,
+    keys=("poses", "dmpls", "trans", "betas", "gender"),
+    shuffle=False,
+    seed=None,
+):
     # cache this because we will often be accessing the same file multiple times
     cdata = np.load(npz_path)
 
@@ -221,8 +259,9 @@ def npz_contents(npz_path, clip_length, overlapping, keep=0.8,
         i = 0
         step = 1 if overlapping else clip_length
         for i in range(viable.start, viable.stop, step):
-            if i+clip_length < viable.stop:
-                yield slice(i, i+clip_length)
+            if i + clip_length < viable.stop:
+                yield slice(i, i + clip_length)
+
     # buffer the iterator and shuffle here, when implementing that
     buf_clip_slices = [s for s in clip_slices(viable, clip_length, overlapping)]
     if shuffle:
@@ -233,28 +272,40 @@ def npz_contents(npz_path, clip_length, overlapping, keep=0.8,
     for s in buf_clip_slices:
         data = {}
         # unpack and enforce data type
-        to_load = [k for k in ('poses', 'dmpls', 'trans') if k in keys]
+        to_load = [k for k in ("poses", "dmpls", "trans") if k in keys]
         for k in to_load:
             data[k] = cdata[k][s].astype(np.float32)
-        if 'betas' in keys:
+        if "betas" in keys:
             r = s.stop - s.start
-            data['betas'] = np.repeat(
+            data["betas"] = np.repeat(
                 cdata["betas"][np.newaxis].astype(np.float32), repeats=r, axis=0
             )
-        if 'gender' in keys:
+        if "gender" in keys:
+
             def gender_to_int(g):
                 # casting gender to integer will raise a warning in future
                 g = str(g.astype(str))
                 return {"male": -1, "neutral": 0, "female": 1}[g]
-            data['gender'] = np.array([gender_to_int(cdata["gender"]) for _ in range(s.start, s.stop)])
+
+            data["gender"] = np.array(
+                [gender_to_int(cdata["gender"]) for _ in range(s.start, s.stop)]
+            )
         yield data
 
 # Cell
 class AMASS(IterableDataset):
-    def __init__(self, amass_location, clip_length, overlapping, keep=0.8,
-                 transform=None,
-                 data_keys=('poses', 'dmpls', 'trans', 'betas', 'gender'),
-                 file_list_seed=0, shuffle=False, seed=None):
+    def __init__(
+        self,
+        amass_location,
+        clip_length,
+        overlapping,
+        keep=0.8,
+        transform=None,
+        data_keys=("poses", "dmpls", "trans", "betas", "gender"),
+        file_list_seed=0,
+        shuffle=False,
+        seed=None,
+    ):
         self.transform = transform
         self.data_keys = data_keys
         self.amass_location = amass_location
@@ -272,12 +323,12 @@ class AMASS(IterableDataset):
     def infer_len(self, n_jobs=4):
         # uses known dimensions of the npz files in the AMASS dataset to infer the length
         # with clip_length and overlapping settings stored
-        lenfile = Path(self.amass_location)/Path('npz_file_lens.json.gz')
+        lenfile = Path(self.amass_location) / Path("npz_file_lens.json.gz")
         # try to load file
         if lenfile.exists():
-            with gzip.open(lenfile, 'rt') as f:
+            with gzip.open(lenfile, "rt") as f:
                 self.npz_lens = json.load(f)
-        else: # if it's not there, recompute it and create the file
+        else:  # if it's not there, recompute it and create the file
             self.npz_lens = npz_lens(self.amass_location, n_jobs)
             save_lens(lenfile, self.npz_lens)
 
@@ -296,7 +347,7 @@ class AMASS(IterableDataset):
         return N
 
     def __len__(self):
-        if hasattr(self, 'N'):
+        if hasattr(self, "N"):
             return self.N
         else:
             self.N = self.infer_len()
@@ -307,11 +358,16 @@ class AMASS(IterableDataset):
             self.npz_paths = list(self.npz_paths)
             random.Random(self.seed).shuffle(self.npz_paths)
         for npz_path in self.npz_paths:
-            for data in npz_contents(npz_path, self.clip_length,
-                                     self.overlapping, keep=self.keep,
-                                     shuffle=self.shuffle, seed=self.seed):
-                self.seed += 1 # increment to vary shuffle over files
-                yield {k:self.transform(data[k]) for k in data}
+            for data in npz_contents(
+                npz_path,
+                self.clip_length,
+                self.overlapping,
+                keep=self.keep,
+                shuffle=self.shuffle,
+                seed=self.seed,
+            ):
+                self.seed += 1  # increment to vary shuffle over files
+                yield {k: self.transform(data[k]) for k in data}
 
 # Cell
 def worker_init_fn(worker_id):
@@ -320,14 +376,15 @@ def worker_init_fn(worker_id):
     # slice up dataset among workers
     dataset = worker_info.dataset
     overall_npz_paths = dataset._npz_paths
-    step = int(len(overall_npz_paths)/float(worker_info.num_workers))
+    step = int(len(overall_npz_paths) / float(worker_info.num_workers))
     n = len(overall_npz_paths)
-    assert n >= worker_info.num_workers, 'Every worker must get at least one file:'\
-                                        f' {worker_info.num_workers} > {n}'
+    assert n >= worker_info.num_workers, (
+        "Every worker must get at least one file:" f" {worker_info.num_workers} > {n}"
+    )
     start, stop = 0, n
     for worker_idx, i in enumerate(range(start, stop, step)):
         if worker_idx == worker_info.id:
-            worker_slice = slice(i, min(i+step, n+1))
+            worker_slice = slice(i, min(i + step, n + 1))
     dataset.npz_paths = overall_npz_paths[worker_slice]
 
     # set each workers seed

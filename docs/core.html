@@ -81,7 +81,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md5_file" class="doc_header"><code>md5_file</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md5_file</code>(<strong><code>filename</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
+<h4 id="md5_file" class="doc_header"><code>md5_file</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md5_file</code>(<strong><code>filename</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
 </blockquote>
 
 </div>
@@ -105,7 +105,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md5_update_from_dir" class="doc_header"><code>md5_update_from_dir</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md5_update_from_dir</code>(<strong><code>directory</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>hash</code></strong>:<code>HASH</code>)</p>
+<h4 id="md5_update_from_dir" class="doc_header"><code>md5_update_from_dir</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md5_update_from_dir</code>(<strong><code>directory</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>], <strong><code>hash</code></strong>:<code>HASH</code>)</p>
 </blockquote>
 
 </div>
@@ -129,7 +129,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md5_dir" class="doc_header"><code>md5_dir</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md5_dir</code>(<strong><code>directory</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
+<h4 id="md5_dir" class="doc_header"><code>md5_dir</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md5_dir</code>(<strong><code>directory</code></strong>:<code>Union</code>[<code>str</code>, <code>Path</code>])</p>
 </blockquote>
 
 </div>
@@ -175,7 +175,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ProgressParallel" class="doc_header"><code>class</code> <code>ProgressParallel</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L90" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ProgressParallel</code>(<strong><code>n_jobs</code></strong>=<em><code>None</code></em>, <strong><code>backend</code></strong>=<em><code>None</code></em>, <strong><code>verbose</code></strong>=<em><code>0</code></em>, <strong><code>timeout</code></strong>=<em><code>None</code></em>, <strong><code>pre_dispatch</code></strong>=<em>`'2 </em> n_jobs'<code>*, **</code>batch_size<code>**=*</code>'auto'<code>*, **</code>temp_folder<code>**=*</code>None<code>*, **</code>max_nbytes<code>**=*</code>'1M'<code>*, **</code>mmap_mode<code>**=*</code>'r'<code>*, **</code>prefer<code>**=*</code>None<code>*, **</code>require<code>**=*</code>None<code>*) ::</code>Parallel`</p>
+<h2 id="ProgressParallel" class="doc_header"><code>class</code> <code>ProgressParallel</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L120" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ProgressParallel</code>(<strong><code>n_jobs</code></strong>=<em><code>None</code></em>, <strong><code>backend</code></strong>=<em><code>None</code></em>, <strong><code>verbose</code></strong>=<em><code>0</code></em>, <strong><code>timeout</code></strong>=<em><code>None</code></em>, <strong><code>pre_dispatch</code></strong>=<em>`'2 </em> n_jobs'<code>*, **</code>batch_size<code>**=*</code>'auto'<code>*, **</code>temp_folder<code>**=*</code>None<code>*, **</code>max_nbytes<code>**=*</code>'1M'<code>*, **</code>mmap_mode<code>**=*</code>'r'<code>*, **</code>prefer<code>**=*</code>None<code>*, **</code>require<code>**=*</code>None<code>*) ::</code>Parallel`</p>
 </blockquote>
 <p>Helper class for readable parallel mapping.</p>
 <p>Read more in the :ref:<code>User Guide &lt;parallel&gt;</code>.</p>
@@ -415,7 +415,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="lazy_unpack" class="doc_header"><code>lazy_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>lazy_unpack</code>(<strong><code>tarpath</code></strong>, <strong><code>outdir</code></strong>)</p>
+<h4 id="lazy_unpack" class="doc_header"><code>lazy_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>lazy_unpack</code>(<strong><code>tarpath</code></strong>, <strong><code>outdir</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -439,7 +439,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L123" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>verify</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L154" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>verify</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -463,7 +463,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
+<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L167" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
 </blockquote>
 
 </div>
@@ -502,28 +502,29 @@ Produced 5
         <span class="bp">self</span><span class="o">.</span><span class="n">_pbar</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_completed_tasks</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pbar</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
+
 <span class="k">def</span> <span class="nf">lazy_unpack</span><span class="p">(</span><span class="n">tarpath</span><span class="p">,</span> <span class="n">outdir</span><span class="p">):</span>
     <span class="c1"># check if this has already been unpacked by looking for hash file</span>
     <span class="n">tarpath</span><span class="p">,</span> <span class="n">outdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tarpath</span><span class="p">),</span> <span class="n">Path</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
-    <span class="n">unpacks_to</span> <span class="o">=</span> <span class="n">hashes</span><span class="p">[</span><span class="n">tarpath</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;unpacks_to&#39;</span><span class="p">]</span>
-    <span class="n">hashpath</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">unpacks_to</span><span class="o">+</span><span class="s1">&#39;.hash&#39;</span><span class="p">)</span>
+    <span class="n">unpacks_to</span> <span class="o">=</span> <span class="n">hashes</span><span class="p">[</span><span class="n">tarpath</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;unpacks_to&quot;</span><span class="p">]</span>
+    <span class="n">hashpath</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">unpacks_to</span> <span class="o">+</span> <span class="s2">&quot;.hash&quot;</span><span class="p">)</span>
     <span class="c1"># if the hash exists and it&#39;s correct then assume the directory is correctly unpacked</span>
     <span class="k">if</span> <span class="n">hashpath</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">hashpath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># read hash</span>
-        <span class="k">if</span> <span class="n">h</span> <span class="o">==</span> <span class="n">hashes</span><span class="p">[</span><span class="n">tarpath</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;hash&#39;</span><span class="p">]:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c1"># read hash</span>
+        <span class="k">if</span> <span class="n">h</span> <span class="o">==</span> <span class="n">hashes</span><span class="p">[</span><span class="n">tarpath</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;hash&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># if there&#39;s no stored hash or it doesn&#39;t match, unpack the tar file</span>
         <span class="n">unpack_archive</span><span class="p">(</span><span class="n">tarpath</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
         <span class="c1"># calculate the hash of the unpacked directory and check it&#39;s the same</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">md5_dir</span><span class="p">(</span><span class="n">outdir</span><span class="o">/</span><span class="n">unpacks_to</span><span class="p">)</span>
-        <span class="n">_h</span> <span class="o">=</span> <span class="n">hashes</span><span class="p">[</span><span class="n">tarpath</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;hash&#39;</span><span class="p">]</span>
-        <span class="k">assert</span> <span class="n">h</span> <span class="o">==</span> <span class="n">_h</span><span class="p">,</span>\
-            <span class="sa">f</span><span class="s1">&#39;Directory </span><span class="si">{</span><span class="n">outdir</span><span class="o">/</span><span class="n">unpacks_to</span><span class="si">}</span><span class="s1"> hash </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s1"> != </span><span class="si">{</span><span class="n">_h</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">md5_dir</span><span class="p">(</span><span class="n">outdir</span> <span class="o">/</span> <span class="n">unpacks_to</span><span class="p">)</span>
+        <span class="n">_h</span> <span class="o">=</span> <span class="n">hashes</span><span class="p">[</span><span class="n">tarpath</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;hash&quot;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">h</span> <span class="o">==</span> <span class="n">_h</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">outdir</span><span class="o">/</span><span class="n">unpacks_to</span><span class="si">}</span><span class="s2"> hash </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">_h</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="c1"># save the calculated hash</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">hashpath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">hashpath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
 
 <span class="k">def</span> <span class="nf">unpack_body_models</span><span class="p">(</span><span class="n">tardir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">tar_root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tarfiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tardir</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
@@ -556,7 +557,7 @@ Produced 5
         <span class="s2">&quot;--verify&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Verify the output by calculating a checksum, &quot;</span>
-        <span class="s2">&quot;ensures that each tar file will only be unpacked once.&quot;</span>
+        <span class="s2">&quot;ensures that each tar file will only be unpacked once.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
@@ -653,7 +654,13 @@ Produced 5
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="n">hashes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sample.tar.bz2&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;unpacks_to&#39;</span><span class="p">:</span> <span class="s1">&#39;sample&#39;</span><span class="p">,</span> <span class="s1">&#39;hash&#39;</span><span class="p">:</span> <span class="s1">&#39;b5a86fe22ed2799d79101a532eb0ff27&#39;</span><span class="p">}}</span>
+
+<span class="n">hashes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sample.tar.bz2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;unpacks_to&quot;</span><span class="p">:</span> <span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="s2">&quot;b5a86fe22ed2799d79101a532eb0ff27&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
 <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -834,7 +841,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L174" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
+<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -858,7 +865,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
     <span class="n">npz_paths</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">npz_directory</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">&#39;npz&#39;</span> <span class="o">==</span> <span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">fname</span> <span class="o">!=</span> <span class="s1">&#39;shape.npz&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;npz&quot;</span> <span class="o">==</span> <span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">fname</span> <span class="o">!=</span> <span class="s2">&quot;shape.npz&quot;</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">npz_directory</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
 </pre></div>
 
@@ -924,22 +931,26 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
+
 <span class="k">def</span> <span class="nf">npz_len</span><span class="p">(</span><span class="n">npz_path</span><span class="p">):</span>
     <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">md5_file</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
 
 <span class="k">def</span> <span class="nf">npz_lens</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">):</span>
     <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">ProgressParallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)([</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">npz_len</span><span class="p">)(</span><span class="n">npz_path</span><span class="p">)</span>
-                                            <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span>
-                                            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ProgressParallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)(</span>
+        <span class="p">[</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">npz_len</span><span class="p">)(</span><span class="n">npz_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+    <span class="p">)</span>
+
 
 <span class="k">def</span> <span class="nf">save_lens</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">npz_file_lens</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;wt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">npz_file_lens</span><span class="p">))</span>
 
-<span class="c1"># npz_file_lens = npz_lens(&#39;/nobackup/gngdb/repos/amass/data&#39;, 10)   </span>
+
+<span class="c1"># npz_file_lens = npz_lens(&#39;/nobackup/gngdb/repos/amass/data&#39;, 10)</span>
 <span class="c1"># save_lens(&#39;npz_file_lens.json.gz&#39;, npz_file_lens)</span>
 </pre></div>
 
@@ -999,7 +1010,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L182" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L213" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1023,7 +1034,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L186" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L218" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 <p>Inspects a dictionary loaded from <code>.npz</code> numpy dumps
 and creates a slice of the viable indexes.
@@ -1061,6 +1072,7 @@ args:</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">keep_slice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">keep</span><span class="p">):</span>
     <span class="n">drop</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">keep</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="k">return</span> <span class="nb">slice</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">drop</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">keep</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="n">drop</span><span class="p">))</span>
+
 
 <span class="k">def</span> <span class="nf">viable_slice</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">keep</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1152,7 +1164,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L210" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L242" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1172,46 +1184,57 @@ args:</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">npz_contents</span><span class="p">(</span><span class="n">npz_path</span><span class="p">,</span> <span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-                 <span class="n">keys</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;poses&#39;</span><span class="p">,</span> <span class="s1">&#39;dmpls&#39;</span><span class="p">,</span> <span class="s1">&#39;trans&#39;</span><span class="p">,</span> <span class="s1">&#39;betas&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">),</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">npz_contents</span><span class="p">(</span>
+    <span class="n">npz_path</span><span class="p">,</span>
+    <span class="n">clip_length</span><span class="p">,</span>
+    <span class="n">overlapping</span><span class="p">,</span>
+    <span class="n">keep</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">keys</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;poses&quot;</span><span class="p">,</span> <span class="s2">&quot;dmpls&quot;</span><span class="p">,</span> <span class="s2">&quot;trans&quot;</span><span class="p">,</span> <span class="s2">&quot;betas&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">),</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
     <span class="c1"># cache this because we will often be accessing the same file multiple times</span>
     <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
 
     <span class="c1"># slice of viable indices</span>
     <span class="n">viable</span> <span class="o">=</span> <span class="n">viable_slice</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
-    
+
     <span class="c1"># slice iterator</span>
     <span class="k">def</span> <span class="nf">clip_slices</span><span class="p">(</span><span class="n">viable</span><span class="p">,</span> <span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">):</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">overlapping</span> <span class="k">else</span> <span class="n">clip_length</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">viable</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">viable</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="n">clip_length</span> <span class="o">&lt;</span> <span class="n">viable</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="n">clip_length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="n">clip_length</span> <span class="o">&lt;</span> <span class="n">viable</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">clip_length</span><span class="p">)</span>
+
     <span class="c1"># buffer the iterator and shuffle here, when implementing that</span>
     <span class="n">buf_clip_slices</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">clip_slices</span><span class="p">(</span><span class="n">viable</span><span class="p">,</span> <span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span> <span class="k">if</span> <span class="n">seed</span> <span class="k">else</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
         <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">buf_clip_slices</span><span class="p">)</span>
-    
+
     <span class="c1"># iterate over slices</span>
     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">buf_clip_slices</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># unpack and enforce data type</span>
-        <span class="n">to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;poses&#39;</span><span class="p">,</span> <span class="s1">&#39;dmpls&#39;</span><span class="p">,</span> <span class="s1">&#39;trans&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+        <span class="n">to_load</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;poses&quot;</span><span class="p">,</span> <span class="s2">&quot;dmpls&quot;</span><span class="p">,</span> <span class="s2">&quot;trans&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">to_load</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cdata</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;betas&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;betas&quot;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;betas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;betas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
                 <span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;betas&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">repeats</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;gender&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;gender&quot;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+
             <span class="k">def</span> <span class="nf">gender_to_int</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
                 <span class="c1"># casting gender to integer will raise a warning in future</span>
                 <span class="n">g</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
                 <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;male&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;neutral&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}[</span><span class="n">g</span><span class="p">]</span>
-            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">gender_to_int</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">stop</span><span class="p">)])</span>
+
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">gender_to_int</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">stop</span><span class="p">)]</span>
+            <span class="p">)</span>
         <span class="k">yield</span> <span class="n">data</span>
 </pre></div>
 
@@ -1238,6 +1261,7 @@ args:</p>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
                     <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">clip_length</span>
                 <span class="k">break</span>
+
 
 <span class="n">test_load_npz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">test_load_npz</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
@@ -1291,7 +1315,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpokdjnink
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L253" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L296" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -1409,10 +1433,18 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">AMASS</span><span class="p">(</span><span class="n">IterableDataset</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amass_location</span><span class="p">,</span> <span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-                 <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">data_keys</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;poses&#39;</span><span class="p">,</span> <span class="s1">&#39;dmpls&#39;</span><span class="p">,</span> <span class="s1">&#39;trans&#39;</span><span class="p">,</span> <span class="s1">&#39;betas&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">),</span>
-                 <span class="n">file_list_seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">amass_location</span><span class="p">,</span>
+        <span class="n">clip_length</span><span class="p">,</span>
+        <span class="n">overlapping</span><span class="p">,</span>
+        <span class="n">keep</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+        <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_keys</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;poses&quot;</span><span class="p">,</span> <span class="s2">&quot;dmpls&quot;</span><span class="p">,</span> <span class="s2">&quot;trans&quot;</span><span class="p">,</span> <span class="s2">&quot;betas&quot;</span><span class="p">,</span> <span class="s2">&quot;gender&quot;</span><span class="p">),</span>
+        <span class="n">file_list_seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_keys</span> <span class="o">=</span> <span class="n">data_keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span> <span class="o">=</span> <span class="n">amass_location</span>
@@ -1430,46 +1462,51 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
     <span class="k">def</span> <span class="nf">infer_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="c1"># uses known dimensions of the npz files in the AMASS dataset to infer the length</span>
         <span class="c1"># with clip_length and overlapping settings stored</span>
-        <span class="n">lenfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span><span class="p">)</span><span class="o">/</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;npz_file_lens.json.gz&#39;</span><span class="p">)</span>
+        <span class="n">lenfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span><span class="p">)</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;npz_file_lens.json.gz&quot;</span><span class="p">)</span>
         <span class="c1"># try to load file</span>
         <span class="k">if</span> <span class="n">lenfile</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">lenfile</span><span class="p">,</span> <span class="s1">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">lenfile</span><span class="p">,</span> <span class="s2">&quot;rt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span> <span class="c1"># if it&#39;s not there, recompute it and create the file</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># if it&#39;s not there, recompute it and create the file</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span> <span class="o">=</span> <span class="n">npz_lens</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">)</span>
             <span class="n">save_lens</span><span class="p">(</span><span class="n">lenfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span><span class="p">)</span>
-            
+
         <span class="c1"># using stored lengths to infer the total dataset length</span>
         <span class="k">def</span> <span class="nf">lenslice</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overlapping</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clip_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">s</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_length</span><span class="p">)</span>
-        
+
         <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">keep_slice</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keep</span><span class="p">)</span>
             <span class="n">N</span> <span class="o">+=</span> <span class="n">lenslice</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-            
+
         <span class="k">return</span> <span class="n">N</span>
-            
+
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">infer_len</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span>
-        
+
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">npz_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npz_paths</span><span class="p">)</span>
             <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npz_paths</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">npz_paths</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">npz_contents</span><span class="p">(</span><span class="n">npz_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_length</span><span class="p">,</span>
-                                     <span class="bp">self</span><span class="o">.</span><span class="n">overlapping</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keep</span><span class="p">,</span>
-                                     <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># increment to vary shuffle over files</span>
-                <span class="k">yield</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">npz_contents</span><span class="p">(</span>
+                <span class="n">npz_path</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clip_length</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">overlapping</span><span class="p">,</span>
+                <span class="n">keep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keep</span><span class="p">,</span>
+                <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">,</span>
+                <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># increment to vary shuffle over files</span>
+                <span class="k">yield</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -1600,7 +1637,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L317" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
+<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L373" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1622,20 +1659,21 @@ gender torch.Size([4, 1])
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">worker_init_fn</span><span class="p">(</span><span class="n">worker_id</span><span class="p">):</span>
     <span class="n">worker_info</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_worker_info</span><span class="p">()</span>
-    
+
     <span class="c1"># slice up dataset among workers</span>
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">dataset</span>
     <span class="n">overall_npz_paths</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">_npz_paths</span>
-    <span class="n">step</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">overall_npz_paths</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span><span class="p">))</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">overall_npz_paths</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span><span class="p">))</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">overall_npz_paths</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> <span class="s1">&#39;Every worker must get at least one file:&#39;</span>\
-                                        <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s1"> &gt; </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span> <span class="p">(</span>
+        <span class="s2">&quot;Every worker must get at least one file:&quot;</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">worker_info</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
     <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span>
     <span class="k">for</span> <span class="n">worker_idx</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">worker_idx</span> <span class="o">==</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
-            <span class="n">worker_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">step</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">worker_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">step</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">dataset</span><span class="o">.</span><span class="n">npz_paths</span> <span class="o">=</span> <span class="n">overall_npz_paths</span><span class="p">[</span><span class="n">worker_slice</span><span class="p">]</span>
-    
+
     <span class="c1"># set each workers seed</span>
     <span class="n">dataset</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">seed</span> <span class="o">+</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">seed</span>
 </pre></div>
@@ -1657,13 +1695,19 @@ gender torch.Size([4, 1])
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_dataloader</span><span class="p">():</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
         <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-        <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span>
-        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span>
+            <span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span>
+        <span class="p">)</span>
+        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="k">break</span>
+
+
 <span class="n">test_dataloader</span><span class="p">()</span>
 </pre></div>
 
@@ -1701,9 +1745,12 @@ gender torch.Size([4, 1])
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_runtime</span><span class="p">(</span><span class="n">unpacked_dir</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">):</span>
-    <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span><span class="n">unpacked_dir</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                  <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
+    <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span>
+        <span class="n">unpacked_dir</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span>
+    <span class="p">)</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
@@ -1711,8 +1758,10 @@ gender torch.Size([4, 1])
         <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
             <span class="k">break</span>
     <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
-    <span class="n">total_hours</span> <span class="o">=</span> <span class="p">((</span><span class="n">elapsed</span><span class="o">/</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">60</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">elapsed</span><span class="o">/</span><span class="n">i</span><span class="p">,</span> <span class="n">total_hours</span>
+    <span class="n">total_hours</span> <span class="o">=</span> <span class="p">((</span><span class="n">elapsed</span> <span class="o">/</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">60</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">elapsed</span> <span class="o">/</span> <span class="n">i</span><span class="p">,</span> <span class="n">total_hours</span>
+
+
 <span class="c1"># test_runtime(&#39;/nobackup/gngdb/repos/amass/data&#39;, 8)</span>
 </pre></div>
 
@@ -1787,17 +1836,27 @@ gender torch.Size([4, 1])
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_shuffling</span><span class="p">(</span><span class="n">num_workers</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
         <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-        <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
+        <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span>
+            <span class="n">tmpdirname</span><span class="p">,</span>
+            <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
-            <span class="n">_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span>
+            <span class="n">_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span>
             <span class="k">break</span>
         <span class="c1"># second epoch shouldn&#39;t produce the same minibatch</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span>
             <span class="n">data</span><span class="p">,</span> <span class="n">_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">_data</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
             <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">_data</span><span class="p">)</span>
             <span class="k">break</span>
+
 
 <span class="k">for</span> <span class="n">num_workers</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">test_shuffling</span><span class="p">(</span><span class="n">num_workers</span><span class="p">)</span>
