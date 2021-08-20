@@ -112,20 +112,7 @@ for data in amassloader:
 
 To do:
 
-* Data loader is too slow and locks up using workers > 1 so implement using joblib's Memory
-    * Change to load one frame at a time
-    * Write function that runs loading function over entire npz
-    * console script to run that function over all npz in parallel
-    * Rewrite README to reflect these changes
 * Add step in setup above to wget the file lengths
-* ~~Note here about the dataset license~~
-* ~~Instructions on how to download the dataset~~
 * Instructions on how to install the requirements for visualization
 * Augmentations pulled from original AMASS repo
-* ~~Install nbqa and black, run on existing notebooks~~
 * Example train/test splits by unpacking different datasets to different locations
-* ~~Add CC licensed picture of llamas to github preview~~
-* ~~add to pypi~~
-* ~~add badges~~
-* ~~document verify option~~
-* add option to console script to prepare the cache map memory

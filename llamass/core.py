@@ -163,6 +163,7 @@ def fast_amass_unpack():
     unpack_body_models(args.tardir, args.outdir, n_jobs=args.n, verify=args.verify)
 
 # Cell
+import random
 import math
 import numpy as np
 import torch
@@ -207,8 +208,8 @@ def viable_slice(cdata, keep):
 
 # Cell
 def npz_contents(npz_path, clip_length, overlapping, keep=0.8,
-                 keys=('poses', 'dmpls', 'trans', 'betas', 'gender'), shuffle=False):
-    assert shuffle == False, 'Shuffle not implemented'
+                 keys=('poses', 'dmpls', 'trans', 'betas', 'gender'), shuffle=False,
+                 seed=None):
     # cache this because we will often be accessing the same file multiple times
     cdata = np.load(npz_path)
 
@@ -223,9 +224,13 @@ def npz_contents(npz_path, clip_length, overlapping, keep=0.8,
             if i+clip_length < viable.stop:
                 yield slice(i, i+clip_length)
     # buffer the iterator and shuffle here, when implementing that
+    buf_clip_slices = [s for s in clip_slices(viable, clip_length, overlapping)]
+    if shuffle:
+        seed = seed if seed else random.randint(1e6)
+        random.Random(seed).shuffle(buf_clip_slices)
 
     # iterate over slices
-    for s in clip_slices(viable, clip_length, overlapping):
+    for s in buf_clip_slices:
         data = {}
         # unpack and enforce data type
         to_load = [k for k in ('poses', 'dmpls', 'trans') if k in keys]
@@ -248,16 +253,21 @@ def npz_contents(npz_path, clip_length, overlapping, keep=0.8,
 class AMASS(IterableDataset):
     def __init__(self, amass_location, clip_length, overlapping, keep=0.8,
                  transform=None,
-                 data_keys=('poses', 'dmpls', 'trans', 'betas', 'gender')):
+                 data_keys=('poses', 'dmpls', 'trans', 'betas', 'gender'),
+                 file_list_seed=0, shuffle=False, seed=None):
         self.transform = transform
         self.data_keys = data_keys
         self.amass_location = amass_location
         # these should be shuffled but pull shuffle argument out of dataloader worker arguments
-        self._npz_paths = tuple([npz_path for npz_path in npz_paths(amass_location)])
+        self._npz_paths = [npz_path for npz_path in npz_paths(amass_location)]
+        random.Random(file_list_seed).shuffle(self._npz_paths)
+        self._npz_paths = tuple(self._npz_paths)
         self.npz_paths = self._npz_paths
         self.clip_length = clip_length
         self.overlapping = overlapping
         self.keep = keep
+        self.shuffle = shuffle
+        self.seed = seed if seed else random.randint(0, 1e6)
 
     def infer_len(self, n_jobs=4):
         # uses known dimensions of the npz files in the AMASS dataset to infer the length
@@ -293,14 +303,21 @@ class AMASS(IterableDataset):
             return self.N
 
     def __iter__(self):
+        if self.shuffle:
+            self.npz_paths = list(self.npz_paths)
+            random.Random(self.seed).shuffle(self.npz_paths)
         for npz_path in self.npz_paths:
             for data in npz_contents(npz_path, self.clip_length,
-                                     self.overlapping, keep=self.keep):
+                                     self.overlapping, keep=self.keep,
+                                     shuffle=self.shuffle, seed=self.seed):
+                self.seed += 1 # increment to vary shuffle over files
                 yield {k:self.transform(data[k]) for k in data}
 
 # Cell
 def worker_init_fn(worker_id):
     worker_info = torch.utils.data.get_worker_info()
+
+    # slice up dataset among workers
     dataset = worker_info.dataset
     overall_npz_paths = dataset._npz_paths
     step = int(len(overall_npz_paths)/float(worker_info.num_workers))
@@ -312,4 +329,6 @@ def worker_init_fn(worker_id):
         if worker_idx == worker_info.id:
             worker_slice = slice(i, min(i+step, n+1))
     dataset.npz_paths = overall_npz_paths[worker_slice]
-    print('intializing ', worker_info, dataset.npz_paths)
+
+    # set each workers seed
+    dataset.seed = dataset.seed + worker_info.seed
