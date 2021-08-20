@@ -1,6 +1,7 @@
 {
   "llamass": {
     "Overview": "/",
-    "core": "core.html"
+    "core": "core.html",
+    "tqdm": "tqdm.html"
   }
 }

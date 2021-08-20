@@ -175,223 +175,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ProgressParallel" class="doc_header"><code>class</code> <code>ProgressParallel</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L120" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ProgressParallel</code>(<strong><code>n_jobs</code></strong>=<em><code>None</code></em>, <strong><code>backend</code></strong>=<em><code>None</code></em>, <strong><code>verbose</code></strong>=<em><code>0</code></em>, <strong><code>timeout</code></strong>=<em><code>None</code></em>, <strong><code>pre_dispatch</code></strong>=<em>`'2 </em> n_jobs'<code>*, **</code>batch_size<code>**=*</code>'auto'<code>*, **</code>temp_folder<code>**=*</code>None<code>*, **</code>max_nbytes<code>**=*</code>'1M'<code>*, **</code>mmap_mode<code>**=*</code>'r'<code>*, **</code>prefer<code>**=*</code>None<code>*, **</code>require<code>**=*</code>None<code>*) ::</code>Parallel`</p>
-</blockquote>
-<p>Helper class for readable parallel mapping.</p>
-<p>Read more in the :ref:<code>User Guide &lt;parallel&gt;</code>.</p>
-<h2 id="Parameters">Parameters<a class="anchor-link" href="#Parameters"> </a></h2><p>n_jobs: int, default: None
-    The maximum number of concurrently running jobs, such as the number
-    of Python worker processes when backend="multiprocessing"
-    or the size of the thread-pool when backend="threading".
-    If -1 all CPUs are used. If 1 is given, no parallel computing code
-    is used at all, which is useful for debugging. For n_jobs below -1,
-    (n_cpus + 1 + n_jobs) are used. Thus for n_jobs = -2, all
-    CPUs but one are used.
-    None is a marker for 'unset' that will be interpreted as n_jobs=1
-    (sequential execution) unless the call is performed under a
-    parallel_backend context manager that sets another value for
-    n_jobs.
-backend: str, ParallelBackendBase instance or None, default: 'loky'
-    Specify the parallelization backend implementation.
-    Supported backends are:</p>
-
-<pre><code>- "loky" used by default, can induce some
-  communication and memory overhead when exchanging input and
-  output data with the worker Python processes.
-- "multiprocessing" previous process-based backend based on
-  `multiprocessing.Pool`. Less robust than `loky`.
-- "threading" is a very low-overhead backend but it suffers
-  from the Python Global Interpreter Lock if the called function
-  relies a lot on Python objects. "threading" is mostly useful
-  when the execution bottleneck is a compiled extension that
-  explicitly releases the GIL (for instance a Cython loop wrapped
-  in a "with nogil" block or an expensive call to a library such
-  as NumPy).
-- finally, you can register backends by calling
-  register_parallel_backend. This will allow you to implement
-  a backend of your liking.
-
-It is not recommended to hard-code the backend name in a call to
-Parallel in a library. Instead it is recommended to set soft hints
-(prefer) or hard constraints (require) so as to make it possible
-for library users to change the backend from the outside using the
-parallel_backend context manager.
-</code></pre>
-<p>prefer: str in {'processes', 'threads'} or None, default: None
-    Soft hint to choose the default backend if no specific backend
-    was selected with the parallel_backend context manager. The
-    default process-based backend is 'loky' and the default
-    thread-based backend is 'threading'. Ignored if the <code>backend</code>
-    parameter is specified.
-require: 'sharedmem' or None, default None
-    Hard constraint to select the backend. If set to 'sharedmem',
-    the selected backend will be single-host and thread-based even
-    if the user asked for a non-thread based backend with
-    parallel_backend.
-verbose: int, optional
-    The verbosity level: if non zero, progress messages are
-    printed. Above 50, the output is sent to stdout.
-    The frequency of the messages increases with the verbosity level.
-    If it more than 10, all iterations are reported.
-timeout: float, optional
-    Timeout limit for each task to complete.  If any task takes longer
-    a TimeOutError will be raised. Only applied when n_jobs != 1
-pre_dispatch: {'all', integer, or expression, as in '3<em>n_jobs'}
-    The number of batches (of tasks) to be pre-dispatched.
-    Default is '2</em>n_jobs'. When batch_size="auto" this is reasonable
-    default and the workers should never starve.
-batch_size: int or 'auto', default: 'auto'
-    The number of atomic tasks to dispatch at once to each
-    worker. When individual evaluations are very fast, dispatching
-    calls to workers can be slower than sequential computation because
-    of the overhead. Batching fast computations together can mitigate
-    this.
-    The <code>'auto'</code> strategy keeps track of the time it takes for a batch
-    to complete, and dynamically adjusts the batch size to keep the time
-    on the order of half a second, using a heuristic. The initial batch
-    size is 1.
-    <code>batch_size="auto"</code> with <code>backend="threading"</code> will dispatch
-    batches of a single task at a time as the threading backend has
-    very little overhead and using larger batch size has not proved to
-    bring any gain in that case.
-temp_folder: str, optional
-    Folder to be used by the pool for memmapping large arrays
-    for sharing memory with worker processes. If None, this will try in
-    order:</p>
-
-<pre><code>- a folder pointed by the JOBLIB_TEMP_FOLDER environment
-  variable,
-- /dev/shm if the folder exists and is writable: this is a
-  RAM disk filesystem available by default on modern Linux
-  distributions,
-- the default system temporary folder that can be
-  overridden with TMP, TMPDIR or TEMP environment
-  variables, typically /tmp under Unix operating systems.
-
-Only active when backend="loky" or "multiprocessing".
-</code></pre>
-<p>max_nbytes int, str, or None, optional, 1M by default
-    Threshold on the size of arrays passed to the workers that
-    triggers automated memory mapping in temp_folder. Can be an int
-    in Bytes, or a human-readable string, e.g., '1M' for 1 megabyte.
-    Use None to disable memmapping of large arrays.
-    Only active when backend="loky" or "multiprocessing".
-mmap_mode: {None, 'r+', 'r', 'w+', 'c'}
-    Memmapping mode for numpy arrays passed to workers.
-    See 'max_nbytes' parameter documentation for more details.</p>
-<h2 id="Notes">Notes<a class="anchor-link" href="#Notes"> </a></h2><p>This object uses workers to compute in parallel the application of a
-function to many different arguments. The main functionality it brings
-in addition to using the raw multiprocessing or concurrent.futures API
-are (see examples for details):</p>
-<ul>
-<li><p>More readable code, in particular since it avoids
-constructing list of arguments.</p>
-</li>
-<li><p>Easier debugging:</p>
-<ul>
-<li>informative tracebacks even when the error happens on
-the client side</li>
-<li>using 'n_jobs=1' enables to turn off parallel computing
-for debugging without changing the codepath</li>
-<li>early capture of pickling errors</li>
-</ul>
-</li>
-<li><p>An optional progress meter.</p>
-</li>
-<li><p>Interruption of multiprocesses jobs with 'Ctrl-C'</p>
-</li>
-<li><p>Flexible pickling control for the communication to and from
-the worker processes.</p>
-</li>
-<li><p>Ability to use shared memory efficiently with worker
-processes for large numpy-based datastructures.</p>
-</li>
-</ul>
-<h2 id="Examples">Examples<a class="anchor-link" href="#Examples"> </a></h2><p>A simple example:</p>
-<blockquote><blockquote><blockquote><p>from math import sqrt
-from joblib import Parallel, delayed
-Parallel(n_jobs=1)(delayed(sqrt)(i**2) for i in range(10))
-[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Reshaping the output when the function has several return
-values:</p>
-<blockquote><blockquote><blockquote><p>from math import modf
-from joblib import Parallel, delayed
-r = Parallel(n_jobs=1)(delayed(modf)(i/2.) for i in range(10))
-res, i = zip(*r)
-res
-(0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5)
-i
-(0.0, 0.0, 1.0, 1.0, 2.0, 2.0, 3.0, 3.0, 4.0, 4.0)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>The progress meter: the higher the value of <code>verbose</code>, the more
-messages:</p>
-<blockquote><blockquote><blockquote><p>from time import sleep
-from joblib import Parallel, delayed
-r = Parallel(n<em>jobs=2, verbose=10)(delayed(sleep)(.2) for </em> in range(10)) #doctest: +SKIP
-[Parallel(n_jobs=2)]: Done   1 tasks      | elapsed:    0.6s
-[Parallel(n_jobs=2)]: Done   4 tasks      | elapsed:    0.8s
-[Parallel(n_jobs=2)]: Done  10 out of  10 | elapsed:    1.4s finished</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Traceback example, note how the line of the error is indicated
-as well as the values of the parameter passed to the function that
-triggered the exception, even though the traceback happens in the
-child process:</p>
-<blockquote><blockquote><blockquote><p>from heapq import nlargest
-from joblib import Parallel, delayed
-Parallel(n_jobs=2)(delayed(nlargest)(2, n) for n in (range(4), 'abcde', 3)) #doctest: +SKIP</p>
-<h1 id="...">...<a class="anchor-link" href="#..."> </a></h1><hr>
-<h2 id="Sub-process-traceback:">Sub-process traceback:<a class="anchor-link" href="#Sub-process-traceback:"> </a></h2><p>TypeError                                          Mon Nov 12 11:37:46 2012
-PID: 12934                                    Python 2.7.3: /usr/bin/python
-...........................................................................
-/usr/lib/python2.7/heapq.pyc in nlargest(n=2, iterable=3, key=None)
-    419         if n &gt;= size:
-    420             return sorted(iterable, key=key, reverse=True)[:n]
-    421
-    422     # When key is none, use simpler decoration
-    423     if key is None:
---&gt; 424         it = izip(iterable, count(0,-1))                    # decorate
-    425         result = _nlargest(n, it)
-    426         return map(itemgetter(0), result)                   # undecorate
-    427
-    428     # General case, slowest method
- TypeError: izip argument #1 must support iteration</p>
-<hr>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Using pre_dispatch in a producer/consumer situation, where the
-data is generated on the fly. Note how the producer is first
-called 3 times before the parallel loop is initiated, and then
-called to generate new data on the fly:</p>
-<blockquote><blockquote><blockquote><p>from math import sqrt
-from joblib import Parallel, delayed
-def producer():
-...     for i in range(6):
-...         print('Produced %s' % i)
-...         yield i
-out = Parallel(n_jobs=2, verbose=100, pre_dispatch='1.5*n_jobs')(
-...                delayed(sqrt)(i) for i in producer()) #doctest: +SKIP
-Produced 0
-Produced 1
-Produced 2
-[Parallel(n_jobs=2)]: Done 1 jobs     | elapsed:  0.0s
-Produced 3
-[Parallel(n_jobs=2)]: Done 2 jobs     | elapsed:  0.0s
-Produced 4
-[Parallel(n_jobs=2)]: Done 3 jobs     | elapsed:  0.0s
-Produced 5
-[Parallel(n_jobs=2)]: Done 4 jobs     | elapsed:  0.0s
-[Parallel(n_jobs=2)]: Done 6 out of 6 | elapsed:  0.0s remaining: 0.0s
-[Parallel(n_jobs=2)]: Done 6 out of 6 | elapsed:  0.0s finished</p>
-</blockquote>
-</blockquote>
+<h4 id="lazy_unpack" class="doc_header"><code>lazy_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>lazy_unpack</code>(<strong><code>tarpath</code></strong>, <strong><code>outdir</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -415,7 +199,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="lazy_unpack" class="doc_header"><code>lazy_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>lazy_unpack</code>(<strong><code>tarpath</code></strong>, <strong><code>outdir</code></strong>)</p>
+<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L144" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>verify</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -439,31 +223,7 @@ Produced 5
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L154" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>verify</code></strong>=<em><code>False</code></em>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L167" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
+<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L157" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
 </blockquote>
 
 </div>
@@ -490,17 +250,7 @@ Produced 5
 <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">unpack_archive</span>
 <span class="kn">import</span> <span class="nn">joblib</span>
 <span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
-
-
-<span class="k">class</span> <span class="nc">ProgressParallel</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">Parallel</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">])</span> <span class="k">as</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pbar</span><span class="p">:</span>
-            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">joblib</span><span class="o">.</span><span class="n">Parallel</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">print_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pbar</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_completed_tasks</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pbar</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">llamass.tqdm</span> <span class="kn">import</span> <span class="n">ProgressParallel</span>
 
 
 <span class="k">def</span> <span class="nf">lazy_unpack</span><span class="p">(</span><span class="n">tarpath</span><span class="p">,</span> <span class="n">outdir</span><span class="p">):</span>
@@ -628,7 +378,7 @@ Produced 5
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpof0t6x5z
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpdbyp2qx4
 </pre>
 </div>
 </div>
@@ -682,8 +432,8 @@ Produced 5
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
-sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp4z2mmuy2
+sample_data/sample.tar.bz2 extracting to /tmp/tmp4z2mmuy2
 </pre>
 </div>
 </div>
@@ -708,17 +458,6 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 </code></pre>
 <ol>
 <li>When running with <code>num_workers &gt; 0</code>, give each worker a different random set of <code>npz</code> files to load</li>
-</ol>
-<p>To do:</p>
-<ol>
-<li>Index all of the <code>npz</code> files that make up AMASS</li>
-<li>Make an IterableDataset<ol>
-<li>Modify sample data to contain more than one <code>npz</code> file</li>
-<li>Use buffered shuffling to randomise the data</li>
-</ol>
-</li>
-<li>Write data loader worker management, each worker should get a different subset of the files</li>
-<li>Print info when recomputing npz lens</li>
 </ol>
 
 </div>
@@ -767,11 +506,11 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpa3bh9uj0
-/tmp/tmpa3bh9uj0/sample/subdir/amass_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp0rix35zy
+/tmp/tmp0rix35zy/sample/subdir/amass_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (601, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (601, 85, 3)), (&#39;dmpls&#39;, (601, 8)), (&#39;marker_labels&#39;, (85,)), (&#39;trans&#39;, (601, 3))]
-/tmp/tmpa3bh9uj0/sample/subdir/dmpl_sample.npz
+/tmp/tmp0rix35zy/sample/subdir/dmpl_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (235, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (235, 67, 3)), (&#39;dmpls&#39;, (235, 8)), (&#39;marker_labels&#39;, (67,)), (&#39;trans&#39;, (235, 3))]
 </pre>
@@ -841,7 +580,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
+<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L197" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -899,9 +638,9 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpvl3q4ue0
-/tmp/tmpvl3q4ue0/sample/subdir/amass_sample.npz
-/tmp/tmpvl3q4ue0/sample/subdir/dmpl_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpqagvd5qq
+/tmp/tmpqagvd5qq/sample/subdir/amass_sample.npz
+/tmp/tmpqagvd5qq/sample/subdir/dmpl_sample.npz
 </pre>
 </div>
 </div>
@@ -928,11 +667,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gzip</span>
-<span class="kn">import</span> <span class="nn">json</span>
-
-
-<span class="k">def</span> <span class="nf">npz_len</span><span class="p">(</span><span class="n">npz_path</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">npz_len</span><span class="p">(</span><span class="n">npz_path</span><span class="p">):</span>
     <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">md5_file</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1010,7 +745,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L213" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1034,7 +769,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp0yv5jmce
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L218" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L210" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 <p>Inspects a dictionary loaded from <code>.npz</code> numpy dumps
 and creates a slice of the viable indexes.
@@ -1130,10 +865,10 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpgv1w0fle
-/tmp/tmpgv1w0fle/sample/subdir/amass_sample.npz
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpdj_u9vbv
+/tmp/tmpdj_u9vbv/sample/subdir/amass_sample.npz
    slice(60, 540, None)
-/tmp/tmpgv1w0fle/sample/subdir/dmpl_sample.npz
+/tmp/tmpdj_u9vbv/sample/subdir/dmpl_sample.npz
    slice(23, 211, None)
 </pre>
 </div>
@@ -1164,7 +899,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L242" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L234" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1278,13 +1013,13 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpw3qkdj_l
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpb3dtjwq6
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
-sample_data/sample.tar.bz2 extracting to /tmp/tmps564m4bu
+sample_data/sample.tar.bz2 extracting to /tmp/tmpxh5zi3_5
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
-sample_data/sample.tar.bz2 extracting to /tmp/tmpokdjnink
+sample_data/sample.tar.bz2 extracting to /tmp/tmpd0j3aeo8
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 </pre>
@@ -1315,7 +1050,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpokdjnink
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L296" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L288" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -1468,6 +1203,8 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
             <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">lenfile</span><span class="p">,</span> <span class="s2">&quot;rt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># if it&#39;s not there, recompute it and create the file</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inspecting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npz_paths</span><span class="p">)</span><span class="si">}</span><span class="s1"> files to determine dataset length&#39;</span>
+                  <span class="sa">f</span><span class="s1">&#39;, saving the result to </span><span class="si">{</span><span class="n">lenfile</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span> <span class="o">=</span> <span class="n">npz_lens</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">)</span>
             <span class="n">save_lens</span><span class="p">(</span><span class="n">lenfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span><span class="p">)</span>
 
@@ -1551,12 +1288,13 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp382vg838
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpymfjqx2r
 poses torch.Size([1, 156])
 dmpls torch.Size([1, 8])
 trans torch.Size([1, 3])
 betas torch.Size([1, 16])
 gender torch.Size([1])
+Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpymfjqx2r/npz_file_lens.json.gz
 668
 </pre>
 </div>
@@ -1603,7 +1341,7 @@ gender torch.Size([1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpg7pypnid
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpgokz1h3v
 poses torch.Size([4, 1, 156])
 dmpls torch.Size([4, 1, 8])
 trans torch.Size([4, 1, 3])
@@ -1637,7 +1375,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L373" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
+<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L367" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1721,7 +1459,7 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpj6ml7n01
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp2hysifv5
 poses torch.Size([4, 1, 156])
 dmpls torch.Size([4, 1, 8])
 trans torch.Size([4, 1, 3])
@@ -1766,22 +1504,6 @@ gender torch.Size([4, 1])
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(20.836694717407227, 0.20630390809314086, 3.5418369554712696)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1872,9 +1594,9 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpf6vr04es
-sample_data/sample.tar.bz2 extracting to /tmp/tmp6rvi458d
-sample_data/sample.tar.bz2 extracting to /tmp/tmpi40g9mq4
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpg9do_rcb
+sample_data/sample.tar.bz2 extracting to /tmp/tmpgxe682u1
+sample_data/sample.tar.bz2 extracting to /tmp/tmp4p8j4ozd
 </pre>
 </div>
 </div>
