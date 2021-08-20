@@ -116,3 +116,4 @@ To do:
 * Instructions on how to install the requirements for visualization
 * Augmentations pulled from original AMASS repo
 * Example train/test splits by unpacking different datasets to different locations
+* Update the colab notebook demonstrating visualization
