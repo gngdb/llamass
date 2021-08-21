@@ -79,7 +79,7 @@ import llamass.core
 llamass.core.unpack_body_models("sample_data/", unpacked_directory, 4)
 ```
 
-    sample_data/sample.tar.bz2 extracting to /tmp/tmpgwqr1443
+    sample_data/sample.tar.bz2 extracting to /tmp/tmpzua5zgez
 
 
 ### Download Metadata
@@ -102,6 +102,8 @@ Once the data is unpacked it can be loaded by a PyTorch DataLoader directly usin
 
 It is an [IterableDataset][] so it **cannot be shuffled by the DataLoader**. If `shuffle=True` the DataLoader will hit an error. However, the `AMASS` class itself implements shuffling and it can be enabled using `shuffle=True` at initialisation.
 
+Also, in order to use more than one worker it is necessary to use the provided `worker_init_fn` in the DataLoader:
+
 [iterabledataset]: https://pytorch.org/docs/stable/data.html#iterable-style-datasets
 
 ```python
@@ -119,7 +121,7 @@ amass = llamass.core.AMASS(
 ```
 
 ```python
-amassloader = DataLoader(amass, batch_size=4)
+amassloader = DataLoader(amass, batch_size=4, num_workers=2, worker_init_fn=llamass.core.worker_init_fn)
 
 for data in amassloader:
     for k in data:

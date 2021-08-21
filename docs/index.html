@@ -107,7 +107,7 @@ os.environ["PYOPENGL_PLATFORM"] = "egl"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpgwqr1443
+<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpzua5zgez
 </pre>
 </div>
 </div>
@@ -137,6 +137,7 @@ os.environ["PYOPENGL_PLATFORM"] = "egl"
 <li><code>transform</code>: a transformation function apply to all fields</li>
 </ul>
 <p>It is an <a href="https://pytorch.org/docs/stable/data.html#iterable-style-datasets">IterableDataset</a> so it <strong>cannot be shuffled by the DataLoader</strong>. If <code>shuffle=True</code> the DataLoader will hit an error. However, the <a href="/llamass/core.html#AMASS"><code>AMASS</code></a> class itself implements shuffling and it can be enabled using <code>shuffle=True</code> at initialisation.</p>
+<p>Also, in order to use more than one worker it is necessary to use the provided <a href="/llamass/core.html#worker_init_fn"><code>worker_init_fn</code></a> in the DataLoader:</p>
 
 </div>
 </div>
@@ -175,7 +176,7 @@ os.environ["PYOPENGL_PLATFORM"] = "egl"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">amassloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">amassloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">llamass</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">worker_init_fn</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">amassloader</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
