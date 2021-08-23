@@ -145,3 +145,4 @@ To do:
 * Augmentations pulled from original AMASS repo
 * Example train/test splits by unpacking different datasets to different locations
 * Update and link the colab notebook demonstrating visualization
+* Disable CI?

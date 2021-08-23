@@ -460,6 +460,7 @@ def console_split_dirs():
 # Cell
 import dataflow as td
 
+
 def write_to_lmdb(dataset, batch_size, num_workers=0, prefetch_factor=4):
     overlapping = 'overlapping' if dataset.overlapping else 'separated'
     db_filename = f'amass-{dataset.clip_length}-{overlapping}.lmdb'
@@ -488,18 +489,21 @@ def write_to_lmdb(dataset, batch_size, num_workers=0, prefetch_factor=4):
 
 class AMASSdb(IterableDataset):
     def __init__(self, db_loc, transform, shuffle=False, num_workers=0, cache=None):
-        assert shuffle == False, 'Shuffling not implemented'
         self.ds = td.LMDBData(db_loc, shuffle=False)
         if shuffle:
-            assert cache is not None
+            assert cache is not None, 'Sequential reads must be cached to shuffle'
             self.ds = td.LocallyShuffleData(self.ds, cache)
         # data loading function
         def f(x):
             data = td.LMDBSerializer._deserialize_lmdb(x)
             return transform(data)
-        # ds = td.MultiProcessMapDataZMQ(ds, num_proc=num_workers, map_func=f)
+
         if num_workers > 0:
+            # unsure which of these is preferred
+            # self.ds = td.MultiProcessMapDataZMQ(self.ds, num_proc=num_workers, map_func=f)
             self.ds = td.MultiThreadMapData(self.ds, num_thread=num_workers, map_func=f)
+        else:
+            self.ds = td.MapData(self.ds, f)
 
         # store number of workers
         self.num_workers = num_workers
