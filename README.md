@@ -61,7 +61,7 @@ The [AMASS website][amass] provides links to download the various parts of the A
 
 ### Unpacking the data
 
-After installing `llamass` a console script is provided to unpack the `tar.bz2` files downloaded from the [AMASS][] website:
+After installing `llamass`, it provides a console script to unpack the `tar.bz2` files downloaded from the [AMASS][] website:
 
 ```
 fast_amass_unpack -n 4 --verify <dir with .tar.bz2 files> <dir to save unpacked data>
@@ -79,7 +79,7 @@ import llamass.core
 llamass.core.unpack_body_models("sample_data/", unpacked_directory, 4)
 ```
 
-    sample_data/sample.tar.bz2 extracting to /tmp/tmpzua5zgez
+    sample_data/sample.tar.bz2 extracting to /tmp/tmp7e_hb9we
 
 
 ### Download Metadata
@@ -92,6 +92,10 @@ Save 5 minutes by downloading it from this repository:
 wget https://github.com/gngdb/llamass/raw/master/npz_file_lens.json.gz -P <dir to save unpacked data>
 ```
 
+### Train/val/test Split
+
+details of script for splits goes here
+
 ### Using the data
 
 Once the data is unpacked it can be loaded by a PyTorch DataLoader directly using the `llamass.core.AMASS` Dataset class.
@@ -102,7 +106,7 @@ Once the data is unpacked it can be loaded by a PyTorch DataLoader directly usin
 
 It is an [IterableDataset][] so it **cannot be shuffled by the DataLoader**. If `shuffle=True` the DataLoader will hit an error. However, the `AMASS` class itself implements shuffling and it can be enabled using `shuffle=True` at initialisation.
 
-Also, in order to use more than one worker it is necessary to use the provided `worker_init_fn` in the DataLoader:
+Also, in order to use more than one worker it is necessary to use the provided `worker_init_fn` in the DataLoader. This can also be accessed by using `llamass.core.IterableLoader` in place of `DataLoader`, and this is safer because using `DataLoader` without `worker_init_fn` will yield duplicate data when workers load from the same files.
 
 [iterabledataset]: https://pytorch.org/docs/stable/data.html#iterable-style-datasets
 
@@ -121,7 +125,9 @@ amass = llamass.core.AMASS(
 ```
 
 ```python
+# these are equivalent
 amassloader = DataLoader(amass, batch_size=4, num_workers=2, worker_init_fn=llamass.core.worker_init_fn)
+amassloader = llamass.core.IterableLoader(amass, batch_size=4, num_workers=2)
 
 for data in amassloader:
     for k in data:
@@ -145,4 +151,6 @@ To do:
 * Augmentations pulled from original AMASS repo
 * Example train/test splits by unpacking different datasets to different locations
 * Update and link the colab notebook demonstrating visualization
-* Disable CI?
+* ~~Disable CI?~~
+* How to use LMDB for accelerated loading
+    * Note about install: `!sudo apt-get install build-essential libcap-dev`

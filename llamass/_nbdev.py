@@ -19,6 +19,7 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "npz_contents": "00_core.ipynb",
          "AMASS": "00_core.ipynb",
          "worker_init_fn": "00_core.ipynb",
+         "IterableLoader": "00_core.ipynb",
          "amass_splits": "00_core.ipynb",
          "move_dirs_into_splits": "00_core.ipynb",
          "move_dirs_out_of_splits": "00_core.ipynb",
@@ -27,10 +28,14 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "AMASSdb": "00_core.ipynb",
          "amass_to_lmdb": "00_core.ipynb",
          "console_amass_to_lmdb": "00_core.ipynb",
-         "ProgressParallel": "01_tqdm.ipynb"}
+         "ProgressParallel": "01_tqdm.ipynb",
+         "calculate_stats": "02_features.ipynb",
+         "stats_for_paths": "02_features.ipynb",
+         "jsonize": "02_features.ipynb"}
 
 modules = ["core.py",
-           "tqdm.py"]
+           "tqdm.py",
+           "features.py"]
 
 doc_url = "https://gra.ygav.in/llamass/"
 

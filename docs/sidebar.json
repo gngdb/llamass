@@ -2,6 +2,7 @@
   "llamass": {
     "Overview": "/",
     "core": "core.html",
-    "tqdm": "tqdm.html"
+    "tqdm": "tqdm.html",
+    "Feature Statistics": "features.html"
   }
 }

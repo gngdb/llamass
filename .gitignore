@@ -144,3 +144,9 @@ sample_data/sample
 
 # ignore examples directly unless explicitly overrided
 examples
+
+# ignore generated graphs
+images/features
+
+# ignore large file of statistics
+npz_stats.json.gz

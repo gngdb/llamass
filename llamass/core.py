@@ -2,9 +2,9 @@
 
 __all__ = ['md5_update_from_file', 'md5_file', 'md5_update_from_dir', 'md5_dir', 'hashes', 'lazy_unpack',
            'unpack_body_models', 'fast_amass_unpack', 'npz_paths', 'npz_len', 'npz_lens', 'save_lens', 'keep_slice',
-           'viable_slice', 'npz_contents', 'AMASS', 'worker_init_fn', 'amass_splits', 'move_dirs_into_splits',
-           'move_dirs_out_of_splits', 'console_split_dirs', 'write_to_lmdb', 'AMASSdb', 'amass_to_lmdb',
-           'console_amass_to_lmdb']
+           'viable_slice', 'npz_contents', 'AMASS', 'worker_init_fn', 'IterableLoader', 'amass_splits',
+           'move_dirs_into_splits', 'move_dirs_out_of_splits', 'console_split_dirs', 'write_to_lmdb', 'AMASSdb',
+           'amass_to_lmdb', 'console_amass_to_lmdb']
 
 # Cell
 # https://stackoverflow.com/a/54477583/6937913
@@ -208,8 +208,13 @@ def npz_paths(npz_directory):
 def npz_len(npz_path):
     cdata = np.load(npz_path)
     h = md5_file(npz_path)
-    return (h, cdata["poses"].shape[0])
-
+    dirs = [hashes[h]['unpacks_to'] for h in hashes]
+    m = []
+    for p in Path(npz_path).parents:
+        m += [d for d in dirs if p.name == d]
+    assert len(m) == 1, f"Subdir of {npz_path} contains two of {dirs}"
+    subdir = m[0]
+    return subdir, h, cdata["poses"].shape[0]
 
 def npz_lens(unpacked_directory, n_jobs):
     paths = [p for p in npz_paths(unpacked_directory)]
@@ -217,14 +222,12 @@ def npz_lens(unpacked_directory, n_jobs):
         [joblib.delayed(npz_len)(npz_path) for npz_path in paths], total=len(paths)
     )
 
-
 def save_lens(save_path, npz_file_lens):
     with gzip.open(save_path, "wt") as f:
         f.write(json.dumps(npz_file_lens))
 
-
-# npz_file_lens = npz_lens('/nobackup/gngdb/repos/amass/data', 10)
-# save_lens('npz_file_lens.json.gz', npz_file_lens)
+#npz_file_lens = npz_lens('/nobackup/gngdb/repos/amass/data', 10)
+#save_lens('npz_file_lens.json.gz', npz_file_lens)
 
 # Cell
 def keep_slice(n, keep):
@@ -345,6 +348,12 @@ class AMASS(IterableDataset):
         if lenfile.exists():
             with gzip.open(lenfile, "rt") as f:
                 self.npz_lens = json.load(f)
+                def filter_lens(npz_lens):
+                    # filter out file length information to only existing dirs
+                    datasets = [p for p in Path(self.amass_location).glob('*') if p.is_dir()]
+                    return [(p, h, l) for p, h, l in npz_lens
+                            if p in datasets]
+                self.npz_lens = filter_lens(self.npz_lens)
         else:  # if it's not there, recompute it and create the file
             print(f'Inspecting {len(self.npz_paths)} files to determine dataset length'
                   f', saving the result to {lenfile}')
@@ -359,7 +368,7 @@ class AMASS(IterableDataset):
                 return math.floor((s.stop - s.start) / self.clip_length)
 
         N = 0
-        for h, l in self.npz_lens:
+        for p, h, l in self.npz_lens:
             s = keep_slice(l, keep=self.keep)
             N += lenslice(s)
 
@@ -408,6 +417,11 @@ def worker_init_fn(worker_id):
 
     # set each workers seed
     dataset.seed = dataset.seed + worker_info.seed
+
+class IterableLoader(DataLoader):
+    def __init__(self, *args, **kwargs):
+        kwargs['worker_init_fn'] = worker_init_fn
+        super().__init__(*args, **kwargs)
 
 # Cell
 amass_splits = {
