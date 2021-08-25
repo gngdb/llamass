@@ -172,7 +172,7 @@ def fast_amass_unpack():
     )
     parser.add_argument(
         "--verify",
-        type="store_true",
+        action="store_true",
         help="Verify the output by calculating a checksum, "
         "ensures that each tar file will only be unpacked once.",
     )
