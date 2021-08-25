@@ -29,6 +29,22 @@ nb_path: "02_features.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I'm going to put some figures in here about the features statistics. I want to check that features don't have zero variance.</p>
+<p>The features are the numpy arrays named <code>poses</code> in each <code>.npz</code> archive. It is a sequence of 3D <a href="https://en.wikipedia.org/wiki/Euler_angles">euler angles</a> referring to both hand and body joints.</p>
+
+<pre><code>'root_orient': data['poses'][:, :3],   # controls the global root orientation
+'pose_body':   data['poses'][:, 3:66], # controls the body
+'pose_hand':   data['poses'][:, 66:],  # controls finger articulation</code></pre>
+<p>I do not know which joints are at what index in this pose vector.</p>
+<p>I have concatenated the global body translation array to this because together they are sufficient to describe the pose:</p>
+
+<pre><code>'trans': data['trans'],                # controls global body position</code></pre>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -256,6 +272,23 @@ nb_path: "02_features.ipynb"
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 </div>
  
 
