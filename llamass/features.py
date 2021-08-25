@@ -14,7 +14,7 @@ from .tqdm import ProgressParallel
 def calculate_stats(npz_path):
     data = np.load(npz_path)
     pose = np.concatenate([data['poses'], data['trans']], axis=1)
-    return npz_path, (np.mean(pose, 0), np.std(pose, 0))
+    return npz_path, (np.mean(pose, 0), np.std(pose, 0), pose.shape[0])
 
 def stats_for_paths(unpacked_directory, n_jobs):
     paths = [p for p in llamass.core.npz_paths(unpacked_directory)]
@@ -24,3 +24,6 @@ def stats_for_paths(unpacked_directory, n_jobs):
 
 def jsonize(stats):
     return [(p, (list(m), list(s))) for p, (m, s) in stats]
+
+#amass_loc = '/nobackup/gngdb/repos/amass/data'
+#stats = stats_for_paths(amass_loc, 8)

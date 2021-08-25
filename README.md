@@ -73,7 +73,7 @@ Alternatively, this can be access in the library using the `llamass.core.unpack_
 
 [amass]: https://amass.is.tue.mpg.de/index.html
 
-```python
+```
 import llamass.core
 
 llamass.core.unpack_body_models("sample_data/", unpacked_directory, 4)
@@ -110,7 +110,7 @@ Also, in order to use more than one worker it is necessary to use the provided `
 
 [iterabledataset]: https://pytorch.org/docs/stable/data.html#iterable-style-datasets
 
-```python
+```
 import torch
 from torch.utils.data import DataLoader
 
@@ -124,7 +124,7 @@ amass = llamass.core.AMASS(
 )
 ```
 
-```python
+```
 # these are equivalent
 amassloader = DataLoader(amass, batch_size=4, num_workers=2, worker_init_fn=llamass.core.worker_init_fn)
 amassloader = llamass.core.IterableLoader(amass, batch_size=4, num_workers=2)
