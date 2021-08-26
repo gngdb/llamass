@@ -1,6 +1,12 @@
 # llamass
-> A Light Loader for the [AMASS dataset][amass] to make downloading and training on it easier.
+> LLAMASS is Loader for the AMASS dataset
 
+
+## Motivation
+
+I'm writing this to use in a project working with pose data to train models on the [AMASS dataset][amass]. I wanted to be able to install it in colab notebooks and elsewhere easily. Hopefully it's also useful for other people but be aware this is research code so not necessarily reliable.
+
+[amass]: https://amass.is.tue.mpg.de/
 
 ## Badges
 

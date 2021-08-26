@@ -503,10 +503,12 @@ def write_to_lmdb(dataset, batch_size, num_workers=0, prefetch_factor=4):
 
 class AMASSdb(IterableDataset):
     def __init__(self, db_loc, transform, shuffle=False, num_workers=0, cache=None):
-        self.ds = td.LMDBData(db_loc, shuffle=False)
+        self.lmdb = td.LMDBData(db_loc, shuffle=False)
         if shuffle:
             assert cache is not None, 'Sequential reads must be cached to shuffle'
-            self.ds = td.LocallyShuffleData(self.ds, cache)
+            self.ds = td.LocallyShuffleData(self.lmdb, cache)
+        else:
+            self.ds = self.lmdb
         # data loading function
         def f(x):
             data = td.LMDBSerializer._deserialize_lmdb(x)
@@ -541,6 +543,12 @@ class AMASSdb(IterableDataset):
     def __iter__(self):
         self.i = 0
         return self
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.lmdb._close_lmdb(self)
 
 # Cell
 def amass_to_lmdb(unpacked_dir, batch_size, num_workers, overlapping=False, clip_length=1):
