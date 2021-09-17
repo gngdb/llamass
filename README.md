@@ -22,6 +22,16 @@ I'm writing this to use in a project working with pose data to train models on t
 
 Before using the AMASS dataset I'm expected to sign up to the license agreeement [here][amass]. This package doesn't require any other code from MPI but visualization of pose data does, see below.
 
+### Requirements
+
+My fork of [tensorpack's dataflow][dataflow] is required, it's used to run the accelerated LMDB DataLoader:
+
+```
+pip install dataflow@git+https://github.com/gngdb/dataflow@c09a4e85cabcec#egg=dataflow
+```
+
+Other requirements are handled by pip.
+
 ### Install with pip
 
 Requirements are handled by pip during the install but in a new environment I would install [pytorch][]
@@ -37,6 +47,7 @@ There are demos for plotting available in the [amass repo][amassdemo] and in the
 pip install git+https://github.com/gngdb/gaitplotlib.git
 ```
 
+[dataflow]: https://github.com/tensorpack/dataflow
 [gaitplotlib]: https://github.com/gngdb/gaitplotlib
 [amassdemo]: https://github.com/nghorbani/amass/tree/master/notebooks
 [smplxdemo]: https://github.com/vchoutas/smplx/blob/master/examples/demo.py
@@ -194,7 +205,6 @@ animloc = Path(unpacked_directory)/'anim'
 animloc.mkdir(exist_ok=True)
 
 def get_frame(i, frameloc=animloc/'frame.jpeg'):
-    #frameloc = animloc/'frame.jpeg'
     plot_pose(i, save_to=frameloc)
     return media.read_image(frameloc)    
 img_arr = get_frame(0)

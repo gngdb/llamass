@@ -53,6 +53,10 @@ nb_path: "index.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="License-Agreement">License Agreement<a class="anchor-link" href="#License-Agreement"> </a></h3><p>Before using the AMASS dataset I'm expected to sign up to the license agreeement <a href="https://amass.is.tue.mpg.de/index.html">here</a>. This package doesn't require any other code from MPI but visualization of pose data does, see below.</p>
+<h3 id="Requirements">Requirements<a class="anchor-link" href="#Requirements"> </a></h3><p>My fork of <a href="https://github.com/tensorpack/dataflow">tensorpack's dataflow</a> is required, it's used to run the accelerated LMDB DataLoader:</p>
+
+<pre><code>pip install dataflow@git+https://github.com/gngdb/dataflow@c09a4e85cabcec#egg=dataflow</code></pre>
+<p>Other requirements are handled by pip.</p>
 <h3 id="Install-with-pip">Install with pip<a class="anchor-link" href="#Install-with-pip"> </a></h3><p>Requirements are handled by pip during the install but in a new environment I would install <a href="https://pytorch.org/get-started/locally/">pytorch</a>
 first to configure cuda as required for the system.</p>
 <p><code>pip install llamass</code></p>
@@ -316,7 +320,6 @@ gender torch.Size([4, 1])
 <span class="n">animloc</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">get_frame</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">frameloc</span><span class="o">=</span><span class="n">animloc</span><span class="o">/</span><span class="s1">&#39;frame.jpeg&#39;</span><span class="p">):</span>
-    <span class="c1">#frameloc = animloc/&#39;frame.jpeg&#39;</span>
     <span class="n">plot_pose</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">save_to</span><span class="o">=</span><span class="n">frameloc</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">media</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="n">frameloc</span><span class="p">)</span>    
 <span class="n">img_arr</span> <span class="o">=</span> <span class="n">get_frame</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
