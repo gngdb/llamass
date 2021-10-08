@@ -361,14 +361,13 @@ gender torch.Size([4, 1])
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="To-do">To do<a class="anchor-link" href="#To-do"> </a></h2><p>To do:</p>
 <ul>
-<li><del>Add visualisation example</del></li>
-<li><del>Add step in setup above to wget the file lengths</del></li>
-<li><del>Instructions on how to install the requirements for visualization</del></li>
-<li>Augmentations pulled from original AMASS repo</li>
+<li>Augmentations pulled from <a href="https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/data/prepare_data.py">the AMASS loader in human_body_prior</a></li>
+<li>Save only poses and root orientation to pytorch tensor files for each sub-dataset and load each into memory in sequence, as VPoser did, as a post-processing option<ul>
+<li>Test iteration speed against LMDB</li>
+</ul>
+</li>
 <li>Example train/test splits by unpacking different datasets to different locations</li>
-<li><del>Update colab notebook demonstrating visualization</del></li>
 <li>Link colab notebook demonstrating visualization</li>
-<li><del>Disable CI?</del></li>
 <li>How to use LMDB for accelerated loading<ul>
 <li>Note about install: <code>!sudo apt-get install build-essential libcap-dev</code></li>
 </ul>

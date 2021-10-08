@@ -228,13 +228,10 @@ media.show_video(video, codec='gif')
 
 To do:
 
-* ~~Add visualisation example~~
-* ~~Add step in setup above to wget the file lengths~~
-* ~~Instructions on how to install the requirements for visualization~~
-* Augmentations pulled from original AMASS repo
+* Augmentations pulled from [the AMASS loader in human_body_prior](https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/data/prepare_data.py)
+* Save only poses and root orientation to pytorch tensor files for each sub-dataset and load each into memory in sequence, as VPoser did, as a post-processing option
+    - Test iteration speed against LMDB
 * Example train/test splits by unpacking different datasets to different locations
-* ~~Update colab notebook demonstrating visualization~~
 * Link colab notebook demonstrating visualization
-* ~~Disable CI?~~
 * How to use LMDB for accelerated loading
     * Note about install: `!sudo apt-get install build-essential libcap-dev`
