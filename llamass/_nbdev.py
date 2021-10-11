@@ -31,11 +31,25 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "ProgressParallel": "01_tqdm.ipynb",
          "calculate_stats": "02_features.ipynb",
          "stats_for_paths": "02_features.ipynb",
-         "jsonize": "02_features.ipynb"}
+         "jsonize": "02_features.ipynb",
+         "rotation_matrix_to_angle_axis": "03_transforms.ipynb",
+         "rotation_matrix_to_quaternion": "03_transforms.ipynb",
+         "quaternion_to_angle_axis": "03_transforms.ipynb",
+         "angle_axis_to_rotation_matrix": "03_transforms.ipynb",
+         "Rotation": "03_transforms.ipynb",
+         "scipy_aa_to_euler": "03_transforms.ipynb",
+         "scipy_euler_to_aa": "03_transforms.ipynb",
+         "aa_cosine": "05_losses.ipynb",
+         "GeodesicLossR": "05_losses.ipynb",
+         "vposer_likelihood": "05_losses.ipynb",
+         "discretize": "05_losses.ipynb",
+         "DiscretizedEulerLoss": "05_losses.ipynb"}
 
 modules = ["core.py",
            "tqdm.py",
-           "features.py"]
+           "features.py",
+           "transforms.py",
+           "losses.py"]
 
 doc_url = "https://gra.ygav.in/llamass/"
 

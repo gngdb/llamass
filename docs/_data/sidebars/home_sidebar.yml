@@ -18,6 +18,12 @@ entries:
     - output: web,pdf
       title: Feature Statistics
       url: features.html
+    - output: web,pdf
+      title: Transforms
+      url: transforms.html
+    - output: web,pdf
+      title: Losses
+      url: losses.html
     output: web
     title: llamass
   output: web
