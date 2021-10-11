@@ -350,7 +350,7 @@ class AMASS(IterableDataset):
                 self.npz_lens = json.load(f)
                 def filter_lens(npz_lens):
                     # filter out file length information to only existing dirs
-                    datasets = [p for p in Path(self.amass_location).glob('*') if p.is_dir()]
+                    datasets = [p.name for p in Path(self.amass_location).glob('*') if p.is_dir()]
                     return [(p, h, l) for p, h, l in npz_lens
                             if p in datasets]
                 self.npz_lens = filter_lens(self.npz_lens)
