@@ -395,7 +395,7 @@ class AMASS(IterableDataset):
                 seed=self.seed,
             ):
                 self.seed += 1  # increment to vary shuffle over files
-                yield {k: self.transform(data[k]) for k in data}
+                yield {k: self.transform(data[k]) for k in data if k in self.data_keys}
 
 # Cell
 def worker_init_fn(worker_id):
