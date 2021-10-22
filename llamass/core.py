@@ -326,6 +326,7 @@ class AMASS(IterableDataset):
         shuffle=False,
         seed=None,
     ):
+        assert clip_length > 0 and type(clip_length) is int
         self.transform = transform
         self.data_keys = data_keys
         self.amass_location = amass_location
