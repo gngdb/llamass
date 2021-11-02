@@ -41,9 +41,16 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "scipy_euler_to_aa": "03_transforms.ipynb",
          "aa_cosine": "05_losses.ipynb",
          "GeodesicLossR": "05_losses.ipynb",
-         "vposer_likelihood": "05_losses.ipynb",
+         "ContinuousRotReprDecoder": "05_losses.ipynb",
+         "ForwardKinematicLoss": "05_losses.ipynb",
+         "VPoserLikelihood": "05_losses.ipynb",
          "discretize": "05_losses.ipynb",
-         "DiscretizedEulerLoss": "05_losses.ipynb"}
+         "DiscretizedEulerLoss": "05_losses.ipynb",
+         "euler_angle_mse": "05_losses.ipynb",
+         "GeodesicLossSPL": "05_losses.ipynb",
+         "PositionalLossSPL": "05_losses.ipynb",
+         "PCK_SPL": "05_losses.ipynb",
+         "all_univariate_tensors_in": "05_losses.ipynb"}
 
 modules = ["core.py",
            "tqdm.py",

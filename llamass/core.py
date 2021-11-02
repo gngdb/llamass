@@ -143,12 +143,13 @@ def lazy_unpack(tarpath, outdir):
             f.write(h)
 
 
-def unpack_body_models(tardir, outdir, n_jobs=1, verify=False):
+def unpack_body_models(tardir, outdir, n_jobs=1, verify=False, verbose=False):
     tar_root, _, tarfiles = [x for x in os.walk(tardir)][0]
     tarfiles = [x for x in tarfiles if "tar" in x.split(".")]
     tarpaths = [os.path.join(tar_root, tar) for tar in tarfiles]
     for tarpath in tarpaths:
-        print(f"{tarpath} extracting to {outdir}")
+        if verbose:
+            print(f"{tarpath} extracting to {outdir}")
     unpack = lazy_unpack if verify else unpack_archive
     ProgressParallel(n_jobs=n_jobs)(
         (joblib.delayed(unpack)(tarpath, outdir) for tarpath in tarpaths),

@@ -199,7 +199,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L146" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>verify</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="unpack_body_models" class="doc_header"><code>unpack_body_models</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L146" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpack_body_models</code>(<strong><code>tardir</code></strong>, <strong><code>outdir</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>verify</code></strong>=<em><code>False</code></em>, <strong><code>verbose</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -223,7 +223,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L159" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
+<h4 id="fast_amass_unpack" class="doc_header"><code>fast_amass_unpack</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L160" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fast_amass_unpack</code>()</p>
 </blockquote>
 
 </div>
@@ -276,12 +276,13 @@ nb_path: "00_core.ipynb"
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">unpack_body_models</span><span class="p">(</span><span class="n">tardir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">unpack_body_models</span><span class="p">(</span><span class="n">tardir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">tar_root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tarfiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tardir</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">tarfiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tarfiles</span> <span class="k">if</span> <span class="s2">&quot;tar&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]</span>
     <span class="n">tarpaths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tar_root</span><span class="p">,</span> <span class="n">tar</span><span class="p">)</span> <span class="k">for</span> <span class="n">tar</span> <span class="ow">in</span> <span class="n">tarfiles</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">tarpath</span> <span class="ow">in</span> <span class="n">tarpaths</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tarpath</span><span class="si">}</span><span class="s2"> extracting to </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tarpath</span><span class="si">}</span><span class="s2"> extracting to </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">unpack</span> <span class="o">=</span> <span class="n">lazy_unpack</span> <span class="k">if</span> <span class="n">verify</span> <span class="k">else</span> <span class="n">unpack_archive</span>
     <span class="n">ProgressParallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)(</span>
         <span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">unpack</span><span class="p">)(</span><span class="n">tarpath</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">tarpath</span> <span class="ow">in</span> <span class="n">tarpaths</span><span class="p">),</span>
@@ -372,20 +373,6 @@ nb_path: "00_core.ipynb"
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpn_e4ilpl
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -423,21 +410,6 @@ nb_path: "00_core.ipynb"
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
-sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -506,11 +478,10 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpf0nsibq_
-/tmp/tmpf0nsibq_/sample/subdir/amass_sample.npz
+<pre>/tmp/tmpy2z2kcxu/sample/subdir/amass_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (601, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (601, 85, 3)), (&#39;dmpls&#39;, (601, 8)), (&#39;marker_labels&#39;, (85,)), (&#39;trans&#39;, (601, 3))]
-/tmp/tmpf0nsibq_/sample/subdir/dmpl_sample.npz
+/tmp/tmpy2z2kcxu/sample/subdir/dmpl_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (235, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (235, 67, 3)), (&#39;dmpls&#39;, (235, 8)), (&#39;marker_labels&#39;, (67,)), (&#39;trans&#39;, (235, 3))]
 </pre>
@@ -580,7 +551,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L200" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
+<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L201" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -638,9 +609,8 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpodzp8bmk
-/tmp/tmpodzp8bmk/sample/subdir/amass_sample.npz
-/tmp/tmpodzp8bmk/sample/subdir/dmpl_sample.npz
+<pre>/tmp/tmp6ifuniw0/sample/subdir/amass_sample.npz
+/tmp/tmp6ifuniw0/sample/subdir/dmpl_sample.npz
 </pre>
 </div>
 </div>
@@ -671,7 +641,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_len" class="doc_header"><code>npz_len</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L208" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_len</code>(<strong><code>npz_path</code></strong>)</p>
+<h4 id="npz_len" class="doc_header"><code>npz_len</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L209" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_len</code>(<strong><code>npz_path</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -695,7 +665,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_lens" class="doc_header"><code>npz_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_lens</code>(<strong><code>unpacked_directory</code></strong>, <strong><code>n_jobs</code></strong>)</p>
+<h4 id="npz_lens" class="doc_header"><code>npz_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L220" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_lens</code>(<strong><code>unpacked_directory</code></strong>, <strong><code>n_jobs</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -719,7 +689,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="save_lens" class="doc_header"><code>save_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L225" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_lens</code>(<strong><code>save_path</code></strong>, <strong><code>npz_file_lens</code></strong>)</p>
+<h4 id="save_lens" class="doc_header"><code>save_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L226" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_lens</code>(<strong><code>save_path</code></strong>, <strong><code>npz_file_lens</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -820,7 +790,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L233" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L234" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -844,7 +814,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmp1bcv27ja
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L238" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L239" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 <p>Inspects a dictionary loaded from <code>.npz</code> numpy dumps
 and creates a slice of the viable indexes.
@@ -940,10 +910,9 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmppghfjyln
-/tmp/tmppghfjyln/sample/subdir/amass_sample.npz
+<pre>/tmp/tmpyu7ugpo1/sample/subdir/amass_sample.npz
    slice(60, 540, None)
-/tmp/tmppghfjyln/sample/subdir/dmpl_sample.npz
+/tmp/tmpyu7ugpo1/sample/subdir/dmpl_sample.npz
    slice(23, 211, None)
 </pre>
 </div>
@@ -974,7 +943,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L262" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L263" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1088,13 +1057,10 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpjjrrlleg
+<pre>[(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
-[(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
-sample_data/sample.tar.bz2 extracting to /tmp/tmpx2h8a_24
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
-sample_data/sample.tar.bz2 extracting to /tmp/tmpirxspliv
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 [(&#39;poses&#39;, (3, 156)), (&#39;dmpls&#39;, (3, 8)), (&#39;trans&#39;, (3, 3)), (&#39;betas&#39;, (3, 16)), (&#39;gender&#39;, (3,))]
 </pre>
@@ -1139,7 +1105,9 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpirxspliv
 <div class="output_text output_subarea output_execute_result">
 <pre>[Path(&#39;/nobackup/gngdb/repos/amass/data/val&#39;),
  Path(&#39;/nobackup/gngdb/repos/amass/data/test&#39;),
- Path(&#39;/nobackup/gngdb/repos/amass/data/train&#39;)]</pre>
+ Path(&#39;/nobackup/gngdb/repos/amass/data/train&#39;),
+ Path(&#39;/nobackup/gngdb/repos/amass/data/train_subset&#39;),
+ Path(&#39;/nobackup/gngdb/repos/amass/data/val_subset&#39;)]</pre>
 </div>
 
 </div>
@@ -1161,7 +1129,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpirxspliv
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L316" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L317" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -1282,7 +1250,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">amass_location</span><span class="p">,</span>
-        <span class="n">clip_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">clip_length</span><span class="p">,</span>
         <span class="n">overlapping</span><span class="p">,</span>
         <span class="n">keep</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
         <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1291,7 +1259,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="k">assert</span> <span class="kc">False</span>
+        <span class="k">assert</span> <span class="n">clip_length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">clip_length</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_keys</span> <span class="o">=</span> <span class="n">data_keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span> <span class="o">=</span> <span class="n">amass_location</span>
@@ -1406,13 +1374,12 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp6bp3h1im
-poses torch.Size([1, 156])
+<pre>poses torch.Size([1, 156])
 dmpls torch.Size([1, 8])
 trans torch.Size([1, 3])
 betas torch.Size([1, 16])
 gender torch.Size([1])
-Inspecting 2 files to determine dataset length, saving the result to /tmp/tmp6bp3h1im/npz_file_lens.json.gz
+Inspecting 2 files to determine dataset length, saving the result to /tmp/tmp8jeh94wh/npz_file_lens.json.gz
 668
 </pre>
 </div>
@@ -1459,8 +1426,7 @@ Inspecting 2 files to determine dataset length, saving the result to /tmp/tmp6bp
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpruqyynff
-poses torch.Size([4, 1, 156])
+<pre>poses torch.Size([4, 1, 156])
 dmpls torch.Size([4, 1, 8])
 trans torch.Size([4, 1, 3])
 betas torch.Size([4, 1, 16])
@@ -1495,7 +1461,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L402" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
+<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L403" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1519,7 +1485,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="IterableLoader" class="doc_header"><code>class</code> <code>IterableLoader</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L422" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IterableLoader</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>DataLoader</code></p>
+<h2 id="IterableLoader" class="doc_header"><code>class</code> <code>IterableLoader</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L423" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IterableLoader</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>DataLoader</code></p>
 </blockquote>
 <p>Data loader. Combines a dataset and a sampler, and provides an iterable over
 the given dataset.</p>
@@ -1687,8 +1653,7 @@ loading order and optional automatic batching (collation) and memory pinning.</p
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmprqnq4qf2
-poses torch.Size([4, 1, 156])
+<pre>poses torch.Size([4, 1, 156])
 dmpls torch.Size([4, 1, 8])
 trans torch.Size([4, 1, 3])
 betas torch.Size([4, 1, 16])
@@ -1822,22 +1787,6 @@ gender torch.Size([4, 1])
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpnot69mkp
-sample_data/sample.tar.bz2 extracting to /tmp/tmp3_9xebii
-sample_data/sample.tar.bz2 extracting to /tmp/tmpg4w8pu65
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -1951,7 +1900,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpg4w8pu65
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="move_dirs_into_splits" class="doc_header"><code>move_dirs_into_splits</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L437" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>move_dirs_into_splits</code>(<strong><code>amass_loc</code></strong>, <strong><code>splits</code></strong>, <strong><code>undo</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="move_dirs_into_splits" class="doc_header"><code>move_dirs_into_splits</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L438" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>move_dirs_into_splits</code>(<strong><code>amass_loc</code></strong>, <strong><code>splits</code></strong>, <strong><code>undo</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2010,7 +1959,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpg4w8pu65
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="console_split_dirs" class="doc_header"><code>console_split_dirs</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L458" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_split_dirs</code>()</p>
+<h4 id="console_split_dirs" class="doc_header"><code>console_split_dirs</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L459" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_split_dirs</code>()</p>
 </blockquote>
 
 </div>
@@ -2075,7 +2024,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpg4w8pu65
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_to_lmdb" class="doc_header"><code>write_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L479" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_to_lmdb</code>(<strong><code>dataset</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>=<em><code>0</code></em>, <strong><code>prefetch_factor</code></strong>=<em><code>4</code></em>)</p>
+<h4 id="write_to_lmdb" class="doc_header"><code>write_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L480" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_to_lmdb</code>(<strong><code>dataset</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>=<em><code>0</code></em>, <strong><code>prefetch_factor</code></strong>=<em><code>4</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2099,7 +2048,7 @@ sample_data/sample.tar.bz2 extracting to /tmp/tmpg4w8pu65
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASSdb" class="doc_header"><code>class</code> <code>AMASSdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L505" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASSdb</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASSdb" class="doc_header"><code>class</code> <code>AMASSdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L506" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASSdb</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -2340,11 +2289,10 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmp6s47k1yo
-Inspecting 2 files to determine dataset length, saving the result to /tmp/tmp6s47k1yo/npz_file_lens.json.gz
-<span class="ansi-green-fg">[1022 10:37:18 @serialize.py:103]</span> Flushing database ...
-os.stat_result(st_mode=33188, st_ino=130581, st_dev=2053, st_nlink=1, st_uid=10521, st_gid=10536, st_size=1409024, st_atime=1634913436, st_mtime=1634913437, st_ctime=1634913437)
-<span class="ansi-green-fg">[1022 10:37:18 @format.py:91]</span> Found 666 entries in /tmp/tmp6s47k1yo/amass-1-separated.lmdb
+<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmphcr0au97/npz_file_lens.json.gz
+<span class="ansi-green-fg">[1101 16:10:56 @serialize.py:103]</span> Flushing database ...
+os.stat_result(st_mode=33188, st_ino=391705, st_dev=2053, st_nlink=1, st_uid=10521, st_gid=10536, st_size=1409024, st_atime=1635797454, st_mtime=1635797456, st_ctime=1635797456)
+<span class="ansi-green-fg">[1101 16:10:56 @format.py:91]</span> Found 666 entries in /tmp/tmphcr0au97/amass-1-separated.lmdb
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 poses torch.Size([4, 1, 156])
@@ -2392,12 +2340,26 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>sample_data/sample.tar.bz2 extracting to /tmp/tmpuzh2pmkh
-Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpuzh2pmkh/npz_file_lens.json.gz
-<span class="ansi-green-fg">[1022 10:37:20 @serialize.py:103]</span> Flushing database ...
-<span class="ansi-green-fg">[1022 10:37:20 @format.py:91]</span> Found 666 entries in /tmp/tmpuzh2pmkh/amass-1-separated.lmdb
-<span class="ansi-green-fg">[1022 10:37:20 @format.py:91]</span> Found 666 entries in /tmp/tmpuzh2pmkh/amass-1-separated.lmdb
+<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpuashk2pd/npz_file_lens.json.gz
+<span class="ansi-green-fg">[1101 16:10:58 @serialize.py:103]</span> Flushing database ...
+<span class="ansi-green-fg">[1101 16:10:58 @format.py:91]</span> Found 666 entries in /tmp/tmpuashk2pd/amass-1-separated.lmdb
+<span class="ansi-green-fg">[1101 16:10:58 @format.py:91]</span> Found 666 entries in /tmp/tmpuashk2pd/amass-1-separated.lmdb
 </pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_21153/2995621403.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span>     <span class="ansi-green-fg">for</span> _data <span class="ansi-green-fg">in</span> DataLoader<span class="ansi-blue-fg">(</span>amassdb<span class="ansi-blue-fg">,</span> batch_size<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     10</span>         <span class="ansi-green-fg">break</span>
+<span class="ansi-green-fg">---&gt; 11</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">assert</span> <span class="ansi-green-fg">not</span> np<span class="ansi-blue-fg">.</span>allclose<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;poses&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> _data<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;poses&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">AssertionError</span>: </pre>
 </div>
 </div>
 
@@ -2426,7 +2388,7 @@ Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpuzh
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="amass_to_lmdb" class="doc_header"><code>amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L555" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>amass_to_lmdb</code>(<strong><code>unpacked_dir</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>, <strong><code>overlapping</code></strong>=<em><code>False</code></em>, <strong><code>clip_length</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="amass_to_lmdb" class="doc_header"><code>amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L556" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>amass_to_lmdb</code>(<strong><code>unpacked_dir</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>, <strong><code>overlapping</code></strong>=<em><code>False</code></em>, <strong><code>clip_length</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2474,7 +2436,7 @@ Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpuzh
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="console_amass_to_lmdb" class="doc_header"><code>console_amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L565" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_amass_to_lmdb</code>()</p>
+<h4 id="console_amass_to_lmdb" class="doc_header"><code>console_amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L566" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_amass_to_lmdb</code>()</p>
 </blockquote>
 
 </div>

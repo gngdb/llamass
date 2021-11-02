@@ -150,3 +150,6 @@ images/features
 
 # ignore large file of statistics
 npz_stats.json.gz
+
+# ignore spl directory that gets cloned for testing
+spl

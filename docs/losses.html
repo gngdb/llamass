@@ -6,8 +6,8 @@ title: Losses
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "A selection of loss functions I've used with this dataset. These are research code with no guarantees of correctness or usefulness."
-description: "A selection of loss functions I've used with this dataset. These are research code with no guarantees of correctness or usefulness."
+summary: "A selection of loss functions I've used with this dataset."
+description: "A selection of loss functions I've used with this dataset."
 nb_path: "05_losses.ipynb"
 ---
 <!--
@@ -46,7 +46,7 @@ nb_path: "05_losses.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is probably not a correct distance metric for rotations. <a href="http://www.boris-belousov.net/2016/12/01/quat-dist/">This blog</a> makes an argument that there's only one correct distance metric for rotations and it's the angular distance between unit quaternions. But, it is quick to evaluate on rotation vectors.</p>
+<p>This is probably not a correct distance metric for rotations. <a href="http://www.boris-belousov.net/2016/12/01/quat-dist/">This blog</a> makes an argument that there's only one correct distance metric for rotations and it's the angular distance between unit quaternions. But, this one is quick to evaluate on rotation vectors.</p>
 <p>There are also implementations of this correct distance metric using rotation matrices in Python <a href="https://github.com/Mayitzin/ahrs/blob/master/ahrs/utils/metrics.py">here</a>.</p>
 
 </div>
@@ -63,7 +63,7 @@ nb_path: "05_losses.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="aa_cosine" class="doc_header"><code>aa_cosine</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L11" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>aa_cosine</code>(<strong><code>out</code></strong>, <strong><code>target</code></strong>)</p>
+<h4 id="aa_cosine" class="doc_header"><code>aa_cosine</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>aa_cosine</code>(<strong><code>out</code></strong>, <strong><code>target</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -127,7 +127,7 @@ nb_path: "05_losses.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="GeodesicLossR" class="doc_header"><code>class</code> <code>GeodesicLossR</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L29" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>GeodesicLossR</code>(<strong><code>reduction</code></strong>=<em><code>'batchmean'</code></em>) :: <code>Module</code></p>
+<h2 id="GeodesicLossR" class="doc_header"><code>class</code> <code>GeodesicLossR</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L37" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>GeodesicLossR</code>(<strong><code>reduction</code></strong>=<em><code>'batchmean'</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -175,10 +175,82 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="vposer_likelihood" class="doc_header"><code>vposer_likelihood</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>vposer_likelihood</code>(<strong><code>dec_out</code></strong>, <strong><code>pose_target</code></strong>, <strong><code>body_model</code></strong>, <strong><code>loss_kl_wt</code></strong>=<em><code>tensor(0.0050)</code></em>, <strong><code>loss_rec_wt</code></strong>=<em><code>tensor(4)</code></em>, <strong><code>loss_matrot_wt</code></strong>=<em><code>tensor(2)</code></em>, <strong><code>loss_jtr_wt</code></strong>=<em><code>tensor(2)</code></em>, <strong><code>callback</code></strong>=<em><code>None</code></em>)</p>
+<h2 id="ContinuousRotReprDecoder" class="doc_header"><code>class</code> <code>ContinuousRotReprDecoder</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L79" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ContinuousRotReprDecoder</code>() :: <code>Module</code></p>
 </blockquote>
-<p>Default settings for loss weights taken from:
-<a href="https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/train/V02_05/V02_05.yaml">https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/train/V02_05/V02_05.yaml</a></p>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>:ivar training: Boolean represents whether this module is in training or
+                evaluation mode.
+:vartype training: bool</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="ForwardKinematicLoss" class="doc_header"><code>class</code> <code>ForwardKinematicLoss</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L97" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ForwardKinematicLoss</code>(<strong><code>body_model</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Must be initialized with an SMPL-like <code>body_model</code>.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="VPoserLikelihood" class="doc_header"><code>class</code> <code>VPoserLikelihood</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L105" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>VPoserLikelihood</code>(<strong><code>body_model</code></strong>) :: <a href="/llamass/losses.html#ForwardKinematicLoss"><code>ForwardKinematicLoss</code></a></p>
+</blockquote>
+<p>Must be initialized with an SMPL-like <code>body_model</code>.</p>
 
 </div>
 
@@ -199,13 +271,25 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">GeodesicLossR</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;batchmean&#39;</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">geodesic_loss_R</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GeodesicLossR</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">reduction</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-6</span>
 
     <span class="c1"># batch geodesic loss for rotation matrices</span>
     <span class="k">def</span> <span class="nf">bgdR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">m1</span><span class="p">,</span><span class="n">m2</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">m1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="n">m2</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> \
+            <span class="sa">f</span><span class="s2">&quot;Rotation matrices ndim must be equal but was </span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">m2</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">]:</span>
+            <span class="k">assert</span> <span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> \
+                <span class="sa">f</span><span class="s2">&quot;Trailing 2 dimensions must 3x3 rotation matrices </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">m1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># ndim 2 must be single rotation matrix</span>
+            <span class="n">m1</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">m2</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">m1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">m1</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">m2</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
         <span class="n">batch</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># batch*3*3</span>
 
@@ -219,61 +303,92 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bgdR</span><span class="p">(</span><span class="n">ypred</span><span class="p">,</span><span class="n">ytrue</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s1">&#39;batchmean&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s1">&#39;batchmean&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">theta</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reduction </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">reduction</span><span class="si">}</span><span class="s2"> not known&quot;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">vposer_likelihood</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">dec_out</span><span class="p">,</span>
-    <span class="n">pose_target</span><span class="p">,</span>
-    <span class="n">body_model</span><span class="p">,</span>
-    <span class="n">loss_kl_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.005</span><span class="p">),</span>
-    <span class="n">loss_rec_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
-    <span class="n">loss_matrot_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-    <span class="n">loss_jtr_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-    <span class="n">callback</span><span class="o">=</span><span class="kc">None</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Default settings for loss weights taken from:</span>
-<span class="sd">    https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/train/V02_05/V02_05.yaml</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">l1_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">L1Loss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
-    <span class="n">geodesic_loss</span> <span class="o">=</span> <span class="n">GeodesicLossR</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
 
-    <span class="c1"># cast decoder output to aa</span>
-    <span class="n">bs</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="k">assert</span> <span class="n">f</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;assuming only one frame&#39;</span>
-    <span class="n">pose_target</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-    <span class="n">pose_out_matrot</span> <span class="o">=</span> <span class="n">dec_out</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">pose_out</span> <span class="o">=</span> <span class="n">matrot2aa</span><span class="p">(</span><span class="n">pose_out_matrot</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>        
+<span class="k">class</span> <span class="nc">ContinuousRotReprDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-    <span class="c1"># Reconstruction loss - L1 on the output mesh</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">bm_orig</span> <span class="o">=</span> <span class="n">body_model</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">pose_target</span><span class="p">)</span>
-    <span class="n">bm_rec</span> <span class="o">=</span> <span class="n">body_model</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">pose_out</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">v2v</span> <span class="o">=</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">bm_rec</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module_input</span><span class="p">):</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">module_input</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">d</span><span class="o">%</span><span class="k">6</span> == 0
+        <span class="n">reshaped_input</span> <span class="o">=</span> <span class="n">module_input</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="c1"># Geodesic loss between rotation matrices</span>
-    <span class="n">matrot_loss</span> <span class="o">=</span> <span class="n">loss_matrot_wt</span> <span class="o">*</span> <span class="n">geodesic_loss</span><span class="p">(</span>
-        <span class="n">pose_out_matrot</span><span class="p">,</span> <span class="n">aa2matrot</span><span class="p">(</span><span class="n">pose_target</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="p">)</span>
-    <span class="c1"># L1 Loss on joint positions</span>
-    <span class="n">jtr_loss</span> <span class="o">=</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span><span class="p">,</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">Jtr</span><span class="p">)</span>
+        <span class="n">b1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">reshaped_input</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># apply weights to make weighted loss</span>
-    <span class="n">weighted_loss</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">loss_matrot_wt</span> <span class="o">*</span> <span class="n">matrot_loss</span> <span class="o">+</span> <span class="n">loss_rec_wt</span> <span class="o">*</span> <span class="n">v2v</span> <span class="o">+</span> <span class="n">loss_jtr_wt</span> <span class="o">*</span> <span class="n">jtr_loss</span>
-    <span class="p">)</span>
+        <span class="n">dot_prod</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">b1</span> <span class="o">*</span> <span class="n">reshaped_input</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">b2</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">reshaped_input</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dot_prod</span> <span class="o">*</span> <span class="n">b1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">b3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># log results</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">unweighted_loss</span> <span class="o">=</span> <span class="n">matrot_loss</span> <span class="o">+</span> <span class="n">v2v</span> <span class="o">+</span> <span class="n">jtr_loss</span>
-        <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">callback</span><span class="p">(</span><span class="n">all_univariate_tensors_in</span><span class="p">(</span><span class="nb">locals</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">weighted_loss</span>
+    
+<span class="k">class</span> <span class="nc">ForwardKinematicLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s2">&quot;Must be initialized with an SMPL-like `body_model`.&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_model</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bm</span> <span class="o">=</span> <span class="n">body_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geodesic_loss</span> <span class="o">=</span> <span class="n">GeodesicLossR</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">VPoserLikelihood</span><span class="p">(</span><span class="n">ForwardKinematicLoss</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dec_out</span><span class="p">,</span>
+        <span class="n">aa_out</span><span class="p">,</span>
+        <span class="n">pose_target</span><span class="p">,</span>
+        <span class="n">pose_target_rotmat</span><span class="p">,</span>
+        <span class="n">loss_rec_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+        <span class="n">loss_matrot_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">loss_jtr_wt</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">callback</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default settings for loss weights taken from:</span>
+<span class="sd">        https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/train/V02_05/V02_05.yaml</span>
+<span class="sd">        Inputs:</span>
+<span class="sd">            - dec_out: output of network as rotation matrix, shape (batch, frames, joints, 3, 3)</span>
+<span class="sd">            - aa_out: output of network as axis-angle vectors, shape (batch, frames, joints, 3)</span>
+<span class="sd">            - pose_target: target as axis-angle vectors, shape (batch, frames, joints, 3)</span>
+<span class="sd">            - pose_target_rotmat: target as rotation matrix, shape (batch, frames, joints, 3, 3)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">l1_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">L1Loss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+
+        <span class="c1"># cast decoder output to aa</span>
+        <span class="n">bs</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+        <span class="c1"># Reconstruction loss - L1 on the output mesh</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">bm_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">pose_target</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">bs</span><span class="o">*</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="n">bm_rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">aa_out</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">bs</span><span class="o">*</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">v2v</span> <span class="o">=</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">bm_rec</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># Geodesic loss between rotation matrices</span>
+        <span class="n">matrot_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geodesic_loss</span><span class="p">(</span>
+            <span class="n">dec_out</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+            <span class="n">pose_target_rotmat</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># L1 Loss on joint positions</span>
+        <span class="n">jtr_loss</span> <span class="o">=</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span><span class="p">,</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">Jtr</span><span class="p">)</span>
+
+        <span class="c1"># apply weights to make weighted loss</span>
+        <span class="n">weighted_loss</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">loss_matrot_wt</span> <span class="o">*</span> <span class="n">matrot_loss</span> <span class="o">+</span> <span class="n">loss_rec_wt</span> <span class="o">*</span> <span class="n">v2v</span> <span class="o">+</span> <span class="n">loss_jtr_wt</span> <span class="o">*</span> <span class="n">jtr_loss</span>
+        <span class="p">)</span>
+
+        <span class="c1"># log results</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">unweighted_loss</span> <span class="o">=</span> <span class="n">matrot_loss</span> <span class="o">+</span> <span class="n">v2v</span> <span class="o">+</span> <span class="n">jtr_loss</span>
+            <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">all_univariate_tensors_in</span><span class="p">(</span><span class="nb">locals</span><span class="p">()))</span>
+
+        <span class="k">return</span> <span class="n">weighted_loss</span>
 </pre></div>
 
     </div>
@@ -302,7 +417,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="discretize" class="doc_header"><code>discretize</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L108" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>discretize</code>(<strong><code>x</code></strong>, <strong><code>nquant</code></strong>, <strong><code>eps</code></strong>=<em><code>1e-06</code></em>, <strong><code>dither</code></strong>=<em><code>False</code></em>, <strong><code>zero_centered</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="discretize" class="doc_header"><code>discretize</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L159" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>discretize</code>(<strong><code>x</code></strong>, <strong><code>nquant</code></strong>, <strong><code>eps</code></strong>=<em><code>1e-06</code></em>, <strong><code>dither</code></strong>=<em><code>False</code></em>, <strong><code>zero_centered</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -326,7 +441,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DiscretizedEulerLoss" class="doc_header"><code>class</code> <code>DiscretizedEulerLoss</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L120" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiscretizedEulerLoss</code>(<strong><code>nquant</code></strong>, <strong><code>dither</code></strong>=<em><code>False</code></em>, <strong><code>zero_centered</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
+<h2 id="DiscretizedEulerLoss" class="doc_header"><code>class</code> <code>DiscretizedEulerLoss</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L171" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DiscretizedEulerLoss</code>(<strong><code>nquant</code></strong>, <strong><code>dither</code></strong>=<em><code>False</code></em>, <strong><code>zero_centered</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -391,6 +506,752 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         <span class="k">assert</span> <span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nquant</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;trailing dimension should hold logits </span><span class="si">{</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">discretize</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nquant</span><span class="p">,</span> <span class="n">dither</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dither</span><span class="p">,</span> <span class="n">zero_centered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zero_centered</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">nll_loss</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nquant</span><span class="p">),</span> <span class="n">target</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SPL-Loss-Functions">SPL Loss Functions<a class="anchor-link" href="#SPL-Loss-Functions"> </a></h2><blockquote><p>Loss functions adapted from the <a href="https://github.com/eth-ait/spl">SPL</a> repository.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the standard evaluation on Human3.6M and AMASS the following loss functions are recommended:</p>
+<ul>
+<li>Euler Angle (choose smallest)</li>
+<li>Geodesic joint angle (calculated above in the VPoser loss)</li>
+<li>Absolute position error (calculated above in the VPoser loss)</li>
+<li>PCK: "percentage of joints lying within a spherical threshold $\rho$ around the target joint position", typically reported as an AUC while varying the $\rho$ threshold</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Required packages to run tests:</p>
+<ul>
+<li><a href="https://quaternion.readthedocs.io/en/latest/">quaternion</a></li>
+<li><a href="https://pypi.org/project/opencv-python/">cv2</a></li>
+<li><a href="https://github.com/gngdb/gaitplotlib">gaitplotlib</a></li>
+</ul>
+<p>And it's necessary to have unpacked body model files with gaitplotlib as described <a href="https://github.com/gngdb/gaitplotlib#unpack-body-models">here</a>.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># I don&#39;t want to install tensorflow to install their whole package for testing</span>
+<span class="o">!</span>git clone https://github.com/eth-ait/spl.git <span class="m">2</span>&gt;/dev/null
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="n">common_path</span> <span class="o">=</span> <span class="s2">&quot;./spl/common&quot;</span>
+<span class="k">if</span> <span class="n">common_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">common_path</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">conversions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">is_valid_rotmat</span><span class="p">,</span> <span class="n">rotmat2euler</span><span class="p">,</span> <span class="n">aa2rotmat</span><span class="p">,</span> <span class="n">get_closest_rotmat</span><span class="p">,</span> <span class="n">sparse_to_full</span><span class="p">,</span> <span class="n">local_rot_to_global</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">from</span> <span class="nn">llamass.core</span> <span class="kn">import</span> <span class="n">unpack_body_models</span><span class="p">,</span> <span class="n">npz_paths</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">gaitplotlib.core</span> <span class="k">as</span> <span class="nn">gpl</span>
+<span class="n">body_model</span> <span class="o">=</span> <span class="n">gpl</span><span class="o">.</span><span class="n">init_body_model</span><span class="p">(</span><span class="s2">&quot;neutral&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/nobackup/gngdb/envs/amass/lib/python3.7/site-packages/quaternion/numba_wrapper.py:23: UserWarning: 
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Could not import from numba, which means that some
+parts of this code may run MUCH more slowly.  You
+may wish to install numba.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  warnings.warn(warning_text)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SPL-Implementations">SPL Implementations<a class="anchor-link" href="#SPL-Implementations"> </a></h3><blockquote><p>Included for testing.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SPL: training and evaluation of neural networks with a structured prediction layer.</span>
+<span class="sd">Copyright (C) 2019 ETH Zurich, Emre Aksan, Manuel Kaufmann</span>
+
+<span class="sd">This program is free software: you can redistribute it and/or modify</span>
+<span class="sd">it under the terms of the GNU General Public License as published by</span>
+<span class="sd">the Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd">(at your option) any later version.</span>
+
+<span class="sd">This program is distributed in the hope that it will be useful,</span>
+<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd">GNU General Public License for more details.</span>
+
+<span class="sd">You should have received a copy of the GNU General Public License</span>
+<span class="sd">along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">euler_diff</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the Euler angle error as in previous work, following</span>
+<span class="sd">    https://github.com/una-dinosauria/human-motion-prediction/blob/master/src/translate.py#L207</span>
+<span class="sd">    Args:</span>
+<span class="sd">        predictions: np array of predicted joint angles represented as rotation matrices, i.e. in shape</span>
+<span class="sd">          (..., n_joints, 3, 3)</span>
+<span class="sd">        targets: np array of same shape as `predictions`</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The Euler angle error an np array of shape (..., )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="n">n_joints</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">ori_shape</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">targs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+    <span class="n">euler_preds</span> <span class="o">=</span> <span class="n">rotmat2euler</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>  <span class="c1"># (N, 3)</span>
+    <span class="n">euler_targs</span> <span class="o">=</span> <span class="n">rotmat2euler</span><span class="p">(</span><span class="n">targs</span><span class="p">)</span>  <span class="c1"># (N, 3)</span>
+
+    <span class="c1"># reshape to (-1, n_joints*3) to be consistent with previous work</span>
+    <span class="n">euler_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">euler_preds</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_joints</span><span class="o">*</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">euler_targs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">euler_targs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_joints</span><span class="o">*</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="c1"># l2 error on euler angles</span>
+    <span class="n">idx_to_use</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">euler_targs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">euc_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">euler_targs</span><span class="p">[:,</span> <span class="n">idx_to_use</span><span class="p">]</span> <span class="o">-</span> <span class="n">euler_preds</span><span class="p">[:,</span> <span class="n">idx_to_use</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">euc_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">euc_error</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># (-1, ...)</span>
+
+    <span class="c1"># reshape to original</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">euc_error</span><span class="p">,</span> <span class="n">ori_shape</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">angle_diff</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the angular distance between the target and predicted rotations. We define this as the angle that is</span>
+<span class="sd">    required to rotate one rotation into the other. This essentially computes || log(R_diff) || where R_diff is the</span>
+<span class="sd">    difference rotation between prediction and target.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        predictions: np array of predicted joint angles represented as rotation matrices, i.e. in shape</span>
+<span class="sd">          (..., n_joints, 3, 3)</span>
+<span class="sd">        targets: np array of same shape as `predictions`</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The geodesic distance for each joint as an np array of shape (..., n_joints)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+
+    <span class="n">ori_shape</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">targs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+    <span class="c1"># compute R1 * R2.T, if prediction and target match, this will be the identity matrix</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">targs</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># convert `r` to angle-axis representation and extract the angle, which is our measure of difference between</span>
+    <span class="c1"># the predicted and target orientations</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">aa</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Rodrigues</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">aa</span><span class="p">))</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">ori_shape</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">positional</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the Euclidean distance between joints in 3D space.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        predictions: np array of predicted 3D joint positions in format (..., n_joints, 3)</span>
+<span class="sd">        targets: np array of same shape as `predictions`</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The Euclidean distance for each joint as an np array of shape (..., n_joints)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">predictions</span> <span class="o">-</span> <span class="n">targets</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">pck</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">thresh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Percentage of correct keypoints.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        predictions: np array of predicted 3D joint positions in format (..., n_joints, 3)</span>
+<span class="sd">        targets: np array of same shape as `predictions`</span>
+<span class="sd">        thresh: radius within which a predicted joint has to lie.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Percentage of correct keypoints at the given threshold level, stored in a np array of shape (..., len(threshs))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">predictions</span> <span class="o">-</span> <span class="n">targets</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">pck</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dist</span> <span class="o">&lt;=</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pck</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Euler-Angle">Euler Angle<a class="anchor-link" href="#Euler-Angle"> </a></h3><blockquote><p>I don't know what euler angle convention this corresponds to, but it matches the implementation used in prior papers.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="euler_angle_mse" class="doc_header"><code>euler_angle_mse</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L182" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>euler_angle_mse</code>(<strong><code>predictions</code></strong>, <strong><code>targets</code></strong>, <strong><code>n_joints</code></strong>=<em><code>21</code></em>)</p>
+</blockquote>
+<p>Inputs predictions and targets are assumed to be rotation matrices</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">euler_angle_mse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">n_joints</span><span class="o">=</span><span class="mi">21</span><span class="p">):</span>
+    <span class="s2">&quot;Inputs predictions and targets are assumed to be rotation matrices&quot;</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">as_euler</span><span class="p">()</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span><span class="o">.</span><span class="n">as_euler</span><span class="p">()</span>
+    
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_joints</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_joints</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+    
+    <span class="c1"># l2 error on euler angles</span>
+    <span class="c1">#idx_to_use = np.where(np.std(euler_targs, 0) &gt; 1e-4)[0]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">euc_error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">targets</span><span class="o">*</span><span class="n">mask</span> <span class="o">-</span> <span class="n">predictions</span><span class="o">*</span><span class="n">mask</span><span class="p">)</span>
+    <span class="n">euc_error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">euc_error</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># (-1, ...)</span>
+    <span class="k">return</span> <span class="n">euc_error</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
+    <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">66</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">//</span><span class="mi">3</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># convert poses to rotation matrices</span>
+        <span class="n">rotmats</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">rotmats</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">rotmats</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">euler_diff</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">targets</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="n">_loss</span> <span class="o">=</span> <span class="n">euler_angle_mse</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">targets</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loss</span> <span class="o">-</span> <span class="n">_loss</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1e-4</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([100, 21, 3, 3]) torch.Size([100, 21, 3, 3]) (100,)
+torch.Size([39, 21, 3, 3]) torch.Size([39, 21, 3, 3]) (39,)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Geodesic">Geodesic<a class="anchor-link" href="#Geodesic"> </a></h3><p>Basing this on the geodesic loss calculated in the combined Vposer loss above.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="GeodesicLossSPL" class="doc_header"><code>class</code> <code>GeodesicLossSPL</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L198" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>GeodesicLossSPL</code>(<strong><code>reduction</code></strong>=<em><code>'none'</code></em>) :: <a href="/llamass/losses.html#GeodesicLossR"><code>GeodesicLossR</code></a></p>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>:ivar training: Boolean represents whether this module is in training or
+                evaluation mode.
+:vartype training: bool</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">GeodesicLossSPL</span><span class="p">(</span><span class="n">GeodesicLossR</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">bgdR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">m1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="n">m2</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> \
+            <span class="sa">f</span><span class="s2">&quot;Rotation matrices ndim must be equal but was </span><span class="si">{</span><span class="n">m1</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">m2</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">]:</span>
+            <span class="k">assert</span> <span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> \
+                <span class="sa">f</span><span class="s2">&quot;Trailing 2 dimensions must 3x3 rotation matrices </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">m1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># ndim 2 must be single rotation matrix</span>
+            <span class="n">m1</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">m2</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">m1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">m1</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">m2</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">m1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># batch*3*3</span>
+
+        <span class="n">aa</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">as_rotvec</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">angles</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">aa</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">angles</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
+    <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">66</span><span class="p">])</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">//</span><span class="mi">3</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># convert poses to rotation matrices</span>
+        <span class="n">rotmats</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">rotmats</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">rotmats</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">angle_diff</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">targets</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="n">geodesic_loss</span> <span class="o">=</span> <span class="n">GeodesicLossSPL</span><span class="p">()</span>
+        <span class="n">_loss</span> <span class="o">=</span> <span class="n">geodesic_loss</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">targets</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">_loss</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">loss</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([100, 21, 3, 3]) torch.Size([100, 21, 3, 3]) (100, 21)
+torch.Size([39, 21, 3, 3]) torch.Size([39, 21, 3, 3]) (39, 21)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Positional">Positional<a class="anchor-link" href="#Positional"> </a></h3><p>Basing this on the VPoser loss above, has to contain a body model to do forward kinematics to estimate the joint positions given a fixed body model. (Although, I think betas are often provided for AMASS examples, so it may be more correct to use those.)</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="PositionalLossSPL" class="doc_header"><code>class</code> <code>PositionalLossSPL</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L224" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PositionalLossSPL</code>(<strong><code>body_model</code></strong>) :: <a href="/llamass/losses.html#ForwardKinematicLoss"><code>ForwardKinematicLoss</code></a></p>
+</blockquote>
+<p>Must be initialized with an SMPL-like <code>body_model</code>.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PositionalLossSPL</span><span class="p">(</span><span class="n">ForwardKinematicLoss</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">aa_out</span><span class="p">,</span>
+        <span class="n">pose_target</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">bs</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">bs</span><span class="o">*</span><span class="n">f</span>
+        <span class="k">elif</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+        <span class="c1"># Reconstruction loss - L1 on the output mesh</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">bm_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">pose_target</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="n">bm_rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">aa_out</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span> <span class="o">-</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">Jtr</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
+    <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">66</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">//</span><span class="mi">3</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">poses</span><span class="p">[::</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># convert poses to rotation matrices</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">body_model</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">Jtr</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">positional</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">targets</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="n">positional_loss_spl</span> <span class="o">=</span> <span class="n">PositionalLossSPL</span><span class="p">(</span><span class="n">body_model</span><span class="p">)</span>
+        <span class="n">_loss</span> <span class="o">=</span> <span class="n">positional_loss_spl</span><span class="p">(</span><span class="n">poses</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">poses</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">_loss</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">targets</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([100, 52, 3]) torch.Size([100, 52, 3]) (100, 52)
+torch.Size([39, 52, 3]) torch.Size([39, 52, 3]) (39, 52)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="PCK">PCK<a class="anchor-link" href="#PCK"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="PCK_SPL" class="doc_header"><code>class</code> <code>PCK_SPL</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L244" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>PCK_SPL</code>(<strong><code>body_model</code></strong>) :: <a href="/llamass/losses.html#ForwardKinematicLoss"><code>ForwardKinematicLoss</code></a></p>
+</blockquote>
+<p>Must be initialized with an SMPL-like <code>body_model</code>.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PCK_SPL</span><span class="p">(</span><span class="n">ForwardKinematicLoss</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">aa_out</span><span class="p">,</span>
+        <span class="n">pose_target</span><span class="p">,</span>
+        <span class="n">thresh</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">bs</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">bs</span><span class="o">*</span><span class="n">f</span>
+        <span class="k">elif</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pose_target</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+        <span class="c1"># Reconstruction loss - L1 on the output mesh</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">bm_orig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">pose_target</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="n">bm_rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bm</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">aa_out</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        <span class="n">predictions</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span><span class="p">,</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">Jtr</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">bm_rec</span><span class="o">.</span><span class="n">Jtr</span> <span class="o">-</span> <span class="n">bm_orig</span><span class="o">.</span><span class="n">Jtr</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">dist</span> <span class="o">&lt;=</span> <span class="n">thresh</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pck_thresholds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
+    <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">):</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">][:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">66</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">//</span><span class="mi">3</span>       
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">poses</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">poses</span> <span class="o">=</span> <span class="n">poses</span><span class="p">[::</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># convert poses to rotation matrices</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">body_model</span><span class="p">(</span><span class="n">pose_body</span><span class="o">=</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">Jtr</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">_pck</span> <span class="o">=</span> <span class="n">PCK_SPL</span><span class="p">(</span><span class="n">body_model</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">thresh</span> <span class="ow">in</span> <span class="n">pck_thresholds</span><span class="p">:</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">pck</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">targets</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">thresh</span><span class="p">)</span>
+            <span class="n">_loss</span> <span class="o">=</span> <span class="n">_pck</span><span class="p">(</span><span class="n">poses</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">poses</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">thresh</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">_loss</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Logging-Utilities">Logging Utilities<a class="anchor-link" href="#Logging-Utilities"> </a></h2><blockquote><p>Utility functions for logging losses during training.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="all_univariate_tensors_in" class="doc_header"><code>all_univariate_tensors_in</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/losses.py#L267" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>all_univariate_tensors_in</code>(<strong><code>d</code></strong>)</p>
+</blockquote>
+<p>Utility function for logging with a callback function</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">all_univariate_tensors_in</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="s2">&quot;Utility function for logging with a callback function&quot;</span>
+    <span class="k">def</span> <span class="nf">is_univariate_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">nelement</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">is_univariate_tensor</span><span class="p">(</span><span class="n">v</span><span class="p">)}</span>
 </pre></div>
 
     </div>

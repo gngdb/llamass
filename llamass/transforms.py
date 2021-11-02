@@ -253,8 +253,46 @@ class Rotation():
         raise NotImplementedError()
     def from_mrp(self):
         raise NotImplementedError()
-    def as_euler(self):
-        raise NotImplementedError()
+    def as_euler(self, degrees=False):
+        if degrees:
+            raise NotImplementedError("Degrees as output not supported.")
+        if self.formalism == 'rotvec':
+            self = Rotation.from_matrix(self.as_matrix())
+        elif self.formalism != 'matrix':
+            raise NotImplementedError()
+        rs = self.tensor
+        n_samples = rs.size(0)
+
+        # initialize to zeros
+        e1 = torch.zeros([n_samples]).to(rs.device)
+        e2 = torch.zeros([n_samples]).to(rs.device)
+        e3 = torch.zeros([n_samples]).to(rs.device)
+
+        # find indices where we need to treat special cases
+        is_one = rs[:, 0, 2] == 1
+        is_minus_one = rs[:, 0, 2] == -1
+        is_special = torch.logical_or(is_one, is_minus_one)
+
+        e1[is_special] = torch.atan2(rs[is_special, 0, 1], rs[is_special, 0, 2])
+        e2[is_minus_one] = np.pi/2
+        e2[is_one] = -np.pi/2
+
+        # normal cases
+        is_normal = torch.logical_not(torch.logical_or(is_one, is_minus_one))
+        # clip inputs to arcsin
+        in_ = torch.clamp(rs[is_normal, 0, 2], -1, 1)
+        e2[is_normal] = -torch.arcsin(in_)
+        e2_cos = torch.cos(e2[is_normal])
+        e1[is_normal] = torch.atan2(rs[is_normal, 1, 2]/e2_cos,
+                                    rs[is_normal, 2, 2]/e2_cos)
+        e3[is_normal] = torch.atan2(rs[is_normal, 0, 1]/e2_cos,
+                                    rs[is_normal, 0, 0]/e2_cos)
+
+        eul = torch.stack([e1, e2, e3], axis=-1)
+        #eul = np.reshape(eul, np.concatenate([orig_shape, eul.shape[1:]]))
+        s = self.shape
+        eul = eul.reshape(*s[:-1], s[-1]//3)
+        return eul
     def as_quat(self):
         raise NotImplementedError()
     def as_mrp(self):
