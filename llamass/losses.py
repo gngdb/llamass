@@ -2,7 +2,7 @@
 
 __all__ = ['aa_cosine', 'GeodesicLossR', 'ContinuousRotReprDecoder', 'ForwardKinematicLoss', 'VPoserLikelihood',
            'discretize', 'DiscretizedEulerLoss', 'euler_angle_mse', 'GeodesicLossSPL', 'PositionalLossSPL', 'PCK_SPL',
-           'all_univariate_tensors_in']
+           'calculate_auc', 'all_univariate_tensors_in']
 
 # Cell
 import math
@@ -31,7 +31,7 @@ def aa_cosine(out, target):
     cosine_sim = F.cosine_similarity(out, target, dim=2)
     cosine_sim_loss = 1. - cosine_sim
     cosine_angle_diff = 1. - torch.cos(theta_a - theta_b)
-    return torch.mean(cosine_sim_loss + cosine_angle_diff[:,:,0])
+    return cosine_sim_loss + cosine_angle_diff[:,:,0]
 
 # Cell
 class GeodesicLossR(nn.Module):
@@ -75,7 +75,7 @@ class GeodesicLossR(nn.Module):
         else:
             raise NotImplementedError(f"Reduction {self.reduction} not known")
 
-
+# Cell
 class ContinuousRotReprDecoder(nn.Module):
     def __init__(self):
         super().__init__()
@@ -93,7 +93,7 @@ class ContinuousRotReprDecoder(nn.Module):
 
         return torch.stack([b1, b2, b3], dim=-1).view(b, -1, 3, 3)
 
-
+# Cell
 class ForwardKinematicLoss(nn.Module):
     "Must be initialized with an SMPL-like `body_model`."
     def __init__(self, body_model):
@@ -101,7 +101,13 @@ class ForwardKinematicLoss(nn.Module):
         self.bm = body_model
         self.geodesic_loss = GeodesicLossR(reduction="mean")
 
+    def kinematics(self, aa_out, pose_target):
+        with torch.no_grad():
+            bm_orig = self.bm(pose_body=pose_target)
+        bm_rec = self.bm(pose_body=aa_out.contiguous())
+        return bm_orig, bm_rec
 
+# Cell
 class VPoserLikelihood(ForwardKinematicLoss):
     def forward(
         self,
@@ -109,6 +115,8 @@ class VPoserLikelihood(ForwardKinematicLoss):
         aa_out,
         pose_target,
         pose_target_rotmat,
+        bm_orig=None,
+        bm_rec=None,
         loss_rec_wt=torch.tensor(4),
         loss_matrot_wt=torch.tensor(2),
         loss_jtr_wt=torch.tensor(2),
@@ -128,10 +136,11 @@ class VPoserLikelihood(ForwardKinematicLoss):
         # cast decoder output to aa
         bs, f, d = pose_target.size()
 
+        # forward kinematics
+        if bm_orig is None or bm_rec is None:
+            bm_orig, bm_rec = self.kinematics(aa_out.view(bs*f, -1), pose_target.view(bs*f, d))
+
         # Reconstruction loss - L1 on the output mesh
-        with torch.no_grad():
-            bm_orig = self.bm(pose_body=pose_target.view(bs*f, d))
-        bm_rec = self.bm(pose_body=aa_out.contiguous().view(bs*f, -1))
         v2v = l1_loss(bm_rec.v, bm_orig.v)
 
         # Geodesic loss between rotation matrices
@@ -146,6 +155,7 @@ class VPoserLikelihood(ForwardKinematicLoss):
         weighted_loss = (
             loss_matrot_wt * matrot_loss + loss_rec_wt * v2v + loss_jtr_wt * jtr_loss
         )
+
 
         # log results
         with torch.no_grad():
@@ -224,44 +234,120 @@ class GeodesicLossSPL(GeodesicLossR):
 class PositionalLossSPL(ForwardKinematicLoss):
     def forward(
         self,
-        aa_out,
-        pose_target,
+        aa_out=None,
+        pose_target=None,
+        bm_orig=None,
+        bm_rec=None,
+        positions=None,
+        target_positions=None
     ):
-        if pose_target.ndim == 3:
-            bs, f, d = pose_target.size()
-            n = bs*f
-        elif pose_target.ndim == 2:
-            n, d = pose_target.size()
+        for p in [positions, target_positions]:
+            if p is not None:
+                assert p.ndim == 3
+                assert p.size(-1) == 3, "final dim must contain 3D locations"
+        if pose_target is not None:
+            if pose_target.ndim == 3:
+                bs, f, d = pose_target.size()
+                n = bs*f
+                assert d == n_joints*3
+            elif pose_target.ndim == 2:
+                n, d = pose_target.size()
 
-        # Reconstruction loss - L1 on the output mesh
-        with torch.no_grad():
-            bm_orig = self.bm(pose_body=pose_target.reshape(n, d))
-        bm_rec = self.bm(pose_body=aa_out.contiguous().reshape(n, d))
-        n, d, _ = bm_rec.Jtr.size()
-        return torch.sqrt(torch.square(bm_rec.Jtr - bm_orig.Jtr).sum(2))
+        # forward kinematics
+        no_bm_output = bm_orig is None or bm_rec is None
+        no_positions = positions is None or target_positions is None
+        if no_bm_output and no_positions:
+            bm_orig, bm_rec = self.kinematics(aa_out.reshape(n, d), pose_target.reshape(n, d))
+            positions = bm_rec.Jtr
+            target_positions = bm_orig.Jtr
+
+        return torch.sqrt(torch.square(positions - target_positions).sum(2))
 
 # Cell
 class PCK_SPL(ForwardKinematicLoss):
     def forward(
         self,
-        aa_out,
-        pose_target,
-        thresh
+        aa_out=None,
+        pose_target=None,
+        positions=None,
+        target_positions=None,
+        thresh=None,
+        bm_orig=None,
+        bm_rec=None,
+        n_joints=21
     ):
-        if pose_target.ndim == 3:
-            bs, f, d = pose_target.size()
-            n = bs*f
-        elif pose_target.ndim == 2:
-            n, d = pose_target.size()
+        assert thresh is not None
+        for p in [positions, target_positions]:
+            if p is not None:
+                assert p.ndim == 3
+                assert p.size(-1) == 3, "final dim must contain 3D locations"
+        if pose_target is not None:
+            if pose_target.ndim == 3:
+                bs, f, d = pose_target.size()
+                n = bs*f
+                assert d == n_joints*3
+            elif pose_target.ndim == 2:
+                n, d = pose_target.size()
 
-        # Reconstruction loss - L1 on the output mesh
-        with torch.no_grad():
-            bm_orig = self.bm(pose_body=pose_target.reshape(n, d))
-        bm_rec = self.bm(pose_body=aa_out.contiguous().reshape(n, d))
-        predictions, targets = bm_rec.Jtr, bm_orig.Jtr
-        n, d, _ = bm_rec.Jtr.size()
-        dist = torch.sqrt(torch.square(bm_rec.Jtr - bm_orig.Jtr).sum(2))
+        # forward kinematics
+        no_bm_output = bm_orig is None or bm_rec is None
+        no_positions = positions is None or target_positions is None
+        if no_bm_output and no_positions:
+            bm_orig, bm_rec = self.kinematics(aa_out.reshape(n, d), pose_target.reshape(n, d))
+            positions = bm_rec.Jtr
+            target_positions = bm_orig.Jtr
+
+        # percentage of coordinates in the ball defined by thresh around a joint
+        n, d, _ = positions.size()
+        dist = torch.sqrt(torch.square(positions - target_positions).sum(2))
         return torch.mean((dist <= thresh).float(), 1)
+
+# Cell
+"""
+SPL: training and evaluation of neural networks with a structured prediction layer.
+Copyright (C) 2019 ETH Zurich, Emre Aksan, Manuel Kaufmann
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
+def calculate_auc(pck_values, pck_thresholds, target_length):
+    """Calculate area under a curve (AUC) metric for PCK.
+
+    If the sequence length is shorter, we ignore some of the high-tolerance PCK values in order to have less
+    saturated AUC.
+    Args:
+        pck_values (list): PCK values.
+        pck_thresholds (list): PCK threshold values.
+        target_length (int): determines for which time-step we calculate AUC.
+    Returns:
+    """
+    # Due to the saturation effect, we consider a limited number of PCK thresholds in AUC calculation.
+    if target_length < 6:
+        n_pck = 6
+    elif target_length < 12:
+        n_pck = 7
+    elif target_length < 18:
+        n_pck = 8
+    else:
+        n_pck = len(pck_thresholds)
+
+    norm_factor = np.diff(pck_thresholds[:n_pck]).sum()
+    auc_values = []
+    for i in range(n_pck - 1):
+        auc = (pck_values[i] + pck_values[i + 1]) / 2 * (pck_thresholds[i + 1] - pck_thresholds[i])
+        auc_values.append(auc)
+    return np.array(auc_values).sum() / norm_factor
 
 # Cell
 def all_univariate_tensors_in(d):
@@ -270,4 +356,4 @@ def all_univariate_tensors_in(d):
         if isinstance(x, torch.Tensor):
             return x.nelement() == 1
 
-    return {k: v.item() for k, v in d.items() if is_univariate_tensor(v)}
+    return {k: v for k, v in d.items() if is_univariate_tensor(v)}
