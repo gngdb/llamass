@@ -438,20 +438,16 @@ class SMPLHForwardKinematics(ForwardKinematics):
                                                     left_mult=False, major_joints=SMPLH_MAJOR_JOINTS)
 
 # Cell
-def scipy_aa_to_euler(x):
+import math
+
+def scipy_aa_to_euler(x, seq='zyx'):
     s = x.shape
     x = x.reshape(-1, 3)
-    euler = np.zeros_like(x)
-    for i, aa in enumerate(x):
-        euler[i] = R.from_rotvec(aa).as_euler('zyx')
+    euler = R.from_rotvec(x).as_euler(seq)
     return euler.reshape(*s)
 
-def scipy_euler_to_aa(x, zero_center=True):
-    if zero_center:
-        x = x - math.pi
+def scipy_euler_to_aa(x, seq='zyx'):
     s = x.shape
     x = x.reshape(-1, 3)
-    aa = np.zeros_like(x)
-    for i, euler in enumerate(x):
-        aa[i] = R.from_euler('zyx', euler).as_rotvec()
+    aa = R.from_euler(seq, x).as_rotvec()
     return aa.reshape(*s)
