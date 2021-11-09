@@ -671,9 +671,20 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>To do:</p>
+<ul>
+<li><a href="/llamass/losses.html#euler_angle_mse"><code>euler_angle_mse</code></a> is an inaccurate name, it's actually a pairwise distance</li>
+<li>Geodesic needs better documentation</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>In the standard evaluation on Human3.6M and AMASS the following loss functions are recommended:</p>
 <ul>
-<li>Euler Angle (choose smallest)</li>
+<li>Euler angle</li>
 <li>Geodesic joint angle (calculated above in the VPoser loss)</li>
 <li>Absolute position error (calculated above in the VPoser loss)</li>
 <li>PCK: "percentage of joints lying within a spherical threshold $\rho$ around the target joint position", typically reported as an AUC while varying the $\rho$ threshold</li>

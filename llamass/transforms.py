@@ -2,7 +2,7 @@
 
 __all__ = ['rotation_matrix_to_angle_axis', 'rotation_matrix_to_quaternion', 'quaternion_to_angle_axis',
            'angle_axis_to_rotation_matrix', 'Rotation', 'ForwardKinematics', 'SMPLHForwardKinematics', 'SMPLH_PARENTS',
-           'SMPLH_MAJOR_JOINTS', 'scipy_aa_to_euler', 'scipy_euler_to_aa']
+           'SMPLH_MAJOR_JOINTS', 'SMPLH_SKELETON', 'scipy_aa_to_euler', 'scipy_euler_to_aa']
 
 # Cell
 import torch
@@ -395,6 +395,14 @@ class ForwardKinematics(nn.Module):
 # Cell
 SMPLH_PARENTS = [-1, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 16, 17, 18, 19, 20, 22]
 SMPLH_MAJOR_JOINTS = [1, 2, 3, 4, 5, 6, 9, 12, 13, 14, 15, 16, 17, 18, 19]
+SMPLH_SKELETON = np.array([[ 0,  0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  9,  9, 12, 13,
+        14, 16, 17, 18, 19, 20, 22, 23, 20, 25, 26, 20, 28, 29, 20, 31,
+        32, 20, 34, 35, 21, 37, 38, 21, 40, 41, 21, 43, 44, 21, 46, 47,
+        21, 49, 50],
+       [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
+        33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
+        49, 50, 51]]).T
 
 class SMPLHForwardKinematics(ForwardKinematics):
     """

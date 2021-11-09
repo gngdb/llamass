@@ -3,8 +3,8 @@
 __all__ = ['md5_update_from_file', 'md5_file', 'md5_update_from_dir', 'md5_dir', 'hashes', 'lazy_unpack',
            'unpack_body_models', 'fast_amass_unpack', 'npz_paths', 'npz_len', 'npz_lens', 'save_lens', 'keep_slice',
            'viable_slice', 'npz_contents', 'AMASS', 'worker_init_fn', 'IterableLoader', 'amass_splits',
-           'move_dirs_into_splits', 'move_dirs_out_of_splits', 'console_split_dirs', 'write_to_lmdb', 'AMASSdb',
-           'amass_to_lmdb', 'console_amass_to_lmdb']
+           'move_dirs_into_splits', 'move_dirs_out_of_splits', 'console_split_dirs', 'spl_splits', 'write_to_lmdb',
+           'AMASSdb', 'amass_to_lmdb', 'console_amass_to_lmdb']
 
 # Cell
 # https://stackoverflow.com/a/54477583/6937913
@@ -472,6 +472,13 @@ def console_split_dirs():
     )
     args = parser.parse_args()
     move_dirs_into_splits(args.amassloc, amass_splits, undo=args.undo)
+
+# Cell
+spl_splits = dict(
+    training  =  {'CMU_Kitchen', 'Eyes', 'HEva', '', 'MIXAMO', 'Transition', 'CMU', 'SSM', 'BioMotion', 'JointLimit', 'ACCAD', 'HDM05'},
+    validation  =  {'Eyes', '', 'MIXAMO', 'Transition', 'CMU', 'SSM', 'BioMotion', 'JointLimit', 'ACCAD', 'HDM05'},
+    test  =  {'CMU_Kitchen', 'Eyes', 'HEva', '', 'MIXAMO', 'Transition', 'CMU', 'BioMotion', 'JointLimit', 'ACCAD', 'HDM05'}
+)
 
 # Cell
 import dataflow as td
