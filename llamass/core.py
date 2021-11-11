@@ -199,6 +199,7 @@ from torch.utils.data import DataLoader
 
 # Cell
 def npz_paths(npz_directory):
+    npz_directory = Path(npz_directory).resolve()
     npz_paths = []
     for r, d, f in os.walk(npz_directory, followlinks=True):
         for fname in f:
