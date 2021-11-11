@@ -200,7 +200,7 @@ from torch.utils.data import DataLoader
 # Cell
 def npz_paths(npz_directory):
     npz_paths = []
-    for r, d, f in os.walk(npz_directory):
+    for r, d, f in os.walk(npz_directory, followlinks=True):
         for fname in f:
             if "npz" == fname.split(".")[-1] and fname != "shape.npz":
                 yield os.path.join(npz_directory, r, fname)

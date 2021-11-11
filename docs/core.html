@@ -478,10 +478,10 @@ nb_path: "00_core.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/tmp/tmpt3_ecf02/sample/subdir/amass_sample.npz
+<pre>/tmp/tmpdev515p2/sample/subdir/amass_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (601, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (601, 85, 3)), (&#39;dmpls&#39;, (601, 8)), (&#39;marker_labels&#39;, (85,)), (&#39;trans&#39;, (601, 3))]
-/tmp/tmpt3_ecf02/sample/subdir/dmpl_sample.npz
+/tmp/tmpdev515p2/sample/subdir/dmpl_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (235, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (235, 67, 3)), (&#39;dmpls&#39;, (235, 8)), (&#39;marker_labels&#39;, (67,)), (&#39;trans&#39;, (235, 3))]
 </pre>
@@ -573,7 +573,7 @@ nb_path: "00_core.ipynb"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">npz_paths</span><span class="p">(</span><span class="n">npz_directory</span><span class="p">):</span>
     <span class="n">npz_paths</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">npz_directory</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">npz_directory</span><span class="p">,</span> <span class="n">followlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">if</span> <span class="s2">&quot;npz&quot;</span> <span class="o">==</span> <span class="n">fname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">fname</span> <span class="o">!=</span> <span class="s2">&quot;shape.npz&quot;</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">npz_directory</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
@@ -609,8 +609,8 @@ nb_path: "00_core.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/tmp/tmpevt44g2l/sample/subdir/amass_sample.npz
-/tmp/tmpevt44g2l/sample/subdir/dmpl_sample.npz
+<pre>/tmp/tmp2dwsj0wu/sample/subdir/amass_sample.npz
+/tmp/tmp2dwsj0wu/sample/subdir/dmpl_sample.npz
 </pre>
 </div>
 </div>
@@ -910,9 +910,9 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/tmp/tmp5t53dnim/sample/subdir/amass_sample.npz
+<pre>/tmp/tmpaxlm5hes/sample/subdir/amass_sample.npz
    slice(60, 540, None)
-/tmp/tmp5t53dnim/sample/subdir/dmpl_sample.npz
+/tmp/tmpaxlm5hes/sample/subdir/dmpl_sample.npz
    slice(23, 211, None)
 </pre>
 </div>
@@ -1379,7 +1379,7 @@ dmpls torch.Size([1, 8])
 trans torch.Size([1, 3])
 betas torch.Size([1, 16])
 gender torch.Size([1])
-Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpn5z89_ok/npz_file_lens.json.gz
+Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpc39emkz9/npz_file_lens.json.gz
 668
 </pre>
 </div>
@@ -2044,9 +2044,9 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>training  =  {&#39;CMU_Kitchen&#39;, &#39;Eyes&#39;, &#39;HEva&#39;, &#39;&#39;, &#39;MIXAMO&#39;, &#39;Transition&#39;, &#39;CMU&#39;, &#39;SSM&#39;, &#39;BioMotion&#39;, &#39;JointLimit&#39;, &#39;ACCAD&#39;, &#39;HDM05&#39;}
-validation  =  {&#39;Eyes&#39;, &#39;&#39;, &#39;MIXAMO&#39;, &#39;Transition&#39;, &#39;CMU&#39;, &#39;SSM&#39;, &#39;BioMotion&#39;, &#39;JointLimit&#39;, &#39;ACCAD&#39;, &#39;HDM05&#39;}
-test  =  {&#39;CMU_Kitchen&#39;, &#39;Eyes&#39;, &#39;HEva&#39;, &#39;&#39;, &#39;MIXAMO&#39;, &#39;Transition&#39;, &#39;CMU&#39;, &#39;BioMotion&#39;, &#39;JointLimit&#39;, &#39;ACCAD&#39;, &#39;HDM05&#39;}
+<pre>training  =  {&#39;&#39;, &#39;CMU&#39;, &#39;HDM05&#39;, &#39;JointLimit&#39;, &#39;ACCAD&#39;, &#39;BioMotion&#39;, &#39;Transition&#39;, &#39;Eyes&#39;, &#39;HEva&#39;, &#39;SSM&#39;, &#39;MIXAMO&#39;, &#39;CMU_Kitchen&#39;}
+validation  =  {&#39;&#39;, &#39;CMU&#39;, &#39;HDM05&#39;, &#39;JointLimit&#39;, &#39;ACCAD&#39;, &#39;BioMotion&#39;, &#39;Transition&#39;, &#39;Eyes&#39;, &#39;SSM&#39;, &#39;MIXAMO&#39;}
+test  =  {&#39;&#39;, &#39;CMU&#39;, &#39;HDM05&#39;, &#39;JointLimit&#39;, &#39;ACCAD&#39;, &#39;BioMotion&#39;, &#39;Transition&#39;, &#39;Eyes&#39;, &#39;HEva&#39;, &#39;MIXAMO&#39;, &#39;CMU_Kitchen&#39;}
 </pre>
 </div>
 </div>
@@ -2429,10 +2429,10 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpjjd44y1e/npz_file_lens.json.gz
-<span class="ansi-green-fg">[1104 10:13:00 @serialize.py:103]</span> Flushing database ...
-os.stat_result(st_mode=33188, st_ino=783390, st_dev=2053, st_nlink=1, st_uid=10521, st_gid=10536, st_size=1409024, st_atime=1636035178, st_mtime=1636035180, st_ctime=1636035180)
-<span class="ansi-green-fg">[1104 10:13:00 @format.py:91]</span> Found 666 entries in /tmp/tmpjjd44y1e/amass-1-separated.lmdb
+<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmp7mk01wd2/npz_file_lens.json.gz
+<span class="ansi-green-fg">[1111 16:42:25 @serialize.py:103]</span> Flushing database ...
+os.stat_result(st_mode=33188, st_ino=391725, st_dev=2053, st_nlink=1, st_uid=10521, st_gid=10536, st_size=1409024, st_atime=1636666944, st_mtime=1636666945, st_ctime=1636666945)
+<span class="ansi-green-fg">[1111 16:42:25 @format.py:91]</span> Found 666 entries in /tmp/tmp7mk01wd2/amass-1-separated.lmdb
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 poses torch.Size([4, 1, 156])
@@ -2480,10 +2480,10 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpq4syks2r/npz_file_lens.json.gz
-<span class="ansi-green-fg">[1104 10:13:02 @serialize.py:103]</span> Flushing database ...
-<span class="ansi-green-fg">[1104 10:13:02 @format.py:91]</span> Found 666 entries in /tmp/tmpq4syks2r/amass-1-separated.lmdb
-<span class="ansi-green-fg">[1104 10:13:02 @format.py:91]</span> Found 666 entries in /tmp/tmpq4syks2r/amass-1-separated.lmdb
+<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpx0_v8c_q/npz_file_lens.json.gz
+<span class="ansi-green-fg">[1111 16:42:27 @serialize.py:103]</span> Flushing database ...
+<span class="ansi-green-fg">[1111 16:42:27 @format.py:91]</span> Found 666 entries in /tmp/tmpx0_v8c_q/amass-1-separated.lmdb
+<span class="ansi-green-fg">[1111 16:42:27 @format.py:91]</span> Found 666 entries in /tmp/tmpx0_v8c_q/amass-1-separated.lmdb
 </pre>
 </div>
 </div>
