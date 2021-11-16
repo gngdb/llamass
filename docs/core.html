@@ -478,10 +478,10 @@ nb_path: "00_core.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/tmp/tmp9yj6ktda/sample/subdir/amass_sample.npz
+<pre>/tmp/tmpos4dxm6z/sample/subdir/amass_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (601, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (601, 85, 3)), (&#39;dmpls&#39;, (601, 8)), (&#39;marker_labels&#39;, (85,)), (&#39;trans&#39;, (601, 3))]
-/tmp/tmp9yj6ktda/sample/subdir/dmpl_sample.npz
+/tmp/tmpos4dxm6z/sample/subdir/dmpl_sample.npz
    [&#39;poses&#39;, &#39;gender&#39;, &#39;mocap_framerate&#39;, &#39;betas&#39;, &#39;marker_data&#39;, &#39;dmpls&#39;, &#39;marker_labels&#39;, &#39;trans&#39;]
    [(&#39;poses&#39;, (235, 156)), (&#39;gender&#39;, ()), (&#39;mocap_framerate&#39;, ()), (&#39;betas&#39;, (16,)), (&#39;marker_data&#39;, (235, 67, 3)), (&#39;dmpls&#39;, (235, 8)), (&#39;marker_labels&#39;, (67,)), (&#39;trans&#39;, (235, 3))]
 </pre>
@@ -551,7 +551,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L201" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
+<h4 id="npz_paths" class="doc_header"><code>npz_paths</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L200" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_paths</code>(<strong><code>npz_directory</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -659,7 +659,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_len" class="doc_header"><code>npz_len</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L210" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_len</code>(<strong><code>npz_path</code></strong>)</p>
+<h4 id="npz_len" class="doc_header"><code>npz_len</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L209" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_len</code>(<strong><code>npz_path</code></strong>, <strong><code>strict</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -683,7 +683,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_lens" class="doc_header"><code>npz_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L221" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_lens</code>(<strong><code>unpacked_directory</code></strong>, <strong><code>n_jobs</code></strong>)</p>
+<h4 id="npz_lens" class="doc_header"><code>npz_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L223" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_lens</code>(<strong><code>unpacked_directory</code></strong>, <strong><code>n_jobs</code></strong>, <strong><code>strict</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -707,7 +707,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="save_lens" class="doc_header"><code>save_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L227" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_lens</code>(<strong><code>save_path</code></strong>, <strong><code>npz_file_lens</code></strong>)</p>
+<h4 id="save_lens" class="doc_header"><code>save_lens</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L229" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_lens</code>(<strong><code>save_path</code></strong>, <strong><code>npz_file_lens</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -727,21 +727,24 @@ nb_path: "00_core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">npz_len</span><span class="p">(</span><span class="n">npz_path</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">npz_len</span><span class="p">(</span><span class="n">npz_path</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">cdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
     <span class="n">h</span> <span class="o">=</span> <span class="n">md5_file</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span>
     <span class="n">dirs</span> <span class="o">=</span> <span class="p">[</span><span class="n">hashes</span><span class="p">[</span><span class="n">h</span><span class="p">][</span><span class="s1">&#39;unpacks_to&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hashes</span><span class="p">]</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
-        <span class="n">m</span> <span class="o">+=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">d</span><span class="p">]</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Subdir of </span><span class="si">{</span><span class="n">npz_path</span><span class="si">}</span><span class="s2"> contains two of </span><span class="si">{</span><span class="n">dirs</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">subdir</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">+=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">d</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Subdir of </span><span class="si">{</span><span class="n">npz_path</span><span class="si">}</span><span class="s2"> contains </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">dirs</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">subdir</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">subdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">npz_path</span><span class="p">)</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">subdir</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="k">def</span> <span class="nf">npz_lens</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">npz_lens</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">npz_paths</span><span class="p">(</span><span class="n">unpacked_directory</span><span class="p">)]</span>
     <span class="k">return</span> <span class="n">ProgressParallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">)(</span>
-        <span class="p">[</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">npz_len</span><span class="p">)(</span><span class="n">npz_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">npz_len</span><span class="p">)(</span><span class="n">npz_path</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span> <span class="k">for</span> <span class="n">npz_path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
     <span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">save_lens</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">npz_file_lens</span><span class="p">):</span>
@@ -808,7 +811,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L235" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="keep_slice" class="doc_header"><code>keep_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L237" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>keep_slice</code>(<strong><code>n</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -832,7 +835,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L240" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
+<h4 id="viable_slice" class="doc_header"><code>viable_slice</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L242" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>viable_slice</code>(<strong><code>cdata</code></strong>, <strong><code>keep</code></strong>)</p>
 </blockquote>
 <p>Inspects a dictionary loaded from <code>.npz</code> numpy dumps
 and creates a slice of the viable indexes.
@@ -928,9 +931,9 @@ args:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/tmp/tmpeojrjm5w/sample/subdir/amass_sample.npz
+<pre>/tmp/tmpas2sa5g4/sample/subdir/amass_sample.npz
    slice(60, 540, None)
-/tmp/tmpeojrjm5w/sample/subdir/dmpl_sample.npz
+/tmp/tmpas2sa5g4/sample/subdir/dmpl_sample.npz
    slice(23, 211, None)
 </pre>
 </div>
@@ -961,7 +964,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L264" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="npz_contents" class="doc_header"><code>npz_contents</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L266" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>npz_contents</code>(<strong><code>npz_path</code></strong>, <strong><code>clip_length</code></strong>, <strong><code>overlapping</code></strong>, <strong><code>keep</code></strong>=<em><code>0.8</code></em>, <strong><code>keys</code></strong>=<em><code>('poses', 'dmpls', 'trans', 'betas', 'gender')</code></em>, <strong><code>shuffle</code></strong>=<em><code>False</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1147,7 +1150,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L318" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L320" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -1264,7 +1267,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">AMASS</span><span class="p">(</span><span class="n">IterableDataset</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">AMASS</span><span class="p">(</span><span class="n">tudata</span><span class="o">.</span><span class="n">IterableDataset</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">amass_location</span><span class="p">,</span>
@@ -1276,6 +1279,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
         <span class="n">file_list_seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">strict</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">):</span>
         <span class="k">assert</span> <span class="n">clip_length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">clip_length</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
@@ -1291,6 +1295,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
         <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="n">keep</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span> <span class="k">if</span> <span class="n">seed</span> <span class="k">else</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span>
 
     <span class="k">def</span> <span class="nf">infer_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="c1"># uses known dimensions of the npz files in the AMASS dataset to infer the length</span>
@@ -1309,7 +1314,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># if it&#39;s not there, recompute it and create the file</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Inspecting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npz_paths</span><span class="p">)</span><span class="si">}</span><span class="s1"> files to determine dataset length&#39;</span>
                   <span class="sa">f</span><span class="s1">&#39;, saving the result to </span><span class="si">{</span><span class="n">lenfile</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span> <span class="o">=</span> <span class="n">npz_lens</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span> <span class="o">=</span> <span class="n">npz_lens</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amass_location</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">)</span>
             <span class="n">save_lens</span><span class="p">(</span><span class="n">lenfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">npz_lens</span><span class="p">)</span>
 
         <span class="c1"># using stored lengths to infer the total dataset length</span>
@@ -1342,12 +1347,13 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
                 <span class="n">npz_path</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">clip_length</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">overlapping</span><span class="p">,</span>
+                <span class="n">keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_keys</span><span class="p">,</span>
                 <span class="n">keep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keep</span><span class="p">,</span>
                 <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">,</span>
                 <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
             <span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># increment to vary shuffle over files</span>
-                <span class="k">yield</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_keys</span><span class="p">}</span>
+                <span class="k">yield</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -1397,7 +1403,7 @@ dmpls torch.Size([1, 8])
 trans torch.Size([1, 3])
 betas torch.Size([1, 16])
 gender torch.Size([1])
-Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpoq42y2os/npz_file_lens.json.gz
+Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpleow1ugq/npz_file_lens.json.gz
 668
 </pre>
 </div>
@@ -1426,7 +1432,7 @@ Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpoq4
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdirname</span><span class="p">:</span>
     <span class="n">unpack_body_models</span><span class="p">(</span><span class="s2">&quot;sample_data/&quot;</span><span class="p">,</span> <span class="n">tmpdirname</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
     <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span>
-    <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -1479,7 +1485,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L404" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
+<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L409" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1503,7 +1509,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="IterableLoader" class="doc_header"><code>class</code> <code>IterableLoader</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L424" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IterableLoader</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>DataLoader</code></p>
+<h2 id="IterableLoader" class="doc_header"><code>class</code> <code>IterableLoader</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L429" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IterableLoader</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>DataLoader</code></p>
 </blockquote>
 <p>Data loader. Combines a dataset and a sampler, and provides an iterable over
 the given dataset.</p>
@@ -1615,7 +1621,7 @@ loading order and optional automatic batching (collation) and memory pinning.</p
     <span class="c1"># set each workers seed</span>
     <span class="n">dataset</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">seed</span> <span class="o">+</span> <span class="n">worker_info</span><span class="o">.</span><span class="n">seed</span>
 
-<span class="k">class</span> <span class="nc">IterableLoader</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">IterableLoader</span><span class="p">(</span><span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;worker_init_fn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">worker_init_fn</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1641,7 +1647,7 @@ loading order and optional automatic batching (collation) and memory pinning.</p
         <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span>
             <span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span>
         <span class="p">)</span>
-        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
             <span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
@@ -1783,7 +1789,7 @@ gender torch.Size([4, 1])
             <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
             <span class="n">amass</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
@@ -1918,7 +1924,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="move_dirs_into_splits" class="doc_header"><code>move_dirs_into_splits</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L439" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>move_dirs_into_splits</code>(<strong><code>amass_loc</code></strong>, <strong><code>splits</code></strong>, <strong><code>undo</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="move_dirs_into_splits" class="doc_header"><code>move_dirs_into_splits</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L444" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>move_dirs_into_splits</code>(<strong><code>amass_loc</code></strong>, <strong><code>splits</code></strong>, <strong><code>undo</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1977,7 +1983,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="console_split_dirs" class="doc_header"><code>console_split_dirs</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L460" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_split_dirs</code>()</p>
+<h4 id="console_split_dirs" class="doc_header"><code>console_split_dirs</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L465" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_split_dirs</code>()</p>
 </blockquote>
 
 </div>
@@ -2062,9 +2068,9 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>training  =  {&#39;&#39;, &#39;BioMotion&#39;, &#39;SSM&#39;, &#39;HDM05&#39;, &#39;CMU_Kitchen&#39;, &#39;Eyes&#39;, &#39;ACCAD&#39;, &#39;JointLimit&#39;, &#39;Transition&#39;, &#39;CMU&#39;, &#39;MIXAMO&#39;, &#39;HEva&#39;}
-validation  =  {&#39;&#39;, &#39;BioMotion&#39;, &#39;SSM&#39;, &#39;HDM05&#39;, &#39;Eyes&#39;, &#39;ACCAD&#39;, &#39;JointLimit&#39;, &#39;Transition&#39;, &#39;CMU&#39;, &#39;MIXAMO&#39;}
-test  =  {&#39;&#39;, &#39;BioMotion&#39;, &#39;HDM05&#39;, &#39;CMU_Kitchen&#39;, &#39;Eyes&#39;, &#39;ACCAD&#39;, &#39;JointLimit&#39;, &#39;Transition&#39;, &#39;CMU&#39;, &#39;MIXAMO&#39;, &#39;HEva&#39;}
+<pre>training  =  {&#39;&#39;, &#39;CMU&#39;, &#39;Transition&#39;, &#39;ACCAD&#39;, &#39;SSM&#39;, &#39;BioMotion&#39;, &#39;JointLimit&#39;, &#39;HEva&#39;, &#39;MIXAMO&#39;, &#39;HDM05&#39;, &#39;CMU_Kitchen&#39;, &#39;Eyes&#39;}
+validation  =  {&#39;&#39;, &#39;CMU&#39;, &#39;Transition&#39;, &#39;ACCAD&#39;, &#39;SSM&#39;, &#39;BioMotion&#39;, &#39;JointLimit&#39;, &#39;MIXAMO&#39;, &#39;HDM05&#39;, &#39;Eyes&#39;}
+test  =  {&#39;&#39;, &#39;CMU&#39;, &#39;Transition&#39;, &#39;ACCAD&#39;, &#39;BioMotion&#39;, &#39;JointLimit&#39;, &#39;HEva&#39;, &#39;MIXAMO&#39;, &#39;HDM05&#39;, &#39;CMU_Kitchen&#39;, &#39;Eyes&#39;}
 </pre>
 </div>
 </div>
@@ -2182,7 +2188,7 @@ test  =  {&#39;&#39;, &#39;BioMotion&#39;, &#39;HDM05&#39;, &#39;CMU_Kitchen&#39
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_to_lmdb" class="doc_header"><code>write_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L488" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_to_lmdb</code>(<strong><code>dataset</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>=<em><code>0</code></em>, <strong><code>prefetch_factor</code></strong>=<em><code>4</code></em>)</p>
+<h4 id="write_to_lmdb" class="doc_header"><code>write_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L493" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_to_lmdb</code>(<strong><code>dataset</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>=<em><code>0</code></em>, <strong><code>prefetch_factor</code></strong>=<em><code>4</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2206,7 +2212,7 @@ test  =  {&#39;&#39;, &#39;BioMotion&#39;, &#39;HDM05&#39;, &#39;CMU_Kitchen&#39
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASSdb" class="doc_header"><code>class</code> <code>AMASSdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L514" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASSdb</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASSdb" class="doc_header"><code>class</code> <code>AMASSdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L519" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASSdb</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -2332,7 +2338,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
     <span class="n">db_loc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">amass_location</span><span class="p">,</span> <span class="n">db_filename</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">collate_fn</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">data</span>
-    <span class="n">amassloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">amassloader</span> <span class="o">=</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
         <span class="n">dataset</span><span class="p">,</span>
         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> 
         <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">worker_init_fn</span><span class="p">,</span> 
@@ -2352,7 +2358,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
     <span class="n">td</span><span class="o">.</span><span class="n">LMDBSerializer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">db_loc</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">db_loc</span>
 
-<span class="k">class</span> <span class="nc">AMASSdb</span><span class="p">(</span><span class="n">IterableDataset</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">AMASSdb</span><span class="p">(</span><span class="n">tudata</span><span class="o">.</span><span class="n">IterableDataset</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_loc</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lmdb</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">LMDBData</span><span class="p">(</span><span class="n">db_loc</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
@@ -2429,7 +2435,7 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
         <span class="k">break</span>
     <span class="nb">print</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_data</span><span class="p">])</span>
     <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span>
-    <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amassdb</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">amasstrain</span> <span class="o">=</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">amassdb</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">amasstrain</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -2447,10 +2453,10 @@ dataset's :meth:<code>__iter__</code> method or the :class:<code>~torch.utils.da
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpg_tv7woc/npz_file_lens.json.gz
-<span class="ansi-green-fg">[1111 17:10:04 @serialize.py:103]</span> Flushing database ...
-os.stat_result(st_mode=33188, st_ino=261171, st_dev=2053, st_nlink=1, st_uid=10521, st_gid=10536, st_size=1409024, st_atime=1636668602, st_mtime=1636668604, st_ctime=1636668604)
-<span class="ansi-green-fg">[1111 17:10:04 @format.py:91]</span> Found 666 entries in /tmp/tmpg_tv7woc/amass-1-separated.lmdb
+<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpbri_sl3e/npz_file_lens.json.gz
+<span class="ansi-green-fg">[1115 19:08:23 @serialize.py:103]</span> Flushing database ...
+os.stat_result(st_mode=33188, st_ino=77, st_dev=2053, st_nlink=1, st_uid=10521, st_gid=10536, st_size=1409024, st_atime=1637021302, st_mtime=1637021303, st_ctime=1637021303)
+<span class="ansi-green-fg">[1115 19:08:23 @format.py:91]</span> Found 666 entries in /tmp/tmpbri_sl3e/amass-1-separated.lmdb
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 [(&#39;poses&#39;, (1, 156)), (&#39;dmpls&#39;, (1, 8)), (&#39;trans&#39;, (1, 3)), (&#39;betas&#39;, (1, 16)), (&#39;gender&#39;, (1,))]
 poses torch.Size([4, 1, 156])
@@ -2480,10 +2486,10 @@ gender torch.Size([4, 1])
     <span class="n">amass</span> <span class="o">=</span> <span class="n">AMASS</span><span class="p">(</span><span class="n">tmpdirname</span><span class="p">,</span> <span class="n">overlapping</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
     <span class="n">db_loc</span> <span class="o">=</span> <span class="n">write_to_lmdb</span><span class="p">(</span><span class="n">amass</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">amassdb</span> <span class="o">=</span> <span class="n">AMASSdb</span><span class="p">(</span><span class="n">db_loc</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amassdb</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">amassdb</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="k">break</span>
     <span class="n">amassdb</span> <span class="o">=</span> <span class="n">AMASSdb</span><span class="p">(</span><span class="n">db_loc</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">_data</span> <span class="ow">in</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">amassdb</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_data</span> <span class="ow">in</span> <span class="n">tudata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">amassdb</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="k">break</span>
     <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">],</span> <span class="n">_data</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">])</span>
 </pre></div>
@@ -2498,10 +2504,10 @@ gender torch.Size([4, 1])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpqra4xcvg/npz_file_lens.json.gz
-<span class="ansi-green-fg">[1111 17:10:07 @serialize.py:103]</span> Flushing database ...
-<span class="ansi-green-fg">[1111 17:10:07 @format.py:91]</span> Found 666 entries in /tmp/tmpqra4xcvg/amass-1-separated.lmdb
-<span class="ansi-green-fg">[1111 17:10:07 @format.py:91]</span> Found 666 entries in /tmp/tmpqra4xcvg/amass-1-separated.lmdb
+<pre>Inspecting 2 files to determine dataset length, saving the result to /tmp/tmpno80go5o/npz_file_lens.json.gz
+<span class="ansi-green-fg">[1115 19:08:25 @serialize.py:103]</span> Flushing database ...
+<span class="ansi-green-fg">[1115 19:08:25 @format.py:91]</span> Found 666 entries in /tmp/tmpno80go5o/amass-1-separated.lmdb
+<span class="ansi-green-fg">[1115 19:08:26 @format.py:91]</span> Found 666 entries in /tmp/tmpno80go5o/amass-1-separated.lmdb
 </pre>
 </div>
 </div>
@@ -2531,7 +2537,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="amass_to_lmdb" class="doc_header"><code>amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L564" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>amass_to_lmdb</code>(<strong><code>unpacked_dir</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>, <strong><code>overlapping</code></strong>=<em><code>False</code></em>, <strong><code>clip_length</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="amass_to_lmdb" class="doc_header"><code>amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L569" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>amass_to_lmdb</code>(<strong><code>unpacked_dir</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>, <strong><code>overlapping</code></strong>=<em><code>False</code></em>, <strong><code>clip_length</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2579,7 +2585,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="console_amass_to_lmdb" class="doc_header"><code>console_amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L574" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_amass_to_lmdb</code>()</p>
+<h4 id="console_amass_to_lmdb" class="doc_header"><code>console_amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L579" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_amass_to_lmdb</code>()</p>
 </blockquote>
 
 </div>

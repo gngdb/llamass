@@ -74,7 +74,7 @@ nb_path: "03_transforms.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="rotation_matrix_to_angle_axis" class="doc_header"><code>rotation_matrix_to_angle_axis</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rotation_matrix_to_angle_axis</code>(<strong><code>rotation_matrix</code></strong>)</p>
+<h4 id="rotation_matrix_to_angle_axis" class="doc_header"><code>rotation_matrix_to_angle_axis</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rotation_matrix_to_angle_axis</code>(<strong><code>rotation_matrix</code></strong>)</p>
 </blockquote>
 <p>Convert 3x4 rotation matrix to Rodrigues vector
 Args:
@@ -112,7 +112,7 @@ Shape:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="rotation_matrix_to_quaternion" class="doc_header"><code>rotation_matrix_to_quaternion</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L31" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rotation_matrix_to_quaternion</code>(<strong><code>rotation_matrix</code></strong>, <strong><code>eps</code></strong>=<em><code>1e-06</code></em>)</p>
+<h4 id="rotation_matrix_to_quaternion" class="doc_header"><code>rotation_matrix_to_quaternion</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L32" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rotation_matrix_to_quaternion</code>(<strong><code>rotation_matrix</code></strong>, <strong><code>eps</code></strong>=<em><code>1e-06</code></em>)</p>
 </blockquote>
 <p>Convert 3x4 rotation matrix to 4d quaternion vector
 This algorithm is based on algorithm described in
@@ -152,7 +152,7 @@ Shape:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="quaternion_to_angle_axis" class="doc_header"><code>quaternion_to_angle_axis</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L105" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>quaternion_to_angle_axis</code>(<strong><code>quaternion</code></strong>)</p>
+<h4 id="quaternion_to_angle_axis" class="doc_header"><code>quaternion_to_angle_axis</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L106" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>quaternion_to_angle_axis</code>(<strong><code>quaternion</code></strong>)</p>
 </blockquote>
 <p>Convert quaternion vector to angle axis of rotation.
 Adapted from ceres C++ library: ceres-solver/include/ceres/rotation.h
@@ -191,7 +191,7 @@ Shape:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="angle_axis_to_rotation_matrix" class="doc_header"><code>angle_axis_to_rotation_matrix</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L149" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>angle_axis_to_rotation_matrix</code>(<strong><code>angle_axis</code></strong>)</p>
+<h4 id="angle_axis_to_rotation_matrix" class="doc_header"><code>angle_axis_to_rotation_matrix</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L150" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>angle_axis_to_rotation_matrix</code>(<strong><code>angle_axis</code></strong>)</p>
 </blockquote>
 <p>Convert 3d vector of axis-angle rotation to 4x4 rotation matrix
 Args:
@@ -506,7 +506,7 @@ Shape:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Rotation" class="doc_header"><code>class</code> <code>Rotation</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L219" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Rotation</code>(<strong><code>tensor</code></strong>, <strong><code>shape</code></strong>, <strong><code>formalism</code></strong>)</p>
+<h2 id="Rotation" class="doc_header"><code>class</code> <code>Rotation</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L220" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Rotation</code>(<strong><code>tensor</code></strong>, <strong><code>shape</code></strong>, <strong><code>formalism</code></strong>)</p>
 </blockquote>
 <p>Class to give a scipy.spatial.transform-like interface
 for converting between rotational formalisms in PyTorch.
@@ -899,6 +899,12 @@ may wish to install numba.
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SMPL">SMPL<a class="anchor-link" href="#SMPL"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1050,50 +1056,7 @@ may wish to install numba.
         <span class="k">return</span> <span class="n">positions</span>
 
 
-<span class="k">class</span> <span class="nc">H36M_ForwardKinematics</span><span class="p">(</span><span class="n">_ForwardKinematics</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Forward Kinematics for the skeleton defined by H3.6M dataset.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="o">-</span><span class="mf">1.32948591e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.42894612e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.54206447e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.62767078e+02</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">7.49994370e+01</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">1.32948826e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.42894413e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.54206590e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.62767426e+02</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">7.49999480e+01</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.00000000e-01</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.33383263e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.57077681e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.21134938e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.15002227e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.57077681e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.51034226e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.78882773e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.51733451e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">9.99996270e+01</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.00000188e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.57077681e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.51031437e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.78892924e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">2.51728680e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">9.99998880e+01</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">1.37499922e+02</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">],</span>
-                            <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">]])</span>
-
-        <span class="c1"># normalize so that right thigh has length 1</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">H36M_ForwardKinematics</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="n">H36M_PARENTS</span><span class="p">,</span> <span class="n">norm_idx</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-                                                    <span class="n">left_mult</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">major_joints</span><span class="o">=</span><span class="n">H36M_MAJOR_JOINTS</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">SMPL_ForwardKinematics</span><span class="p">(</span><span class="n">_ForwardKinematics</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_SMPL_ForwardKinematics</span><span class="p">(</span><span class="n">_ForwardKinematics</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Forward Kinematics for the skeleton defined by SMPL.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1131,7 +1094,7 @@ may wish to install numba.
             <span class="n">smpl_offsets</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">offsets</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span>
 
         <span class="c1"># normalize so that right thigh has length 1</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SMPL_ForwardKinematics</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">smpl_offsets</span><span class="p">,</span> <span class="n">SMPL_PARENTS</span><span class="p">,</span> <span class="n">norm_idx</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_SMPL_ForwardKinematics</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">smpl_offsets</span><span class="p">,</span> <span class="n">SMPL_PARENTS</span><span class="p">,</span> <span class="n">norm_idx</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                                     <span class="n">left_mult</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">major_joints</span><span class="o">=</span><span class="n">SMPL_MAJOR_JOINTS</span><span class="p">)</span>
 </pre></div>
 
@@ -1403,6 +1366,12 @@ r_wrist right_wrist
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SMPLH">SMPLH<a class="anchor-link" href="#SMPLH"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1801,7 +1770,7 @@ r_wrist right_wrist
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ForwardKinematics" class="doc_header"><code>class</code> <code>ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L324" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ForwardKinematics</code>(<strong><code>offsets</code></strong>, <strong><code>parents</code></strong>, <strong><code>left_mult</code></strong>=<em><code>False</code></em>, <strong><code>major_joints</code></strong>=<em><code>None</code></em>, <strong><code>norm_idx</code></strong>=<em><code>None</code></em>, <strong><code>no_root</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
+<h2 id="ForwardKinematics" class="doc_header"><code>class</code> <code>ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L325" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ForwardKinematics</code>(<strong><code>offsets</code></strong>, <strong><code>parents</code></strong>, <strong><code>left_mult</code></strong>=<em><code>False</code></em>, <strong><code>major_joints</code></strong>=<em><code>None</code></em>, <strong><code>norm_idx</code></strong>=<em><code>None</code></em>, <strong><code>no_root</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -1945,6 +1914,12 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SMPL">SMPL<a class="anchor-link" href="#SMPL"> </a></h3>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1956,7 +1931,99 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SMPLHForwardKinematics" class="doc_header"><code>class</code> <code>SMPLHForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L403" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPLHForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
+<h2 id="SMPL_ForwardKinematics" class="doc_header"><code>class</code> <code>SMPL_ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L402" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPL_ForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
+</blockquote>
+<p>Forward Kinematics for the skeleton defined by SMPL.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SMPL_MAJOR_JOINTS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+<span class="n">SMPL_NR_JOINTS</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">SMPL_PARENTS</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SMPL_ForwardKinematics</span><span class="p">(</span><span class="n">ForwardKinematics</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Forward Kinematics for the skeleton defined by SMPL.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># this are the offsets stored under `J` in the SMPL model pickle file</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">8.76308970e-04</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.11418723e-01</span><span class="p">,</span> <span class="mf">2.78211200e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">7.04848876e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.01002533e-01</span><span class="p">,</span> <span class="mf">1.97749280e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">6.98883278e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.00379160e-01</span><span class="p">,</span> <span class="mf">2.30254335e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">3.38451650e-03</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.08161861e-01</span><span class="p">,</span> <span class="mf">5.63597909e-03</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">1.01153808e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.65211904e-01</span><span class="p">,</span> <span class="mf">1.30860155e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">1.06040718e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.71029623e-01</span><span class="p">,</span> <span class="mf">1.38401121e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">1.96440985e-04</span><span class="p">,</span> <span class="mf">1.94957852e-02</span><span class="p">,</span> <span class="mf">3.92296547e-03</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">8.95999143e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.04856032e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.04155922e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">9.20120818e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.05466743e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.80514913e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">2.22362284e-03</span><span class="p">,</span> <span class="mf">6.85680141e-02</span><span class="p">,</span> <span class="mf">3.17901760e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">1.12937580e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.10320516e+00</span><span class="p">,</span> <span class="mf">8.39545265e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">1.14055299e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.10107698e+00</span><span class="p">,</span> <span class="mf">8.98482216e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">2.60992373e-04</span><span class="p">,</span> <span class="mf">2.76811197e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.79753042e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">7.75218998e-02</span><span class="p">,</span> <span class="mf">1.86348444e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.08464100e-03</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">7.48091986e-02</span><span class="p">,</span> <span class="mf">1.84174211e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.00204779e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">3.77815350e-03</span><span class="p">,</span> <span class="mf">3.39133394e-01</span><span class="p">,</span> <span class="mf">3.22299558e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">1.62839013e-01</span><span class="p">,</span> <span class="mf">2.18087461e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.23774789e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">1.64012068e-01</span><span class="p">,</span> <span class="mf">2.16959041e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.98226746e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">4.14086325e-01</span><span class="p">,</span> <span class="mf">2.06120683e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.98959248e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">4.10001734e-01</span><span class="p">,</span> <span class="mf">2.03806676e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.99843890e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">6.52105424e-01</span><span class="p">,</span> <span class="mf">2.15127546e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.98521818e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">6.55178550e-01</span><span class="p">,</span> <span class="mf">2.12428626e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.35159074e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">7.31773168e-01</span><span class="p">,</span> <span class="mf">2.05445019e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.30577698e-02</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">7.35578759e-01</span><span class="p">,</span> <span class="mf">2.05180646e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.39352281e-02</span><span class="p">]])</span>
+
+        <span class="c1"># need to convert them to compatible offsets</span>
+        <span class="n">smpl_offsets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">24</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="n">smpl_offsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">pid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">SMPL_PARENTS</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">smpl_offsets</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">offsets</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span>
+
+        <span class="c1"># normalize so that right thigh has length 1</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SMPL_ForwardKinematics</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">smpl_offsets</span><span class="p">,</span> <span class="n">SMPL_PARENTS</span><span class="p">,</span> <span class="n">norm_idx</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                                    <span class="n">left_mult</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">major_joints</span><span class="o">=</span><span class="n">SMPL_MAJOR_JOINTS</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="SMPLH">SMPLH<a class="anchor-link" href="#SMPLH"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="SMPLHForwardKinematics" class="doc_header"><code>class</code> <code>SMPLHForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L451" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPLHForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
 </blockquote>
 <p>Forward Kinematics for the skeleton defined by SMPL-H.</p>
 
@@ -2122,7 +2189,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="scipy_aa_to_euler" class="doc_header"><code>scipy_aa_to_euler</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L447" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_aa_to_euler</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
+<h4 id="scipy_aa_to_euler" class="doc_header"><code>scipy_aa_to_euler</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L495" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_aa_to_euler</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2146,7 +2213,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="scipy_euler_to_aa" class="doc_header"><code>scipy_euler_to_aa</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L453" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_euler_to_aa</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
+<h4 id="scipy_euler_to_aa" class="doc_header"><code>scipy_euler_to_aa</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L501" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_euler_to_aa</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
 </blockquote>
 
 </div>

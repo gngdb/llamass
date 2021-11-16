@@ -5,6 +5,7 @@
     "tqdm": "tqdm.html",
     "Feature Statistics": "features.html",
     "Transforms": "transforms.html",
-    "Losses": "losses.html"
+    "Losses": "losses.html",
+    "DIP": "dip.html"
   }
 }

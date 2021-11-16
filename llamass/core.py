@@ -194,8 +194,7 @@ import math
 import warnings
 import numpy as np
 import torch
-from torch.utils.data import IterableDataset
-from torch.utils.data import DataLoader
+import torch.utils.data as tudata
 
 # Cell
 def npz_paths(npz_directory):
@@ -207,21 +206,24 @@ def npz_paths(npz_directory):
                 yield os.path.join(npz_directory, r, fname)
 
 # Cell
-def npz_len(npz_path):
+def npz_len(npz_path, strict=True):
     cdata = np.load(npz_path)
     h = md5_file(npz_path)
     dirs = [hashes[h]['unpacks_to'] for h in hashes]
-    m = []
-    for p in Path(npz_path).parents:
-        m += [d for d in dirs if p.name == d]
-    assert len(m) == 1, f"Subdir of {npz_path} contains two of {dirs}"
-    subdir = m[0]
+    if strict:
+        m = []
+        for p in Path(npz_path).parents:
+            m += [d for d in dirs if p.name == d]
+        assert len(m) == 1, f"Subdir of {npz_path} contains {len(m)} of {dirs}"
+        subdir = m[0]
+    else:
+        subdir = Path(npz_path).parts[-2]
     return subdir, h, cdata["poses"].shape[0]
 
-def npz_lens(unpacked_directory, n_jobs):
+def npz_lens(unpacked_directory, n_jobs, strict=True):
     paths = [p for p in npz_paths(unpacked_directory)]
     return ProgressParallel(n_jobs=n_jobs)(
-        [joblib.delayed(npz_len)(npz_path) for npz_path in paths], total=len(paths)
+        [joblib.delayed(npz_len)(npz_path, strict=strict) for npz_path in paths], total=len(paths)
     )
 
 def save_lens(save_path, npz_file_lens):
@@ -315,7 +317,7 @@ def npz_contents(
         yield data
 
 # Cell
-class AMASS(IterableDataset):
+class AMASS(tudata.IterableDataset):
     def __init__(
         self,
         amass_location,
@@ -327,6 +329,7 @@ class AMASS(IterableDataset):
         file_list_seed=0,
         shuffle=False,
         seed=None,
+        strict=True
     ):
         assert clip_length > 0 and type(clip_length) is int
         self.transform = transform
@@ -342,6 +345,7 @@ class AMASS(IterableDataset):
         self.keep = keep
         self.shuffle = shuffle
         self.seed = seed if seed else random.randint(0, 1e6)
+        self.strict = strict
 
     def infer_len(self, n_jobs=4):
         # uses known dimensions of the npz files in the AMASS dataset to infer the length
@@ -360,7 +364,7 @@ class AMASS(IterableDataset):
         else:  # if it's not there, recompute it and create the file
             print(f'Inspecting {len(self.npz_paths)} files to determine dataset length'
                   f', saving the result to {lenfile}')
-            self.npz_lens = npz_lens(self.amass_location, n_jobs)
+            self.npz_lens = npz_lens(self.amass_location, n_jobs, strict=self.strict)
             save_lens(lenfile, self.npz_lens)
 
         # using stored lengths to infer the total dataset length
@@ -393,12 +397,13 @@ class AMASS(IterableDataset):
                 npz_path,
                 self.clip_length,
                 self.overlapping,
+                keys=self.data_keys,
                 keep=self.keep,
                 shuffle=self.shuffle,
                 seed=self.seed,
             ):
                 self.seed += 1  # increment to vary shuffle over files
-                yield {k: self.transform(data[k]) for k in data if k in self.data_keys}
+                yield {k: self.transform(data[k]) for k in data}
 
 # Cell
 def worker_init_fn(worker_id):
@@ -421,7 +426,7 @@ def worker_init_fn(worker_id):
     # set each workers seed
     dataset.seed = dataset.seed + worker_info.seed
 
-class IterableLoader(DataLoader):
+class IterableLoader(tudata.DataLoader):
     def __init__(self, *args, **kwargs):
         kwargs['worker_init_fn'] = worker_init_fn
         super().__init__(*args, **kwargs)
@@ -491,7 +496,7 @@ def write_to_lmdb(dataset, batch_size, num_workers=0, prefetch_factor=4):
     db_loc = os.path.join(dataset.amass_location, db_filename)
     def collate_fn(data):
         return data
-    amassloader = DataLoader(
+    amassloader = tudata.DataLoader(
         dataset,
         batch_size=batch_size,
         worker_init_fn=worker_init_fn,
@@ -511,7 +516,7 @@ def write_to_lmdb(dataset, batch_size, num_workers=0, prefetch_factor=4):
     td.LMDBSerializer.save(df, db_loc)
     return db_loc
 
-class AMASSdb(IterableDataset):
+class AMASSdb(tudata.IterableDataset):
     def __init__(self, db_loc, transform, shuffle=False, num_workers=0, cache=None):
         self.lmdb = td.LMDBData(db_loc, shuffle=False)
         if shuffle:

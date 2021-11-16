@@ -39,6 +39,10 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "angle_axis_to_rotation_matrix": "03_transforms.ipynb",
          "Rotation": "03_transforms.ipynb",
          "ForwardKinematics": "03_transforms.ipynb",
+         "SMPL_ForwardKinematics": "03_transforms.ipynb",
+         "SMPL_MAJOR_JOINTS": "03_transforms.ipynb",
+         "SMPL_NR_JOINTS": "03_transforms.ipynb",
+         "SMPL_PARENTS": "03_transforms.ipynb",
          "SMPLHForwardKinematics": "03_transforms.ipynb",
          "SMPLH_PARENTS": "03_transforms.ipynb",
          "SMPLH_MAJOR_JOINTS": "03_transforms.ipynb",
@@ -57,13 +61,16 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "PositionalLossSPL": "05_losses.ipynb",
          "PCK_SPL": "05_losses.ipynb",
          "calculate_auc": "05_losses.ipynb",
-         "all_univariate_tensors_in": "05_losses.ipynb"}
+         "all_univariate_tensors_in": "05_losses.ipynb",
+         "SMPL_ForwardKinematics_Sparse": "06_dip.ipynb",
+         "iter_pkl_in": "06_dip.ipynb"}
 
 modules = ["core.py",
            "tqdm.py",
            "features.py",
            "transforms.py",
-           "losses.py"]
+           "losses.py",
+           "dips.py"]
 
 doc_url = "https://gra.ygav.in/llamass/"
 
