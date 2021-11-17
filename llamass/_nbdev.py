@@ -62,6 +62,7 @@ index = {"md5_update_from_file": "00_core.ipynb",
          "PCK_SPL": "05_losses.ipynb",
          "calculate_auc": "05_losses.ipynb",
          "all_univariate_tensors_in": "05_losses.ipynb",
+         "sparse_to_full": "06_dip.ipynb",
          "SMPL_ForwardKinematics_Sparse": "06_dip.ipynb",
          "iter_pkl_in": "06_dip.ipynb"}
 
