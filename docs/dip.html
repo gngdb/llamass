@@ -73,7 +73,7 @@ nb_path: "06_dip.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dips_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/nobackup/gngdb/dips/Synthetic_60FPS/&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dips_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/nobackup/gngdb/Synthetic_60FPS/&quot;</span><span class="p">)</span>
 
 <span class="c1"># open a random pickle file in the DIPS dataset</span>
 <span class="n">example_file</span> <span class="o">=</span> <span class="kc">None</span>
@@ -624,7 +624,7 @@ Returns:
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/nobackup/gngdb/dips/Synthetic_60FPS/AMASS_ACCAD/Female1General_c3dA10_SB__SB2__SB_lie_SB_to_SB_crouch_dynamics.pkl
+<pre>/nobackup/gngdb/Synthetic_60FPS/AMASS_ACCAD/Female1General_c3dA10_SB__SB2__SB_lie_SB_to_SB_crouch_dynamics.pkl
 </pre>
 </div>
 </div>
@@ -709,6 +709,7 @@ Returns:
                     <span class="n">cdata</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin1&#39;</span><span class="p">)</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">poses</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cdata</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]))</span>
                 <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># process_to_npz()</span>
 </pre></div>
 
     </div>
@@ -792,6 +793,13 @@ poses torch.Size([144, 135])
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Is it possible to load all of DIP into memory?</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -799,7 +807,31 @@ poses torch.Size([144, 135])
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_tensor_dataset</span><span class="p">():</span>
+    <span class="n">dips_examples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+        <span class="n">dips_examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+    <span class="n">dip</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;poses&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">dips_examples</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">dip</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot; number of poses=</span><span class="si">{</span><span class="n">dip</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">dip</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dip</span><span class="p">,</span> <span class="n">dip_path</span><span class="o">/</span><span class="s2">&quot;tensor_dataset.pt&quot;</span><span class="p">)</span>
+<span class="c1"># build_tensor_dataset()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>du -hs /nobackup/gngdb/dips/train/tensor_dataset.pt
 </pre></div>
 
     </div>
@@ -812,7 +844,7 @@ poses torch.Size([144, 135])
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>41452
+<pre>3.0G	/nobackup/gngdb/dips/train/tensor_dataset.pt
 </pre>
 </div>
 </div>
@@ -823,6 +855,14 @@ poses torch.Size([144, 135])
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Adding-Additional-Training-Data">Adding Additional Training Data<a class="anchor-link" href="#Adding-Additional-Training-Data"> </a></h1><blockquote><p>AMASS contains extra data, can this be added to assist during training?</p>
+</blockquote>
+
+</div>
+</div>
+</div>
 </div>
  
 

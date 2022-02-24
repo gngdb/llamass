@@ -279,6 +279,8 @@ def npz_contents(
     viable = viable_slice(cdata, keep)
 
     # slice iterator
+    # every time the file is opened the non-overlapping slices will be the same
+    # this may not be preferred, but loading overlapping means a lot of repetitive data
     def clip_slices(viable, clip_length, overlapping):
         i = 0
         step = 1 if overlapping else clip_length
@@ -289,6 +291,8 @@ def npz_contents(
     # buffer the iterator and shuffle here, when implementing that
     buf_clip_slices = [s for s in clip_slices(viable, clip_length, overlapping)]
     if shuffle:
+        # this will be correlated over workers
+        # seed should be passed drawn from torch Generator
         seed = seed if seed else random.randint(1e6)
         random.Random(seed).shuffle(buf_clip_slices)
 

@@ -1000,6 +1000,8 @@ args:</p>
     <span class="n">viable</span> <span class="o">=</span> <span class="n">viable_slice</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
 
     <span class="c1"># slice iterator</span>
+    <span class="c1"># every time the file is opened the non-overlapping slices will be the same</span>
+    <span class="c1"># this may not be preferred, but loading overlapping means a lot of repetitive data</span>
     <span class="k">def</span> <span class="nf">clip_slices</span><span class="p">(</span><span class="n">viable</span><span class="p">,</span> <span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">):</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">overlapping</span> <span class="k">else</span> <span class="n">clip_length</span>
@@ -1010,6 +1012,8 @@ args:</p>
     <span class="c1"># buffer the iterator and shuffle here, when implementing that</span>
     <span class="n">buf_clip_slices</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">clip_slices</span><span class="p">(</span><span class="n">viable</span><span class="p">,</span> <span class="n">clip_length</span><span class="p">,</span> <span class="n">overlapping</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+        <span class="c1"># this will be correlated over workers</span>
+        <span class="c1"># seed should be passed drawn from torch Generator</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span> <span class="k">if</span> <span class="n">seed</span> <span class="k">else</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
         <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">buf_clip_slices</span><span class="p">)</span>
 
@@ -1150,7 +1154,7 @@ args:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L320" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASS" class="doc_header"><code>class</code> <code>AMASS</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L324" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASS</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -1485,7 +1489,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L409" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
+<h4 id="worker_init_fn" class="doc_header"><code>worker_init_fn</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L413" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>worker_init_fn</code>(<strong><code>worker_id</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -1509,7 +1513,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="IterableLoader" class="doc_header"><code>class</code> <code>IterableLoader</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L429" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IterableLoader</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>DataLoader</code></p>
+<h2 id="IterableLoader" class="doc_header"><code>class</code> <code>IterableLoader</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L433" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>IterableLoader</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>DataLoader</code></p>
 </blockquote>
 <p>Data loader. Combines a dataset and a sampler, and provides an iterable over
 the given dataset.</p>
@@ -1924,7 +1928,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="move_dirs_into_splits" class="doc_header"><code>move_dirs_into_splits</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L444" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>move_dirs_into_splits</code>(<strong><code>amass_loc</code></strong>, <strong><code>splits</code></strong>, <strong><code>undo</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="move_dirs_into_splits" class="doc_header"><code>move_dirs_into_splits</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L448" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>move_dirs_into_splits</code>(<strong><code>amass_loc</code></strong>, <strong><code>splits</code></strong>, <strong><code>undo</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1983,7 +1987,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="console_split_dirs" class="doc_header"><code>console_split_dirs</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L465" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_split_dirs</code>()</p>
+<h4 id="console_split_dirs" class="doc_header"><code>console_split_dirs</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L469" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_split_dirs</code>()</p>
 </blockquote>
 
 </div>
@@ -2188,7 +2192,7 @@ test  =  {&#39;&#39;, &#39;CMU&#39;, &#39;Transition&#39;, &#39;ACCAD&#39;, &#39
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_to_lmdb" class="doc_header"><code>write_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L493" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_to_lmdb</code>(<strong><code>dataset</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>=<em><code>0</code></em>, <strong><code>prefetch_factor</code></strong>=<em><code>4</code></em>)</p>
+<h4 id="write_to_lmdb" class="doc_header"><code>write_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L497" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_to_lmdb</code>(<strong><code>dataset</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>=<em><code>0</code></em>, <strong><code>prefetch_factor</code></strong>=<em><code>4</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2212,7 +2216,7 @@ test  =  {&#39;&#39;, &#39;CMU&#39;, &#39;Transition&#39;, &#39;ACCAD&#39;, &#39
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AMASSdb" class="doc_header"><code>class</code> <code>AMASSdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L519" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASSdb</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
+<h2 id="AMASSdb" class="doc_header"><code>class</code> <code>AMASSdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L523" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AMASSdb</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>) :: <code>IterableDataset</code></p>
 </blockquote>
 <p>An iterable Dataset.</p>
 <p>All datasets that represent an iterable of data samples should subclass it.
@@ -2537,7 +2541,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="amass_to_lmdb" class="doc_header"><code>amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L569" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>amass_to_lmdb</code>(<strong><code>unpacked_dir</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>, <strong><code>overlapping</code></strong>=<em><code>False</code></em>, <strong><code>clip_length</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="amass_to_lmdb" class="doc_header"><code>amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L573" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>amass_to_lmdb</code>(<strong><code>unpacked_dir</code></strong>, <strong><code>batch_size</code></strong>, <strong><code>num_workers</code></strong>, <strong><code>overlapping</code></strong>=<em><code>False</code></em>, <strong><code>clip_length</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2585,7 +2589,7 @@ gender torch.Size([4, 1])
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="console_amass_to_lmdb" class="doc_header"><code>console_amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L579" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_amass_to_lmdb</code>()</p>
+<h4 id="console_amass_to_lmdb" class="doc_header"><code>console_amass_to_lmdb</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/core.py#L583" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>console_amass_to_lmdb</code>()</p>
 </blockquote>
 
 </div>
