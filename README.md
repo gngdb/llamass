@@ -22,15 +22,6 @@ I'm writing this to use in a project working with pose data to train models on t
 
 Before using the AMASS dataset I'm expected to sign up to the license agreeement [here][amass]. This package doesn't require any other code from MPI but visualization of pose data does, see below.
 
-### Requirements
-
-My fork of [tensorpack's dataflow][dataflow] is required, it's used to run the accelerated LMDB DataLoader:
-
-```
-pip install dataflow@git+https://github.com/gngdb/dataflow@c09a4e85cabcec#egg=dataflow
-```
-
-Other requirements are handled by pip.
 
 ### Install with pip
 
@@ -81,7 +72,7 @@ Alternatively, this can be access in the library using the `llamass.core.unpack_
 
 [amass]: https://amass.is.tue.mpg.de/index.html
 
-```
+```python
 import llamass.core
 
 llamass.core.unpack_body_models("sample_data/", unpacked_directory, 4)
@@ -118,7 +109,7 @@ Also, in order to use more than one worker it is necessary to use the provided `
 
 [iterabledataset]: https://pytorch.org/docs/stable/data.html#iterable-style-datasets
 
-```
+```python
 import torch
 from torch.utils.data import DataLoader
 
@@ -132,7 +123,7 @@ amass = llamass.core.AMASS(
 )
 ```
 
-```
+```python
 # these are equivalent
 amassloader = DataLoader(amass, batch_size=4, num_workers=2, worker_init_fn=llamass.core.worker_init_fn)
 amassloader = llamass.core.IterableLoader(amass, batch_size=4, num_workers=2)
@@ -152,12 +143,12 @@ for data in amassloader:
 
 ## Visualise Poses
 
-```
+```python
 poses = next(iter(llamass.core.IterableLoader(amass, batch_size=200, num_workers=2)))
 poses = poses['poses'].squeeze()
 ```
 
-```
+```python
 # gaitplotlib
 import numpy as np
 import gaitplotlib.core
@@ -195,7 +186,7 @@ plot_pose(0)
 ![png](docs/images/output_14_0.png)
 
 
-```
+```python
 # gaitplotlib
 from pathlib import Path
 import mediapy as media
@@ -228,10 +219,5 @@ media.show_video(video, codec='gif')
 
 To do:
 
-* Augmentations pulled from [the AMASS loader in human_body_prior](https://github.com/nghorbani/human_body_prior/blob/master/src/human_body_prior/data/prepare_data.py)
-* Save only poses and root orientation to pytorch tensor files for each sub-dataset and load each into memory in sequence, as VPoser did, as a post-processing option
-    - Test iteration speed against LMDB
-* Example train/test splits by unpacking different datasets to different locations
-* Link colab notebook demonstrating visualization
-* How to use LMDB for accelerated loading
-    * Note about install: `!sudo apt-get install build-essential libcap-dev`
+* Adapt to use fairmotion
+* Use HuMoR's preprocessing and loss functions
