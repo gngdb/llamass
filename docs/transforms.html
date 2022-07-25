@@ -537,8 +537,9 @@ Acts on trailing axes and maintains leading tensor shape.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">formalism</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">shape</span>
+        <span class="k">assert</span> <span class="n">formalism</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rotvec&#39;</span><span class="p">,</span> <span class="s1">&#39;matrix&#39;</span><span class="p">,</span> <span class="s1">&#39;quat_scalar_first&#39;</span><span class="p">,</span> <span class="s1">&#39;quat_scalar_last&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">=</span> <span class="n">formalism</span>
-    
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_rotvec</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Rotation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="s1">&#39;rotvec&#39;</span><span class="p">)</span>
@@ -548,25 +549,54 @@ Acts on trailing axes and maintains leading tensor shape.</p>
         <span class="k">return</span> <span class="n">Rotation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="s1">&#39;matrix&#39;</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">as_rotvec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">!=</span> <span class="s1">&#39;matrix&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;matrix&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">%</span><span class="k">9</span> == 0:
+                <span class="n">new_shape</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">3</span><span class="p">,)</span>
+            <span class="k">elif</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">%</span><span class="k">3</span> == 0:
+                <span class="n">new_shape</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+            <span class="n">rotvec</span> <span class="o">=</span> <span class="n">rotation_matrix_to_angle_axis</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span> <span class="c1"># why is this padded??</span>
+            <span class="k">return</span> <span class="n">rotvec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">new_shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;rotvec&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s1">&#39;quat&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;quat_scalar_last&#39;</span><span class="p">:</span>
+                <span class="n">perm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">[:,</span> <span class="n">perm</span><span class="p">]</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">rotvec</span> <span class="o">=</span> <span class="n">quaternion_to_angle_axis</span><span class="p">(</span><span class="n">quaternion</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">rotvec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="o">*</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">rotvec</span> <span class="o">=</span> <span class="n">rotation_matrix_to_angle_axis</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="n">rotvec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">!=</span> <span class="s1">&#39;rotvec&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;matrix&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;rotvec&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">matrot</span> <span class="o">=</span> <span class="n">angle_axis_to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">matrot</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s1">&#39;quat&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span><span class="p">:</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_rotvec</span><span class="p">())</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">matrot</span> <span class="o">=</span> <span class="n">angle_axis_to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">matrot</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">from_euler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">from_quat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_quat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scalar_last</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">scalar_last</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Rotation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="s1">&#39;quat_scalar_last&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Rotation</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="s1">&#39;quat_scalar_first&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">from_mrp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">as_euler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">degrees</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Degrees as output not supported.&quot;</span><span class="p">)</span>
@@ -607,8 +637,29 @@ Acts on trailing axes and maintains leading tensor shape.</p>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">eul</span> <span class="o">=</span> <span class="n">eul</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">eul</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_to_scalar_last</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">perm</span><span class="p">]</span>
+        
     <span class="k">def</span> <span class="nf">as_quat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;quat&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;quat_scalar_first&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_scalar_last</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;rotvec&#39;</span><span class="p">:</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">formalism</span> <span class="o">==</span> <span class="s1">&#39;matrix&#39;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">%</span><span class="k">9</span> == 0:
+            <span class="n">new_shape</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">9</span><span class="p">,)</span>
+        <span class="k">elif</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">new_shape</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="p">,)</span>
+        <span class="n">quat</span> <span class="o">=</span> <span class="n">rotation_matrix_to_quaternion</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">quat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_scalar_last</span><span class="p">(</span><span class="n">quat</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">quat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">new_shape</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">as_mrp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </pre></div>
@@ -710,7 +761,7 @@ Acts on trailing axes and maintains leading tensor shape.</p>
         <span class="n">pose</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;poses&#39;</span><span class="p">][:,</span><span class="mi">3</span><span class="p">:</span><span class="mi">66</span><span class="p">]</span>
         <span class="n">poses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
     <span class="n">poses</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">poses</span><span class="p">)</span>
-    
+
     <span class="c1"># test rotvec -&gt; matrix</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
     <span class="c1"># check if this match scipy</span>
@@ -720,7 +771,7 @@ Acts on trailing axes and maintains leading tensor shape.</p>
         <span class="n">matrots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span>
     <span class="n">matrots</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">matrots</span><span class="p">))</span>
     <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">matrots</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1e-5</span>
-    
+
     <span class="c1"># test matrix -&gt; rotvec</span>
     <span class="n">aa</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">as_rotvec</span><span class="p">()</span>
     <span class="n">rotvecs</span> <span class="o">=</span> <span class="p">[]</span>
@@ -730,7 +781,34 @@ Acts on trailing axes and maintains leading tensor shape.</p>
     <span class="n">rotvecs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">rotvecs</span><span class="p">))</span>
     <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rotvecs</span> <span class="o">-</span> <span class="n">aa</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1e-5</span>
     <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">poses</span> <span class="o">-</span> <span class="n">aa</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1e-5</span>
+    <span class="n">aa</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
     
+    <span class="k">def</span> <span class="nf">quat_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="c1"># -&gt; quat has two valid outcomes so this equality test disambiguates</span>
+        <span class="n">_a</span><span class="p">,</span> <span class="n">_b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">_a</span><span class="p">,</span> <span class="n">_b</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">from_quat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">as_rotvec</span><span class="p">(),</span> <span class="n">R</span><span class="o">.</span><span class="n">from_quat</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">as_rotvec</span><span class="p">(),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">),</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="c1"># test matrix -&gt; quat</span>
+    <span class="n">quat</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">as_quat</span><span class="p">()</span>
+    <span class="n">_quats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">_quats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">as_quat</span><span class="p">())</span>
+    <span class="n">_quats</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">_quats</span><span class="p">))</span>
+    <span class="c1">#assert torch.abs(_quats - quat.view(-1, 4)).max() &lt; 1e-5</span>
+    <span class="n">quat_equal</span><span class="p">(</span><span class="n">_quats</span><span class="p">,</span> <span class="n">quat</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    
+    <span class="c1"># test rotvec -&gt; quat</span>
+    <span class="n">quat</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">as_quat</span><span class="p">()</span>
+    <span class="n">_quats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rotvec</span> <span class="ow">in</span> <span class="n">poses</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">rotvec</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+        <span class="n">_quats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">as_quat</span><span class="p">())</span>
+    <span class="n">_quats</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">_quats</span><span class="p">))</span>
+    <span class="c1">#assert torch.abs(_quats - quat.view(-1, 4)).max() &lt; 1e-5</span>
+    <span class="n">quat_equal</span><span class="p">(</span><span class="n">_quats</span><span class="p">,</span> <span class="n">quat</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
     <span class="c1"># test rotvec -&gt; matrix -&gt; euler</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">poses</span><span class="p">)</span><span class="o">.</span><span class="n">as_euler</span><span class="p">()</span>
     <span class="c1"># iterate over all possible euler angle conventions</span>
@@ -764,7 +842,7 @@ Acts on trailing axes and maintains leading tensor shape.</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/nobackup/gngdb/envs/amass/lib/python3.7/site-packages/ipykernel_launcher.py:44: UserWarning: Euler angle computation does not match any convention.
+<pre>/nobackup/gngdb/envs/amass/lib/python3.7/site-packages/ipykernel_launcher.py:71: UserWarning: Euler angle computation does not match any convention.
 </pre>
 </div>
 </div>
@@ -1754,7 +1832,7 @@ r_wrist right_wrist
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ForwardKinematics" class="doc_header"><code>class</code> <code>ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L325" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ForwardKinematics</code>(<strong><code>offsets</code></strong>, <strong><code>parents</code></strong>, <strong><code>left_mult</code></strong>=<em><code>False</code></em>, <strong><code>major_joints</code></strong>=<em><code>None</code></em>, <strong><code>norm_idx</code></strong>=<em><code>None</code></em>, <strong><code>no_root</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
+<h2 id="ForwardKinematics" class="doc_header"><code>class</code> <code>ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L376" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ForwardKinematics</code>(<strong><code>offsets</code></strong>, <strong><code>parents</code></strong>, <strong><code>left_mult</code></strong>=<em><code>False</code></em>, <strong><code>major_joints</code></strong>=<em><code>None</code></em>, <strong><code>norm_idx</code></strong>=<em><code>None</code></em>, <strong><code>no_root</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -1915,7 +1993,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SMPL_ForwardKinematics" class="doc_header"><code>class</code> <code>SMPL_ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L402" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPL_ForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
+<h2 id="SMPL_ForwardKinematics" class="doc_header"><code>class</code> <code>SMPL_ForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L453" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPL_ForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
 </blockquote>
 <p>Forward Kinematics for the skeleton defined by SMPL.</p>
 
@@ -2007,7 +2085,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SMPLHForwardKinematics" class="doc_header"><code>class</code> <code>SMPLHForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L451" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPLHForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
+<h2 id="SMPLHForwardKinematics" class="doc_header"><code>class</code> <code>SMPLHForwardKinematics</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L502" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SMPLHForwardKinematics</code>() :: <a href="/llamass/transforms.html#ForwardKinematics"><code>ForwardKinematics</code></a></p>
 </blockquote>
 <p>Forward Kinematics for the skeleton defined by SMPL-H.</p>
 
@@ -2173,7 +2251,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="scipy_aa_to_euler" class="doc_header"><code>scipy_aa_to_euler</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L495" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_aa_to_euler</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
+<h4 id="scipy_aa_to_euler" class="doc_header"><code>scipy_aa_to_euler</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L546" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_aa_to_euler</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -2197,7 +2275,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="scipy_euler_to_aa" class="doc_header"><code>scipy_euler_to_aa</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L501" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_euler_to_aa</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
+<h4 id="scipy_euler_to_aa" class="doc_header"><code>scipy_euler_to_aa</code><a href="https://github.com/gngdb/llamass/tree/master/llamass/transforms.py#L552" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>scipy_euler_to_aa</code>(<strong><code>x</code></strong>, <strong><code>seq</code></strong>=<em><code>'zyx'</code></em>)</p>
 </blockquote>
 
 </div>
