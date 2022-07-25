@@ -183,7 +183,9 @@ plot_pose(0)
 ```
 
 
+    
 ![png](docs/images/output_14_0.png)
+    
 
 
 ```
