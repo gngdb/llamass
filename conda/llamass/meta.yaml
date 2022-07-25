@@ -1,0 +1,42 @@
+package:
+  name: llamass
+  version: 0.0.3
+source:
+  sha256: e8b10c9381e89b6e516f184affe67b612f0f35e87a304c0415e0d8a918084f3d
+  url: https://files.pythonhosted.org/packages/37/4e/470743f2cc6efe786357de03bc382fe9bd6da7915dec10454477c11f9163/llamass-0.0.3.tar.gz
+about:
+  dev_url: https://gra.ygav.in
+  doc_url: https://gra.ygav.in
+  home: https://gra.ygav.in
+  license: Apache Software
+  license_family: APACHE
+  summary: LLAMASS is a Loader for the AMASS dataset
+build:
+  noarch: python
+  number: '0'
+  script: '{{ PYTHON }} -m pip install . -vv'
+extra:
+  recipe-maintainers:
+  - gngdb
+requirements:
+  host:
+  - pip
+  - python
+  - packaging
+  - joblib
+  - tqdm
+  - torch
+  - numpy
+  - scipy
+  run:
+  - pip
+  - python
+  - packaging
+  - joblib
+  - tqdm
+  - torch
+  - numpy
+  - scipy
+test:
+  imports:
+  - llamass

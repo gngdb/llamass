@@ -69,7 +69,7 @@ modules = ["core.py",
            "losses.py",
            "dips.py"]
 
-doc_url = "https://gra.ygav.in/llamass/"
+doc_url = "https://gngdb.github.io/llamass/"
 
 git_url = "https://github.com/gngdb/llamass/tree/master/"
 

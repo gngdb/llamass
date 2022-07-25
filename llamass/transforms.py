@@ -225,6 +225,7 @@ class Rotation():
     """
     def __init__(self, tensor, shape, formalism):
         self.tensor, self.shape = tensor, shape
+        assert formalism in ['rotvec', 'matrix', 'quat_scalar_first', 'quat_scalar_last']
         self.formalism = formalism
 
     @staticmethod
@@ -236,25 +237,54 @@ class Rotation():
         return Rotation(x.view(-1, 3, 3), x.size(), 'matrix')
 
     def as_rotvec(self):
-        if self.formalism != 'matrix':
+        if self.formalism == 'matrix':
+            s = self.shape
+            if s[-1]%9 == 0:
+                new_shape = s[:-1] + (s[-1]//3,)
+            elif s[-1]%3 == 0:
+                new_shape = s[:-2] + (3,)
+            else:
+                raise NotImplementedError()
+            rotvec = rotation_matrix_to_angle_axis(F.pad(self.tensor, [0,1])) # why is this padded??
+            return rotvec.reshape(*new_shape)
+        elif self.formalism == 'rotvec':
+            return self.tensor.reshape(self.shape)
+        elif 'quat' in self.formalism:
+            if self.formalism == 'quat_scalar_last':
+                perm = torch.tensor([3, 0, 1, 2], dtype=torch.long).to(self.tensor.device)
+                self.tensor = self.tensor[:, perm]
+            s = self.shape
+            rotvec = quaternion_to_angle_axis(quaternion)
+            return rotvec.reshape(*s[:-1], 3*s[-1]//4)
+        else:
             raise NotImplementedError()
-        s = self.shape
-        rotvec = rotation_matrix_to_angle_axis(F.pad(self.tensor, [0,1]))
-        return rotvec.reshape(*s[:-1], s[-1]//3)
 
     def as_matrix(self):
-        if self.formalism != 'rotvec':
+        if self.formalism == 'matrix':
+            return self.tensor.reshape(self.shape)
+        elif self.formalism == 'rotvec':
+            s = self.shape
+            matrot = angle_axis_to_rotation_matrix(self.tensor)[:, :3, :3].contiguous()
+            return matrot.view(*s[:-1], s[-1]*3)
+        elif 'quat' in self.formalism:
+            self = self.from_rotvec(self.as_rotvec())
+            return self.as_matrix()
+        else:
             raise NotImplementedError()
-        s = self.shape
-        matrot = angle_axis_to_rotation_matrix(self.tensor)[:, :3, :3].contiguous()
-        return matrot.view(*s[:-1], s[-1]*3)
 
     def from_euler(self):
         raise NotImplementedError()
-    def from_quat(self):
-        raise NotImplementedError()
+
+    @staticmethod
+    def from_quat(x, scalar_last=True):
+        if scalar_last:
+            return Rotation(x.view(-1, 4), x.size(), 'quat_scalar_last')
+        else:
+            return Rotation(x.view(-1, 4), x.size(), 'quat_scalar_first')
+
     def from_mrp(self):
         raise NotImplementedError()
+
     def as_euler(self, degrees=False):
         if degrees:
             raise NotImplementedError("Degrees as output not supported.")
@@ -295,8 +325,29 @@ class Rotation():
         s = self.shape
         eul = eul.reshape(*s[:-1], s[-1]//3)
         return eul
+
+    @staticmethod
+    def _to_scalar_last(x):
+        perm = torch.tensor([1, 2, 3, 0], dtype=torch.long).to(x.device)
+        return x[:, perm]
+
     def as_quat(self):
-        raise NotImplementedError()
+        if 'quat' in self.formalism:
+            if self.formalism == 'quat_scalar_first':
+                self.tensor = self._to_scalar_last(self.tensor)
+            return self.tensor.reshape(self.shape)
+        elif self.formalism == 'rotvec':
+            self = Rotation.from_matrix(self.as_matrix())
+        assert self.formalism == 'matrix'
+        s = self.shape
+        if s[-1]%9 == 0:
+            new_shape = s[:-1] + (4*s[-1]//9,)
+        elif s[-1] == 3:
+            new_shape = s[:-2] + (4,)
+        quat = rotation_matrix_to_quaternion(F.pad(self.tensor, [0,1]))
+        quat = self._to_scalar_last(quat)
+        return quat.reshape(*new_shape)
+
     def as_mrp(self):
         raise NotImplementedError()
 
